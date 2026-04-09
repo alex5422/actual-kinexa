@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual Escape · 10 minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#E8DFC8;--paper:#0E1525;--warm:#162038;--rule:rgba(196,165,90,0.22);
+  --muted:rgba(232,223,200,0.42);--accent:#C4A55A;--gold:#C4A55A;--dark:#060810;
+}
+body{background:#0A0E1A;color:var(--ink);
+  font-family:'Instrument Sans',sans-serif;
+  font-size:16px;line-height:1.7;min-height:100vh;}
+.esc{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+.screen{display:none;animation:fadeIn .3s ease;}
+.screen.on{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.prog{display:flex;gap:4px;margin-bottom:2rem;}
+.pd{height:2px;flex:1;background:var(--rule);border-radius:1px;}
+.pd.on{background:var(--gold);}
+
+.kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.75rem;
+  display:flex;align-items:center;gap:12px;}
+.kicker::after{content:'';flex:1;height:1px;background:var(--rule);}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);
+  font-weight:600;line-height:1.15;color:var(--ink);margin-bottom:.5rem;}
+.h1 em{font-style:italic;color:var(--muted);font-weight:400;}
+.sub{font-size:15px;color:var(--muted);line-height:1.75;
+  margin-bottom:1.25rem;max-width:520px;}
+.note{font-size:13px;font-style:italic;color:var(--muted);
+  border-left:2px solid var(--rule);padding-left:12px;
+  margin-bottom:1.5rem;line-height:1.65;}
+
+.btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;background:none;
+  border:1px solid var(--rule);padding:12px 24px;cursor:pointer;
+  color:var(--ink);transition:all .2s;}
+.btn:hover{border-color:var(--gold);color:var(--gold);}
+.btn-back{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;background:none;border:none;cursor:pointer;
+  color:var(--muted);padding:0;}
+.btn-back:hover{color:var(--ink);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;
+  margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--rule);}
+
+/* MAP */
+.map-wrap{position:relative;border:1px solid var(--rule);
+  background:#0A1020;margin-bottom:1rem;overflow:hidden;}
+.map-wrap svg{width:100%;height:auto;display:block;}
+.city-dot{cursor:pointer;transition:all .2s;}
+.city-lbl{font-family:'DM Mono',monospace;font-size:8px;
+  fill:#8C8679;pointer-events:none;}
+.map-tip{background:#0E1525;border:1px solid var(--rule);
+  padding:5px 10px;font-size:12px;color:var(--gold);
+  position:absolute;pointer-events:none;white-space:nowrap;
+  display:none;z-index:10;font-family:'DM Mono',monospace;
+  letter-spacing:.05em;}
+
+.search-row{display:flex;gap:8px;margin-bottom:.75rem;}
+.search-inp{flex:1;padding:10px 14px;font-size:14px;
+  border:1px solid var(--rule);background:#0E1525;
+  color:var(--ink);outline:none;font-family:'Instrument Sans',sans-serif;}
+.search-inp:focus{border-color:var(--gold);}
+.search-inp::placeholder{color:var(--muted);}
+.search-go{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule);
+  padding:10px 14px;cursor:pointer;color:var(--muted);}
+.search-go:hover{border-color:var(--ink);color:var(--ink);}
+.sugs{display:flex;flex-wrap:wrap;gap:5px;}
+.sug{font-size:12px;padding:4px 11px;border:1px solid var(--rule);
+  cursor:pointer;color:var(--muted);background:#0E1525;transition:all .15s;}
+.sug:hover{border-color:var(--gold);color:var(--gold);}
+
+/* CITY CARD */
+.city-card{border:1px solid var(--rule);margin-bottom:1.25rem;overflow:hidden;}
+.city-img{width:100%;height:200px;object-fit:cover;display:block;
+  background:var(--warm);}
+.city-card-body{padding:16px;}
+.city-name-big{font-family:'Playfair Display',serif;font-size:24px;
+  font-weight:600;color:var(--ink);margin-bottom:2px;}
+.city-country-txt{font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.25em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:8px;}
+.city-desc-txt{font-size:13px;color:var(--muted);
+  line-height:1.7;font-style:italic;}
+
+/* MOMENTS */
+.moment-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem;}
+.mc{border:1px solid var(--rule);padding:16px 14px;cursor:pointer;
+  transition:all .15s;background:#0E1525;}
+.mc:hover{border-color:var(--gold);}
+.mc.on{border-color:var(--accent);background:var(--warm);}
+.mc-icon{font-size:22px;margin-bottom:8px;}
+.mc-label{font-size:14px;font-weight:500;color:var(--ink);}
+.mc-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* IMMERSION */
+.imm-tabs{display:flex;gap:0;border:1px solid var(--rule);margin-bottom:1rem;}
+.imm-tab{flex:1;padding:9px 8px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.15em;text-transform:uppercase;text-align:center;
+  cursor:pointer;color:var(--muted);background:none;border:none;
+  border-right:1px solid var(--rule);}
+.imm-tab:last-child{border-right:none;}
+.imm-tab.on{background:var(--warm);color:var(--ink);}
+.imm-panel{display:none;}
+.imm-panel.on{display:block;}
+.embed-wrap{border:1px solid var(--rule);background:var(--warm);
+  margin-bottom:.75rem;overflow:hidden;}
+.embed-wrap iframe{width:100%;border:none;display:block;}
+.art-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:.75rem;}
+.art-card{border:1px solid var(--rule);overflow:hidden;}
+.art-card a{display:block;text-decoration:none;}
+.art-thumb{width:100%;height:88px;object-fit:cover;display:block;background:var(--warm);}
+.art-info{padding:7px 8px;}
+.art-title{font-size:11px;font-weight:500;color:var(--ink);line-height:1.3;margin-bottom:1px;}
+.art-who{font-size:10px;color:var(--muted);}
+.ext-link{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  border:1px solid var(--rule);text-decoration:none;color:var(--ink);
+  font-size:13px;margin-bottom:6px;transition:border-color .15s;
+  background:#0E1525;}
+.ext-link:hover{border-color:var(--gold);}
+.ext-link-icon{font-family:'DM Mono',monospace;font-size:14px;
+  color:var(--gold);flex-shrink:0;}
+.ext-link-sub{font-size:11px;color:var(--muted);}
+.music-card{border:1px solid var(--rule);padding:12px 14px;
+  margin-bottom:6px;background:#0E1525;}
+.music-tag{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.music-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.music-who{font-size:12px;color:var(--muted);margin-bottom:10px;}
+
+/* TIMER */
+.timer-block{border:1px solid var(--rule);padding:1rem 1.25rem;
+  margin-top:1.25rem;display:flex;align-items:center;gap:14px;background:var(--warm);}
+.timer-num{font-family:'DM Mono',monospace;font-size:28px;
+  color:var(--gold);min-width:72px;letter-spacing:.05em;}
+.timer-track{flex:1;height:2px;background:var(--rule);}
+.timer-fill{height:100%;background:var(--gold);width:0%;transition:width .8s linear;}
+.timer-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule);
+  padding:9px 14px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.timer-btn:hover{border-color:var(--ink);color:var(--ink);}
+
+/* WRITE */
+.paper{background:#0E1525;border:1px solid var(--rule);padding:1.5rem;
+  margin-bottom:1rem;box-shadow:2px 2px 0 rgba(196,165,90,0.1);}
+.paper-prompt{font-family:'Playfair Display',serif;font-size:14px;
+  font-style:italic;color:var(--muted);margin-bottom:1.25rem;line-height:1.7;}
+.paper-lines{display:flex;flex-direction:column;}
+.pl{height:32px;border-bottom:1px solid rgba(196,165,90,0.15);}
+.write-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.wb{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule);
+  padding:10px 16px;cursor:pointer;color:var(--muted);}
+.wb:hover{border-color:var(--ink);color:var(--ink);}
+.wb-red{border-color:rgba(122,30,30,.3);color:rgba(122,30,30,.7);}
+.wb-red:hover{background:rgba(122,30,30,.04);}
+
+/* BURN */
+.burn-wrap{background:var(--dark);display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:14px;
+  padding:3rem;margin:1rem 0;min-height:160px;}
+.burn-wrap.on{display:flex;}
+.burn-fire{font-size:52px;animation:flk .35s ease-in-out infinite;}
+@keyframes flk{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.1) rotate(3deg)}}
+.burn-msg{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;
+  color:rgba(255,255,255,.75);text-align:center;line-height:1.6;}
+
+/* FINAL */
+.pq{background:var(--warm);border-left:2px solid var(--gold);
+  padding:14px 18px;margin:1rem 0;font-style:italic;
+  font-size:14px;color:var(--muted);line-height:1.7;}
+.pq cite{font-family:'DM Mono',monospace;font-size:9px;font-style:normal;
+  display:block;margin-top:6px;letter-spacing:.1em;color:var(--gold);}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--rule);margin-top:3rem;
+  padding-top:1rem;display:flex;justify-content:space-between;
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.15em;
+  color:var(--muted);flex-wrap:wrap;gap:6px;}
+.site-footer a{color:var(--gold);text-decoration:none;}
+
+@media(max-width:600px){
+  .esc{padding:1.25rem 1rem 3rem;}
+  .moment-grid,.art-grid{grid-template-columns:1fr;}
+  .timer-block{flex-wrap:wrap;}
+  .nav-row{flex-wrap:wrap;gap:10px;}
+}
+</style>
+</head>
+<body>
+<div class="esc">
+
+<!-- S0 INTRO -->
+<div class="screen on" id="s0">
+  <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.35em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:2rem;
+    display:flex;align-items:center;gap:12px;">
+    ACTUAL
+    <span style="flex:1;height:1px;background:var(--rule);display:block;"></span>
+    Escape · 10 minutes
+  </div>
+  <div class="h1">Partez quelque part.<br><em>Maintenant.</em></div>
+  <p class="sub">Choisissez une ville sur la carte. Vous aurez quelque chose à voir, à écouter ou un tableau à regarder pendant dix minutes. Ensuite vous écrirez dix lignes à la main. Et vous ferez ce que vous voulez du papier.</p>
+  <p class="note">Fermez vos autres onglets. Téléphone face contre la table. Mettez vos écouteurs si vous en avez.</p>
+  <button class="btn" onclick="go(1)">Choisir une ville →</button>
+</div>
+
+<!-- S1 MAP -->
+<div class="screen" id="s1">
+  <div class="prog"><div class="pd on"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div></div>
+  <div class="kicker">Étape 1 — Où allez-vous ?</div>
+  <p class="sub" style="margin-bottom:.75rem;">Cliquez sur un point. Ou tapez n'importe quelle ville dans le monde.</p>
+
+  <div class="map-wrap" id="mapWrap">
+    <svg id="worldMap" viewBox="0 0 900 450" xmlns="http://www.w3.org/2000/svg">
+      <rect width="900" height="450" fill="#07091A"/>
+      <!-- Continents -->
+      <path d="M70,55 L120,45 L175,42 L220,50 L255,60 L270,80 L275,105 L265,130 L250,155 L235,170 L210,175 L185,168 L160,155 L140,140 L115,125 L95,105 L75,85 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M220,170 L240,175 L248,190 L238,200 L225,195 L215,182 Z" fill="rgba(196,165,90,0.1)" stroke="rgba(196,165,90,0.25)" stroke-width="0.5"/>
+      <path d="M200,210 L235,205 L265,215 L280,235 L285,265 L278,300 L265,330 L248,355 L228,368 L210,360 L195,340 L182,310 L178,278 L182,248 L192,225 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M210,20 L240,15 L268,18 L278,35 L265,48 L240,50 L218,42 Z" fill="rgba(196,165,90,0.08)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M400,55 L430,48 L460,50 L475,60 L480,78 L468,92 L450,98 L428,95 L408,88 L395,75 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M375,62 L388,58 L392,68 L382,76 L372,72 Z" fill="rgba(196,165,90,0.1)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M428,30 L445,22 L458,28 L460,45 L448,50 L432,46 L425,38 Z" fill="rgba(196,165,90,0.1)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M395,115 L430,108 L460,112 L478,128 L485,155 L482,190 L475,225 L462,258 L445,278 L425,285 L405,278 L388,255 L378,220 L374,185 L378,150 L388,128 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M488,90 L520,85 L540,95 L545,115 L530,125 L505,120 L488,108 Z" fill="rgba(196,165,90,0.1)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M480,30 L550,20 L640,18 L710,25 L745,38 L748,55 L720,65 L680,68 L630,65 L580,62 L540,58 L505,55 L482,48 Z" fill="rgba(196,165,90,0.08)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M555,95 L595,88 L625,92 L638,108 L632,130 L615,145 L595,152 L575,145 L558,128 L550,110 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M638,130 L670,120 L700,118 L718,128 L715,145 L695,152 L668,148 L648,140 Z" fill="rgba(196,165,90,0.08)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M630,55 L680,48 L720,52 L745,65 L748,85 L730,98 L700,102 L668,98 L642,85 L632,70 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <path d="M756,58 L772,52 L782,60 L778,72 L765,78 L754,70 Z" fill="rgba(196,165,90,0.1)" stroke="rgba(196,165,90,0.2)" stroke-width="0.5"/>
+      <path d="M680,290 L730,280 L775,285 L800,305 L805,335 L792,358 L765,368 L735,362 L710,345 L695,320 L682,305 Z" fill="rgba(196,165,90,0.12)" stroke="rgba(196,165,90,0.3)" stroke-width="0.75"/>
+      <g id="cityLayer"></g>
+    </svg>
+    <div class="map-tip" id="mTip"></div>
+  </div>
+
+  <div class="search-row">
+    <input class="search-inp" id="cityInp" placeholder="Tapez n'importe quelle ville…" onkeydown="if(event.key==='Enter')freeCity(this.value)"/>
+    <button class="search-go" onclick="freeCity(document.getElementById('cityInp').value)">→</button>
+  </div>
+  <div class="sugs" id="sugRow"></div>
+</div>
+
+<!-- S2 MOMENT -->
+<div class="screen" id="s2">
+  <div class="prog"><div class="pd on"></div><div class="pd on"></div><div class="pd"></div><div class="pd"></div></div>
+  <div class="city-card">
+    <img class="city-img" id="cityImg" src="" alt=""/>
+    <div class="city-card-body">
+      <div class="city-name-big" id="cityNameBig">—</div>
+      <div class="city-country-txt" id="cityCountryTxt">—</div>
+      <div class="city-desc-txt" id="cityDescTxt">—</div>
+    </div>
+  </div>
+  <div class="kicker">Qu'est-ce qui vous attire ?</div>
+  <div class="moment-grid" id="momentGrid"></div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="go(1)">← Autre ville</button>
+    <button class="btn" id="btnNext2" style="opacity:.4;pointer-events:none;" onclick="go(3)">Commencer →</button>
+  </div>
+</div>
+
+<!-- S3 IMMERSION -->
+<div class="screen" id="s3">
+  <div class="prog"><div class="pd on"></div><div class="pd on"></div><div class="pd on"></div><div class="pd"></div></div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:600;
+    color:var(--ink);margin-bottom:.25rem;" id="immTitle">—</div>
+  <div style="font-size:13px;color:var(--muted);font-style:italic;
+    margin-bottom:1.25rem;line-height:1.65;" id="immDesc">—</div>
+  <div class="imm-tabs" id="immTabs"></div>
+  <div id="immPanels"></div>
+  <div class="timer-block">
+    <div class="timer-num" id="tNum">10:00</div>
+    <div class="timer-track"><div class="timer-fill" id="tFill"></div></div>
+    <button class="timer-btn" id="tBtn" onclick="toggleTimer()">Démarrer 10 min</button>
+  </div>
+  <p style="font-size:12px;color:var(--muted);font-style:italic;margin-top:.75rem;line-height:1.6;">
+    Restez ici ou ouvrez les liens dans un autre onglet. La minuterie vous ramènera automatiquement.
+  </p>
+  <div class="nav-row">
+    <button class="btn-back" onclick="go(2)">← Changer</button>
+  </div>
+</div>
+
+<!-- S4 WRITE -->
+<div class="screen" id="s4">
+  <div class="prog"><div class="pd on"></div><div class="pd on"></div><div class="pd on"></div><div class="pd on"></div></div>
+  <div class="h1">Maintenant —<br><em>écrivez à la main.</em></div>
+  <p class="sub">Prenez une feuille, un stylo. Dix lignes — ce qui vient. Une image, un son, un souvenir que la ville a fait remonter. Pas de syntaxe, pas de relecture. Juste vous.</p>
+  <div class="paper">
+    <div class="paper-prompt">Ce qui me vient de <strong id="writeCity2" style="font-style:normal;color:var(--ink);">—</strong>, après dix minutes :</div>
+    <div class="paper-lines">
+      <div class="pl"></div><div class="pl"></div><div class="pl"></div>
+      <div class="pl"></div><div class="pl"></div><div class="pl"></div>
+      <div class="pl"></div><div class="pl"></div><div class="pl"></div>
+      <div class="pl"></div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:.75rem;font-style:italic;">Qu'est-ce que vous faites de ce papier ?</p>
+  <div class="write-btns">
+    <button class="wb" onclick="endKeep()">Le garder →</button>
+    <button class="wb wb-red" onclick="startBurn()">Le déchirer et jeter 🔥</button>
+  </div>
+  <div class="burn-wrap" id="burnWrap">
+    <div class="burn-fire">🔥</div>
+    <div class="burn-msg">Ces mots ont existé.<br>Maintenant ils sont libres.</div>
+  </div>
+</div>
+
+<!-- S5 FINAL -->
+<div class="screen" id="s5">
+  <div class="h1" id="fHead">—</div>
+  <p class="sub" id="fText">—</p>
+  <div class="pq">
+    "L'esprit qui n'a pas le loisir de se composer est dans un état excessif de servitude."
+    <cite>— Sénèque, 65 ap. J.-C.</cite>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem;">
+    <button class="btn" onclick="go(0)">Recommencer →</button>
+    <a class="btn" href="https://actual.kinexa.ai" target="_blank" style="text-decoration:none;">actual.kinexa.ai →</a>
+  </div>
+</div>
+
+<div class="site-footer">
+  <span>ACTUAL · <a href="https://actual.kinexa.ai">actual.kinexa.ai</a> · Kinexa · 2025</span>
+  <span>Écrit avec Claude · Les positions sont humaines.</span>
+</div>
+
+</div>
+
+<script>
+const CITIES=[
+  {name:'Paris',country:'France',px:410,py:72,lat:48.85,lon:2.35,
+   desc:'Les quais de Seine à l\'aube. La lumière de mars sur les toits.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg/800px-La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg',
+   music:[
+     {tag:'Debussy',title:'Clair de Lune',who:'Claude Debussy',sid:'6EPHONAfQtMHbQRoFzJ1ux'},
+     {tag:'Piaf',title:'La Vie en Rose',who:'Édith Piaf',sid:'28KhijgP0IHSN5mO7aRbIg'},
+     {tag:'Brel',title:'Ne me quitte pas',who:'Jacques Brel',sid:'6L9sHZ0fBFUJGYHPiClOxQ'},
+   ],
+   art:[
+     {title:'La Grande Jatte',who:'Seurat',url:'https://artsandculture.google.com/asset/a-sunday-on-la-grande-jatte-1886/twGyqq52R-lGpA',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884-86.jpg/400px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884-86.jpg'},
+     {title:'Nymphéas',who:'Monet',url:'https://artsandculture.google.com/asset/water-lilies-claude-monet/HAErbvCy-A7kgQ',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/400px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg'},
+     {title:'Le Déjeuner sur l\'herbe',who:'Manet',url:'https://artsandculture.google.com/asset/the-luncheon-on-the-grass-le-d%C3%A9jeuner-sur-l-herbe/DAGwKGf1B_JVJA',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Edouard_Manet_-_Le_D%C3%A9jeuner_sur_l%27herbe_-_Google_Art_Project.jpg/400px-Edouard_Manet_-_Le_D%C3%A9jeuner_sur_l%27herbe_-_Google_Art_Project.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/o3hGy7RcrFI?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Paris+quais+aube+lumiere'},
+
+  {name:'Kyoto',country:'Japon',px:754,py:88,lat:35.01,lon:135.76,
+   desc:'Le silence entre les pierres du temple. Les jardins zen de Ryoan-ji.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Fushimi_Inari-taisha_shrine_%285855724958%29.jpg/800px-Fushimi_Inari-taisha_shrine_%285855724958%29.jpg',
+   music:[
+     {tag:'Satie',title:'Gymnopédie No.1',who:'Erik Satie',sid:'5NGtFXVpXSvwunEIGeviY3'},
+     {tag:'Yiruma',title:'River Flows in You',who:'Yiruma',sid:'4VqPOruhp5EdPBeR92t6lQ'},
+     {tag:'Ambient',title:'Weightless',who:'Marconi Union',sid:'4bGTFtnYPDgMVVPUE2iNKx'},
+   ],
+   art:[
+     {title:'La Grande Vague',who:'Hokusai',url:'https://artsandculture.google.com/asset/the-great-wave-off-kanagawa/ewGJhqMlbFsxBw',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Great_Wave_off_Kanagawa2.jpg/400px-Great_Wave_off_Kanagawa2.jpg'},
+     {title:'Jardin Ryoan-ji',who:'Anonyme, XVe s.',url:'https://artsandculture.google.com/entity/ry%C5%8Dan-ji/m026qm4',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Ryoan-ji_garden.jpg/400px-Ryoan-ji_garden.jpg'},
+     {title:'Mont Fuji — Hiroshige',who:'Hiroshige',url:'https://artsandculture.google.com/asset/views-of-mount-fuji-hiroshige/hAEzwYflpkBLCg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Hiroshige_-_Tokaido_53_post_stations_-_Yoshiwara.jpg/400px-Hiroshige_-_Tokaido_53_post_stations_-_Yoshiwara.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/HhFWF6N7vGQ?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Kyoto+temple+zen+jardin+silence'},
+
+  {name:'Lisbonne',country:'Portugal',px:368,py:88,lat:38.72,lon:-9.14,
+   desc:'Les tramways et le fado. La mélancolie lumineuse de l\'Atlantique.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Lisbon_%2836831596786%29.jpg/800px-Lisbon_%2836831596786%29.jpg',
+   music:[
+     {tag:'Norah Jones',title:'Come Away With Me',who:'Norah Jones',sid:'0BwzFMGNMBYFe8Hm8RMNRu'},
+     {tag:'Moby',title:'Porcelain',who:'Moby',sid:'34Lf6h2GKnWMi3dXlgjf5X'},
+   ],
+   art:[
+     {title:'Azulejos — São Bento',who:'Jorge Colaço',url:'https://artsandculture.google.com/asset/decorative-tiles-in-s%C3%A3o-bento-station/ygH-S8EjHHSmtQ',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/AZULEJO_em_PAINEL_-_OBRA_DE_JORGE_COLAS.jpg/400px-AZULEJO_em_PAINEL_-_OBRA_DE_JORGE_COLAS.jpg'},
+     {title:'Portrait de Pessoa',who:'Almada Negreiros',url:'https://artsandculture.google.com/asset/portrait-of-fernando-pessoa-almada-negreiros/kQFWDQ6hRQTOIg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Almada_Fernando_Pessoa.jpg/400px-Almada_Fernando_Pessoa.jpg'},
+     {title:'Vue de Lisbonne',who:'Aquarelle, XIXe s.',url:'https://artsandculture.google.com/entity/lisbon/m04vmp',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Lisbon_%28154789709%29.jpeg/400px-Lisbon_%28154789709%29.jpeg'},
+   ],
+   walk:'https://www.youtube.com/embed/Gd6-qOLxCdo?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Lisbonne+Alfama+tramway+fado+lumiere'},
+
+  {name:'Vienne',country:'Autriche',px:436,py:68,lat:48.21,lon:16.37,
+   desc:'Les cafés au velours rouge. Mahler et Klimt sous le même ciel.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Stephansdom_Wien.jpg/800px-Stephansdom_Wien.jpg',
+   music:[
+     {tag:'Chopin',title:'Nocturne Op. 9 No. 2',who:'Frédéric Chopin',sid:'2zmR3FG7QDI6MnOzM4Oc1k'},
+     {tag:'Bach',title:'Air on the G String',who:'J.S. Bach',sid:'0cHM4oIFRxKfV1Z1vKCDf4'},
+     {tag:'Pachelbel',title:'Canon in D',who:'Johann Pachelbel',sid:'5w5MBxVxc7GMSBJmjUMdtS'},
+   ],
+   art:[
+     {title:'Le Baiser',who:'Gustav Klimt, 1907',url:'https://artsandculture.google.com/asset/the-kiss-gustav-klimt/7QGIBMrdHPp0dg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/400px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg'},
+     {title:'Judith I',who:'Klimt, 1901',url:'https://artsandculture.google.com/asset/judith-i-gustav-klimt/KAFGZb8UKTK0Xg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Judith_and_the_Head_of_Holofernes_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/400px-Judith_and_the_Head_of_Holofernes_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg'},
+     {title:'Beethoven Frieze',who:'Klimt, 1902',url:'https://artsandculture.google.com/asset/the-beethoven-frieze-gustav-klimt/uwFqzRIJjTnfuQ',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Klimt_Beethoven_Frieze.jpg/400px-Klimt_Beethoven_Frieze.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/GHiHKnrdUkk?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Vienne+Ringstrasse+cafe+Klimt+beaute'},
+
+  {name:'Istanbul',country:'Turquie',px:478,py:82,lat:41.01,lon:28.95,
+   desc:'Deux continents en une vue. La Corne d\'Or au crépuscule.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Istanbul_2015_%2819029980286%29.jpg/800px-Istanbul_2015_%2819029980286%29.jpg',
+   music:[
+     {tag:'Ambient',title:'Weightless',who:'Marconi Union',sid:'4bGTFtnYPDgMVVPUE2iNKx'},
+     {tag:'Satie',title:'Gymnopédie No.1',who:'Erik Satie',sid:'5NGtFXVpXSvwunEIGeviY3'},
+   ],
+   art:[
+     {title:'Sainte-Sophie',who:'Byzantins, 537',url:'https://artsandculture.google.com/asset/hagia-sophia/DQEqCz8rFpfJMg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Hagia_Sophia_Interior_Wikimedia_Commons.jpg/400px-Hagia_Sophia_Interior_Wikimedia_Commons.jpg'},
+     {title:'Céramiques Iznik',who:'Artisans ottomans',url:'https://artsandculture.google.com/entity/iznik-ware/m026b6q',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Topkapi_Yesil_camii_tiles.jpg/400px-Topkapi_Yesil_camii_tiles.jpg'},
+     {title:'Calligraphie ottomane',who:'Hâfız Osman',url:'https://artsandculture.google.com/entity/islamic-calligraphy/m0brhg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Basmala_kufi.svg/400px-Basmala_kufi.svg.png'},
+   ],
+   walk:'https://www.youtube.com/embed/pJFgYrqv3JM?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Istanbul+Bosphore+Sainte+Sophie+lumiere'},
+
+  {name:'Venise',country:'Italie',px:432,py:76,lat:45.44,lon:12.32,
+   desc:'Les canaux au petit matin. Le silence de l\'eau entre les pierres.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Venice_Canal_Grande_and_Salute_Church_HDR_2.jpg/800px-Venice_Canal_Grande_and_Salute_Church_HDR_2.jpg',
+   music:[
+     {tag:'Einaudi',title:'Nuvole Bianche',who:'Ludovico Einaudi',sid:'7wjCq5KMpITgS2FIHdFOz2'},
+     {tag:'Einaudi',title:'Experience',who:'Ludovico Einaudi',sid:'1BkGldN6GKSP2HM5KjMODy'},
+     {tag:'Tiersen',title:'Comptine d\'un autre été',who:'Yann Tiersen',sid:'7MXVkk9YMctZqd1Srtv4MB'},
+   ],
+   art:[
+     {title:'La Tempesta',who:'Giorgione, 1506',url:'https://artsandculture.google.com/asset/the-tempest-giorgione/gQFHtHJAq4ZcLw',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Giorgione_-_La_Tempesta.jpg/400px-Giorgione_-_La_Tempesta.jpg'},
+     {title:'Assomption',who:'Titien, 1516',url:'https://artsandculture.google.com/asset/assumption-of-the-virgin-titian/mAGH7mwi8ZrEig',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Assunzione_Tiziano.jpg/400px-Assunzione_Tiziano.jpg'},
+     {title:'Procession à Saint-Marc',who:'Gentile Bellini',url:'https://artsandculture.google.com/asset/procession-in-st-mark-s-square-gentile-bellini/AAEjHvBzrjpBKg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Gentile_Bellini_002.jpg/400px-Gentile_Bellini_002.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/VJanr3L1f8s?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Venise+canal+brouillard+aube'},
+
+  {name:'Buenos Aires',country:'Argentine',px:215,py:268,lat:-34.6,lon:-58.38,
+   desc:'Le tango dans les rues. La mélancolie des jacarandas.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Buenos_Aires_-_La_Boca_Barrio_-_Caminito_-_20131215_130346.jpg/800px-Buenos_Aires_-_La_Boca_Barrio_-_Caminito_-_20131215_130346.jpg',
+   music:[
+     {tag:'Coldplay',title:'The Scientist',who:'Coldplay',sid:'75JFxkI2RXiU7L9VmCAOFW'},
+     {tag:'Sara Bareilles',title:'Gravity',who:'Sara Bareilles',sid:'6M14BiCN00nOsba4JaYsHW'},
+   ],
+   art:[
+     {title:'Port de Buenos Aires',who:'Quinquela Martín',url:'https://artsandculture.google.com/asset/port-scene/jQG6wVRoxmjXHg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Quinquela-martin-puerto.jpg/400px-Quinquela-martin-puerto.jpg'},
+     {title:'Composition',who:'Xul Solar',url:'https://artsandculture.google.com/entity/xul-solar/m0280mhf',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Drach_Nacht_by_Xul_Solar.jpg/400px-Drach_Nacht_by_Xul_Solar.jpg'},
+     {title:'Portrait de Borges',who:'Grete Stern',url:'https://artsandculture.google.com/entity/jorge-luis-borges/m09l18',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Jorge_Luis_Borges_1951%2C_by_Grete_Stern.jpg/400px-Jorge_Luis_Borges_1951%2C_by_Grete_Stern.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/djdMhkXbdNk?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Buenos+Aires+tango+Caminito+jacaranda'},
+
+  {name:'Reykjavik',country:'Islande',px:300,py:48,lat:64.14,lon:-21.94,
+   desc:'Les aurores boréales. Le silence infini du Grand Nord.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Hallgrimskirkja_2012.jpg/800px-Hallgrimskirkja_2012.jpg',
+   music:[
+     {tag:'Gary Jules',title:'Mad World',who:'Gary Jules',sid:'3JOVTQ5h8HyvI8tzXvaltE'},
+     {tag:'Moby',title:'Porcelain',who:'Moby',sid:'34Lf6h2GKnWMi3dXlgjf5X'},
+     {tag:'Ambient',title:'Weightless',who:'Marconi Union',sid:'4bGTFtnYPDgMVVPUE2iNKx'},
+   ],
+   art:[
+     {title:'Hallgrimskirkja',who:'Guðjón Samúelsson',url:'https://artsandculture.google.com/entity/hallgr%C3%ADmskirkja/m04fq4k',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Hallgrimskirkja-LE.jpg/400px-Hallgrimskirkja-LE.jpg'},
+     {title:'Aurore boréale',who:'Photographie',url:'https://artsandculture.google.com/entity/aurora-borealis/m0159dm',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/2010-01-29_Aurora_Borealis_6_edit_2.jpg/400px-2010-01-29_Aurora_Borealis_6_edit_2.jpg'},
+     {title:'Seljalandsfoss',who:'Islande',url:'https://artsandculture.google.com/entity/seljalandsfoss/m025t7ly',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Seljalandsfoss_2008.jpg/400px-Seljalandsfoss_2008.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/yVMNNGOUMGI?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Reykjavik+aurore+boreale+silence+nord'},
+
+  {name:'Séville',country:'Espagne',px:378,py:90,lat:37.39,lon:-5.99,
+   desc:'L\'Alcazar et ses jardins. La chaleur orange des soirs d\'Andalousie.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Sevilla_-_Alc%C3%A1zar_05.jpg/800px-Sevilla_-_Alc%C3%A1zar_05.jpg',
+   music:[
+     {tag:'Piaf',title:'La Vie en Rose',who:'Édith Piaf',sid:'28KhijgP0IHSN5mO7aRbIg'},
+     {tag:'Pachelbel',title:'Canon in D',who:'Johann Pachelbel',sid:'5w5MBxVxc7GMSBJmjUMdtS'},
+   ],
+   art:[
+     {title:'Las Meninas',who:'Velázquez, 1656',url:'https://artsandculture.google.com/asset/las-meninas-diego-vel%C3%A1zquez/eQFtCMGMXkxSFg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Las_Meninas_01.jpg/400px-Las_Meninas_01.jpg'},
+     {title:'L\'Immaculée Conception',who:'Murillo',url:'https://artsandculture.google.com/asset/the-immaculate-conception-of-los-venerables-murillo/TAF58y_WZDIVWA',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Bartolome_Esteban_Murillo_-_The_Immaculate_Conception_of_the_Venerables_-_Prado.jpg/400px-Bartolome_Esteban_Murillo_-_The_Immaculate_Conception_of_the_Venerables_-_Prado.jpg'},
+     {title:'Patio de l\'Alcazar',who:'Artisans mudéjars',url:'https://artsandculture.google.com/entity/alc%C3%A1zar-of-seville/m012bz4',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Sevilla_-_Alc%C3%A1zar_-_Patio_de_las_Doncellas_2.jpg/400px-Sevilla_-_Alc%C3%A1zar_-_Patio_de_las_Doncellas_2.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/1t_RQmIrMUg?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Seville+Alcazar+flamenco+orangers+soir'},
+
+  {name:'Marrakech',country:'Maroc',px:388,py:138,lat:31.63,lon:-7.99,
+   desc:'Les jardins de la Majorelle. L\'odeur du cumin et de la rose.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Jardin_Majorelle_2014.jpg/800px-Jardin_Majorelle_2014.jpg',
+   music:[
+     {tag:'Tiersen',title:'Comptine d\'un autre été',who:'Yann Tiersen',sid:'7MXVkk9YMctZqd1Srtv4MB'},
+     {tag:'Satie',title:'Gymnopédie No.1',who:'Erik Satie',sid:'5NGtFXVpXSvwunEIGeviY3'},
+   ],
+   art:[
+     {title:'Jardin Majorelle',who:'Jacques Majorelle',url:'https://artsandculture.google.com/entity/majorelle-garden/m012d6w',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Jardin_Majorelle_%2813937406289%29.jpg/400px-Jardin_Majorelle_%2813937406289%29.jpg'},
+     {title:'Zellige',who:'Artisans marocains',url:'https://artsandculture.google.com/entity/zellige/m05c3kj',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Zillij_Morocco.jpg/400px-Zillij_Morocco.jpg'},
+     {title:'Calligraphie Maghribi',who:'École andalouse',url:'https://artsandculture.google.com/entity/islamic-calligraphy/m0brhg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Maghribi_script_Al-Burdah.jpg/400px-Maghribi_script_Al-Burdah.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/rUy0b8oRCDo?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Marrakech+riad+Majorelle+souks+calme'},
+
+  {name:'New York',country:'États-Unis',px:193,py:90,lat:40.71,lon:-74.01,
+   desc:'Le Metropolitan à l\'ouverture. Central Park sans foule.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Southwest_corner_of_Central_Park%2C_looking_east%2C_NYC.jpg/800px-Southwest_corner_of_Central_Park%2C_looking_east%2C_NYC.jpg',
+   music:[
+     {tag:'Norah Jones',title:'Come Away With Me',who:'Norah Jones',sid:'0BwzFMGNMBYFe8Hm8RMNRu'},
+     {tag:'Jack Johnson',title:'Banana Pancakes',who:'Jack Johnson',sid:'3cHyrEgdyNEIbIilCOoUj3'},
+     {tag:'Audrey Hepburn',title:'Moon River',who:'Audrey Hepburn',sid:'3JOVTQ5h8HyvI8tzXvaltE'},
+   ],
+   art:[
+     {title:'Broadway Boogie Woogie',who:'Mondrian, 1943',url:'https://artsandculture.google.com/asset/broadway-boogie-woogie-piet-mondrian/XwE1GoIgGYVjZA',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Piet_Mondriaan%2C_1942_-_Broadway_Boogie-Woogie.jpg/400px-Piet_Mondriaan%2C_1942_-_Broadway_Boogie-Woogie.jpg'},
+     {title:'Number 31',who:'Jackson Pollock',url:'https://artsandculture.google.com/asset/number-31-jackson-pollock/EQF3bBGHFBL-RA',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Pollock_No_31.jpg/400px-Pollock_No_31.jpg'},
+     {title:'Campbell\'s Soup',who:'Andy Warhol',url:'https://artsandculture.google.com/asset/campbell-s-soup-cans/bwHumNfr-iBiAg',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Campbell%27s_Soup_Cans_MOMA.jpg/400px-Campbell%27s_Soup_Cans_MOMA.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/Q8GKFgAHKII?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=New+York+Central+Park+MET+calme+aube'},
+
+  {name:'Sydney',country:'Australie',px:762,py:300,lat:-33.87,lon:151.21,
+   desc:'Le port et l\'Opéra à l\'aube. La lumière de l\'autre hémisphère.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%22The_Crux%22_over_Sydney_Harbour_%28Unsplash%29.jpg/800px-%22The_Crux%22_over_Sydney_Harbour_%28Unsplash%29.jpg',
+   music:[
+     {tag:'Jack Johnson',title:'Banana Pancakes',who:'Jack Johnson',sid:'3cHyrEgdyNEIbIilCOoUj3'},
+     {tag:'Einaudi',title:'Experience',who:'Ludovico Einaudi',sid:'1BkGldN6GKSP2HM5KjMODy'},
+   ],
+   art:[
+     {title:'Opéra de Sydney',who:'Jørn Utzon, 1973',url:'https://artsandculture.google.com/asset/sydney-opera-house/rAEEHVOyxH3Qbw',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sydney_Australia._%283270966024%29.jpg/400px-Sydney_Australia._%283270966024%29.jpg'},
+     {title:'Peinture du Rêve',who:'Art aborigène',url:'https://artsandculture.google.com/entity/aboriginal-art/m01n7d',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Aboriginal_art_style_example.jpg/400px-Aboriginal_art_style_example.jpg'},
+     {title:'Plage de Bondi',who:'Max Dupain',url:'https://artsandculture.google.com/entity/bondi-beach/m01v5n',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Bondi_Beach_Sydney.jpg/400px-Bondi_Beach_Sydney.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/9g78HpALjU4?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Sydney+Opera+port+aube+lumiere'},
+
+  {name:'Nairobi',country:'Kenya',px:472,py:198,lat:-1.29,lon:36.82,
+   desc:'Le parc national à l\'aube. Girafes sur fond de skyline.',
+   img:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Nairobi_Skyline_from_Uhuru_Park.jpg/800px-Nairobi_Skyline_from_Uhuru_Park.jpg',
+   music:[
+     {tag:'Yiruma',title:'River Flows in You',who:'Yiruma',sid:'4VqPOruhp5EdPBeR92t6lQ'},
+     {tag:'Einaudi',title:'Nuvole Bianche',who:'Ludovico Einaudi',sid:'7wjCq5KMpITgS2FIHdFOz2'},
+   ],
+   art:[
+     {title:'Girafes — Nairobi NP',who:'Photographie',url:'https://artsandculture.google.com/entity/nairobi-national-park/m01b7n4',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Nairobi_National_Park_-_giraffe_%284436462052%29.jpg/400px-Nairobi_National_Park_-_giraffe_%284436462052%29.jpg'},
+     {title:'Art Maasaï',who:'Artisans du Kenya',url:'https://artsandculture.google.com/entity/maasai-people/m04rwz',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Masai_mara_3.jpg/400px-Masai_mara_3.jpg'},
+     {title:'Wangechi Mutu',who:'Wangechi Mutu',url:'https://artsandculture.google.com/entity/wangechi-mutu/m0dgyf8',img:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Wangechi_Mutu.jpg/400px-Wangechi_Mutu.jpg'},
+   ],
+   walk:'https://www.youtube.com/embed/S3-3wpEe2WE?autoplay=1',
+   photo:'https://www.google.com/search?tbm=isch&q=Nairobi+parc+national+girafe+savane'},
+];
+
+const SUGS=['Bruges','Oporto','Tbilissi','Valparaíso','Hanoi','Fès','Ljubljana','Oaxaca','Zanzibar','Copenhague'];
+let curCity='',curData=null,curMoment='music';
+let tSec=600,tInt=null,tRun=false;
+
+function go(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById('s'+n).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function buildMap(){
+  const layer=document.getElementById('cityLayer');
+  CITIES.forEach(c=>{
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx',c.px);dot.setAttribute('cy',c.py);dot.setAttribute('r','5');
+    dot.setAttribute('fill','#9B7A2A');dot.setAttribute('opacity','0.75');
+    dot.setAttribute('class','city-dot');
+    const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',c.px+7);lbl.setAttribute('y',c.py+4);
+    lbl.setAttribute('class','city-lbl');lbl.textContent=c.name;
+    g.appendChild(dot);g.appendChild(lbl);
+    g.addEventListener('mouseenter',e=>{
+      dot.setAttribute('r','7');dot.setAttribute('opacity','1');
+      const tip=document.getElementById('mTip');
+      const svg=document.getElementById('worldMap').getBoundingClientRect();
+      const sc=svg.width/900;
+      tip.textContent=c.name+' — '+c.country;
+      tip.style.display='block';
+      tip.style.left=(c.px*sc+8)+'px';
+      tip.style.top=(c.py*(svg.height/450)-18)+'px';
+    });
+    g.addEventListener('mouseleave',()=>{
+      dot.setAttribute('r','5');dot.setAttribute('opacity','0.75');
+      document.getElementById('mTip').style.display='none';
+    });
+    g.addEventListener('click',()=>selectCity(c));
+    layer.appendChild(g);
+  });
+  document.getElementById('sugRow').innerHTML=SUGS.map(s=>`<span class="sug" onclick="freeCity('${s}')">${s}</span>`).join('');
+}
+
+function selectCity(c){
+  curCity=c.name;curData=c;
+  document.getElementById('cityImg').src=c.img;
+  document.getElementById('cityImg').alt=c.name;
+  document.getElementById('cityNameBig').textContent=c.name;
+  document.getElementById('cityCountryTxt').textContent=c.country;
+  document.getElementById('cityDescTxt').textContent=c.desc;
+  document.getElementById('writeCity2').textContent=c.name;
+  buildMoments();go(2);
+}
+
+function freeCity(name){
+  if(!name.trim())return;
+  const q=encodeURIComponent(name);
+  selectCity({name:name.trim(),country:'',px:0,py:0,lat:0,lon:0,
+    desc:'Un endroit que vous connaissez, ou que vous rêvez de découvrir.',
+    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/400px-No_image_available.svg.png',
+    music:[{tag:'Voyages',title:'World Ambient Mix',who:'Soundscape',yt:`https://www.youtube.com/embed/results?search_query=${q}+ambient+music`}],
+    art:[],
+    walk:`https://www.youtube.com/embed/results?search_query=${q}+walking+tour`,
+    photo:`https://www.google.com/search?tbm=isch&q=${q}+beaute+calme`
+  });
+}
+
+function buildMoments(){
+  document.getElementById('momentGrid').innerHTML=[
+    {id:'music',icon:'♬',label:'Écouter',sub:'musique de la ville'},
+    {id:'walk',icon:'▷',label:'Marcher',sub:'balade vidéo immersive'},
+    {id:'art',icon:'◈',label:'Regarder',sub:'tableaux & œuvres'},
+    {id:'photo',icon:'◻',label:'Explorer',sub:'images & Street View'},
+  ].map(m=>`<div class="mc" id="mc-${m.id}" onclick="selectMoment('${m.id}')">
+    <div class="mc-icon">${m.icon}</div>
+    <div class="mc-label">${m.label}</div>
+    <div class="mc-sub">${m.sub}</div>
+  </div>`).join('');
+}
+
+function selectMoment(type){
+  curMoment=type;
+  document.querySelectorAll('.mc').forEach(c=>c.classList.remove('on'));
+  document.getElementById('mc-'+type).classList.add('on');
+  const btn=document.getElementById('btnNext2');
+  btn.style.opacity='1';btn.style.pointerEvents='auto';
+  buildImmersion(type);
+}
+
+function buildImmersion(type){
+  const c=curData;
+  document.getElementById('immTitle').textContent='Vous êtes à '+c.name+'.';
+  const d={music:'Fermez les yeux trente secondes. Puis laissez la musique vous transporter — sans analyse, sans but.',
+    walk:'Regardez cette balade comme si vous y étiez. Laissez vos pieds s\'imaginer sur ces pavés.',
+    art:'Restez devant chaque œuvre autant que vous le sentez. Pas d\'explication nécessaire.',
+    photo:'Parcourez les images lentement. Arrêtez-vous sur celle qui vous touche sans savoir pourquoi.'};
+  document.getElementById('immDesc').textContent=d[type];
+
+  if(type==='music'){
+    document.getElementById('immTabs').innerHTML=c.music.map((m,i)=>
+      `<button class="imm-tab${i===0?' on':''}" onclick="switchTab(${i})">${m.tag}</button>`).join('');
+    document.getElementById('immPanels').innerHTML=c.music.map((m,i)=>`
+      <div class="imm-panel${i===0?' on':''}" id="pan-${i}">
+        <div class="music-card">
+          <div class="music-tag">${m.tag}</div>
+          <div class="music-title">${m.title}</div>
+          <div class="music-who">${m.who}</div>
+          <div class="embed-wrap"><iframe style="border-radius:4px" src="https://open.spotify.com/embed/track/${m.sid}?utm_source=generator&theme=0" width="100%" height="90" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>
+        </div>
+      </div>`).join('');
+  } else if(type==='walk'){
+    document.getElementById('immTabs').innerHTML='<button class="imm-tab on">Balade immersive</button>';
+    document.getElementById('immPanels').innerHTML=`<div class="imm-panel on">
+      <a class="ext-link" href="${c.walk}" target="_blank" style="padding:22px 20px; display:flex; align-items:center; gap:16px; margin-bottom:8px;">
+        <span style="font-size:28px; flex-shrink:0;">▷</span>
+        <div>
+          <div style="font-size:15px; font-weight:500; margin-bottom:4px;">Balade dans ${c.name}</div>
+          <div class="ext-link-sub">Ouvrir la vidéo dans YouTube →</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:6px; font-style:italic;">Mettez le son, plein écran, et laissez-vous porter.</div>
+        </div>
+      </a>
+      <a class="ext-link" href="${c.photo}" target="_blank">
+        <span class="ext-link-icon">◻</span>
+        <div><div>Photos de ${c.name}</div><div class="ext-link-sub">Google Images →</div></div>
+      </a>
+      <a class="ext-link" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${c.lat},${c.lon}" target="_blank">
+        <span class="ext-link-icon">⊙</span>
+        <div><div>Street View — ${c.name}</div><div class="ext-link-sub">Se promener dans les rues →</div></div>
+      </a>
+    </div>`;
+  } else if(type==='art'){
+    const cards=c.art.length?c.art.map(a=>`
+      <div class="art-card"><a href="${a.url}" target="_blank">
+        <img class="art-thumb" src="${a.img}" alt="${a.title}" loading="lazy"/>
+        <div class="art-info"><div class="art-title">${a.title}</div><div class="art-who">${a.who}</div></div>
+      </a></div>`).join(''):`<div style="grid-column:span 3"><a class="ext-link" href="https://artsandculture.google.com/search?q=${encodeURIComponent(c.name)}" target="_blank"><span class="ext-link-icon">◈</span><div>Explorer sur Google Arts & Culture →</div></a></div>`;
+    document.getElementById('immTabs').innerHTML='<button class="imm-tab on">Œuvres liées</button>';
+    document.getElementById('immPanels').innerHTML=`<div class="imm-panel on"><div class="art-grid">${cards}</div>
+      <a class="ext-link" href="https://artsandculture.google.com/search?q=${encodeURIComponent(c.name)}" target="_blank">
+        <span class="ext-link-icon">◈</span>
+        <div><div>Google Arts & Culture — ${c.name}</div><div class="ext-link-sub">Explorer tous les musées →</div></div>
+      </a></div>`;
+  } else {
+    document.getElementById('immTabs').innerHTML='<button class="imm-tab on">Explorer</button>';
+    document.getElementById('immPanels').innerHTML=`<div class="imm-panel on">
+      <a class="ext-link" href="${c.photo}" target="_blank"><span class="ext-link-icon">◻</span><div><div>Photos de ${c.name}</div><div class="ext-link-sub">Google Images →</div></div></a>
+      <a class="ext-link" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${c.lat},${c.lon}" target="_blank"><span class="ext-link-icon">⊙</span><div><div>Street View</div><div class="ext-link-sub">Se promener dans les rues →</div></div></a>
+      <a class="ext-link" href="https://artsandculture.google.com/search?q=${encodeURIComponent(c.name)}" target="_blank"><span class="ext-link-icon">◈</span><div><div>Google Arts & Culture</div><div class="ext-link-sub">Musées et patrimoine →</div></div></a>
+    </div>`;
+  }
+}
+
+function switchTab(idx){
+  document.querySelectorAll('.imm-tab').forEach((t,i)=>t.classList.toggle('on',i===idx));
+  document.querySelectorAll('.imm-panel').forEach((p,i)=>p.classList.toggle('on',i===idx));
+}
+
+function toggleTimer(){
+  if(tRun){clearInterval(tInt);tRun=false;tSec=600;
+    document.getElementById('tNum').textContent='10:00';
+    document.getElementById('tFill').style.width='0%';
+    document.getElementById('tBtn').textContent='Démarrer 10 min';return;}
+  tRun=true;document.getElementById('tBtn').textContent='Arrêter';
+  tInt=setInterval(()=>{
+    tSec--;
+    const m=Math.floor(tSec/60),s=tSec%60;
+    document.getElementById('tNum').textContent=m+':'+(s<10?'0':'')+s;
+    document.getElementById('tFill').style.width=Math.round((600-tSec)/6)+'%';
+    if(tSec<=0){clearInterval(tInt);tRun=false;
+      document.getElementById('tNum').textContent='✓';
+      document.getElementById('tBtn').textContent='Terminé';go(4);}
+  },1000);
+}
+
+function endKeep(){
+  document.getElementById('fHead').innerHTML='Gardez-le.<br><em>Relisez-le dans un mois.</em>';
+  document.getElementById('fText').textContent='Ce paragraphe a quelque chose. Écrit en dix minutes, à la main, sans relecture. C\'est souvent là que se trouve la vraie pensée — pas dans les documents finalisés.';
+  go(5);
+}
+
+function startBurn(){
+  const bw=document.getElementById('burnWrap');bw.classList.add('on');
+  setTimeout(()=>{bw.classList.remove('on');
+    document.getElementById('fHead').innerHTML='Le papier est jeté.<br><em>La pensée reste.</em>';
+    document.getElementById('fText').textContent='Vous avez écrit, puis vous avez laissé partir. C\'est peut-être la chose la plus libre que vous ayez faite aujourd\'hui.';
+    go(5);},2800);
+}
+
+buildMap();
+</script>
+</body>
+</html>
