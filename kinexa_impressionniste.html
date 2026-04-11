@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Ordonnance Impressionniste — Kinexa Formation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF7F0;
+  --parchment: #F0E8D5;
+  --parchment-dark: #E4D8C0;
+  --gold: #C4854A;
+  --gold-light: #E8B680;
+  --gold-pale: #F5DDB8;
+  --deep: #1A100A;
+  --ink: #2C1A10;
+  --warm-gray: #7A6E65;
+  --sage: #7A9B78;
+  --sage-light: #B8D4B6;
+  --rose: #C4848A;
+  --sky: #7A9EB8;
+  --sky-light: #B8D4E8;
+  --plum: #6B4E6A;
+  --terracotta: #C86845;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background-color: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+/* NOISE TEXTURE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(250,247,240,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--parchment-dark);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 62px;
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid var(--parchment-dark);
+  background: transparent;
+  color: var(--warm-gray);
+  transition: all 0.2s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: white;
+}
+
+.nav-btn.pdf-btn {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--gold-light);
+}
+
+.nav-btn.pdf-btn:hover { background: var(--deep); }
+
+/* COVER */
+#cover {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1A100A 0%, #2C1A10 40%, #3D2218 60%, #1A100A 100%);
+}
+
+.cover-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(196,133,74,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(122,158,184,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(122,155,120,0.10) 0%, transparent 50%);
+}
+
+.cover-brushstroke {
+  position: absolute;
+  opacity: 0.06;
+  font-size: 320px;
+  font-family: 'Playfair Display', serif;
+  color: var(--gold-light);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.cover-content {
+  position: relative;
+  text-align: center;
+  padding: 80px 40px;
+  max-width: 780px;
+}
+
+.cover-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 900;
+  line-height: 1.08;
+  color: var(--cream);
+  margin-bottom: 24px;
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.cover-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: rgba(250,247,240,0.65);
+  max-width: 540px;
+  margin: 0 auto 40px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.cover-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 32px;
+  opacity: 0.6;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.cover-meta-item {
+  text-align: center;
+}
+
+.cover-meta-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--gold-light);
+  display: block;
+  line-height: 1;
+}
+
+.cover-meta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(250,247,240,0.45);
+  margin-top: 6px;
+  display: block;
+}
+
+.cover-cta {
+  display: inline-block;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink);
+  background: var(--gold-light);
+  padding: 16px 40px;
+  border-radius: 40px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+  box-shadow: 0 8px 32px rgba(196,133,74,0.35);
+}
+
+.cover-cta:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(196,133,74,0.4);
+}
+
+/* PHASES BAR */
+#day-nav {
+  display: none;
+  position: sticky;
+  top: 62px;
+  background: var(--parchment);
+  border-bottom: 1px solid var(--parchment-dark);
+  z-index: 900;
+  padding: 12px 24px;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-nav-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-right: 8px;
+}
+
+.day-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1px solid var(--parchment-dark);
+  background: transparent;
+  color: var(--warm-gray);
+  transition: all 0.2s;
+}
+
+.day-pill:hover { background: white; color: var(--ink); }
+.day-pill.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+.day-pill.phase-1 { }
+.day-pill.phase-2 { }
+.day-pill.phase-3 { }
+
+/* MAIN CONTENT */
+#main {
+  display: none;
+  padding-top: 130px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.day-section { display: none; }
+.day-section.active { display: block; }
+
+.day-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.phase-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.phase-1 .phase-badge { background: rgba(232,182,128,0.2); color: var(--gold); border: 1px solid rgba(196,133,74,0.3); }
+.phase-2 .phase-badge { background: rgba(122,155,120,0.15); color: var(--sage); border: 1px solid rgba(122,155,120,0.3); }
+.phase-3 .phase-badge { background: rgba(122,158,184,0.15); color: var(--sky); border: 1px solid rgba(122,158,184,0.3); }
+
+.day-header { margin-bottom: 8px; }
+
+.day-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+
+.day-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 6px 0 8px;
+}
+
+.day-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 19px;
+  font-style: italic;
+  color: var(--warm-gray);
+  margin-bottom: 40px;
+}
+
+/* PAINTINGS GRID */
+.paintings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 44px;
+}
+
+.painting-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--parchment-dark);
+  background: white;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.painting-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(26,16,10,0.12);
+}
+
+.painting-visual {
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--parchment);
+}
+
+/* Real painting image */
+.painting-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Minimal fallback — tiny icon, no big colored block */
+.painting-placeholder {
+  position: absolute; inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--parchment);
+  transition: opacity 0.4s ease;
+}
+
+.painting-placeholder-icon {
+  font-size: 28px;
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.painting-placeholder-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  opacity: 0.6;
+}
+
+/* Keep badge class but not used for big circles anymore */
+.painting-badge { display: none; }
+.painting-initial { display: none; }
+
+/* Clickable wrapper around painting visual */
+.painting-visual-link {
+  display: block;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.painting-visual-link:hover .painting-visual {
+  filter: brightness(1.06);
+}
+
+.painting-visual-link:hover .painting-overlay {
+  opacity: 1 !important;
+}
+
+/* View hint shown on hover */
+.painting-view-hint {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-top: 3px;
+}
+
+/* Year + overlay shown on top of real image */
+.painting-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.52));
+  padding: 10px 12px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.painting-visual.img-loaded .painting-overlay { opacity: 1; }
+.painting-visual.img-loaded .painting-placeholder { opacity: 0; pointer-events: none; }
+
+.painting-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.82);
+  letter-spacing: 0.1em;
+}
+
+/* Year shown in body when no image */
+.painting-year-body {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--warm-gray);
+  opacity: 0.75;
+}
+
+.painting-body {
+  padding: 18px 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.painting-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.painting-artist {
+  font-family: 'Crimson Pro', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--warm-gray);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.painting-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.65;
+  flex: 1;
+}
+
+.painting-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  transition: all 0.2s;
+  padding: 6px 0;
+}
+
+.painting-link:hover { color: var(--ink); }
+.painting-link::after { content: '→'; font-size: 12px; }
+
+/* INFO BOXES */
+.info-boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 60px;
+}
+
+@media (max-width: 660px) {
+  .info-boxes { grid-template-columns: 1fr; }
+}
+
+.info-box {
+  border-radius: 16px;
+  padding: 24px 26px;
+}
+
+.info-box-neuro {
+  background: linear-gradient(135deg, rgba(122,158,184,0.08), rgba(107,78,106,0.06));
+  border: 1px solid rgba(122,158,184,0.25);
+}
+
+.info-box-kinexa {
+  background: linear-gradient(135deg, rgba(196,133,74,0.08), rgba(196,133,74,0.04));
+  border: 1px solid rgba(196,133,74,0.25);
+}
+
+.info-box-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-box-neuro .info-box-label { color: var(--sky); }
+.info-box-kinexa .info-box-label { color: var(--gold); }
+
+.info-box-label::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+}
+
+.info-box-neuro .info-box-label::before { background: var(--sky); }
+.info-box-kinexa .info-box-label::before { background: var(--gold); }
+
+.info-box-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.day-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--parchment-dark);
+  margin-bottom: 60px;
+}
+
+/* PROTOCOLE KINEXA BOX */
+.protocole-box {
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  background: linear-gradient(135deg, rgba(26,16,10,0.04), rgba(26,16,10,0.02));
+  border: 1px solid rgba(26,16,10,0.12);
+  border-left: 3px solid var(--gold);
+}
+
+.protocole-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.protocole-label::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.protocole-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+
+.punchline {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 32px 40px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.punchline::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  color: rgba(196,133,74,0.15);
+  line-height: 1;
+}
+
+.punchline-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--gold-light);
+  position: relative;
+  line-height: 1.5;
+}
+
+/* QUIZ SECTION */
+#quiz-section {
+  display: none;
+  padding-top: 100px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.quiz-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.section-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--warm-gray);
+}
+
+.quiz-question {
+  background: white;
+  border: 1px solid var(--parchment-dark);
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.quiz-question.answered { border-color: var(--sage); }
+.quiz-question.wrong { border-color: var(--rose); }
+
+.q-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--warm-gray);
+  margin-bottom: 10px;
+}
+
+.q-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.q-option {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid var(--parchment-dark);
+  background: var(--cream);
+  color: var(--ink);
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.q-option:hover:not(:disabled) { background: var(--parchment); border-color: var(--gold); }
+.q-option.correct { background: rgba(122,155,120,0.15); border-color: var(--sage); color: var(--sage); font-weight: 600; }
+.q-option.incorrect { background: rgba(196,132,138,0.12); border-color: var(--rose); color: var(--rose); }
+.q-option:disabled { cursor: not-allowed; }
+
+.q-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--parchment-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--warm-gray);
+}
+
+.q-explanation {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 14px;
+  font-style: italic;
+  display: none;
+}
+
+.q-explanation.show { display: block; }
+.q-explanation.correct-exp { background: rgba(122,155,120,0.1); color: var(--sage); }
+.q-explanation.wrong-exp { background: rgba(196,132,138,0.1); color: var(--rose); }
+
+.quiz-score-box {
+  display: none;
+  text-align: center;
+  padding: 48px 40px;
+  background: var(--ink);
+  border-radius: 24px;
+  margin-top: 32px;
+}
+
+.quiz-score-box.show { display: block; }
+
+.score-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 900;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.score-label {
+  font-family: 'Crimson Pro', serif;
+  font-size: 18px;
+  color: rgba(250,247,240,0.6);
+  margin-bottom: 24px;
+}
+
+.score-message {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--cream);
+  margin-bottom: 24px;
+}
+
+.restart-btn {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  padding: 12px 32px;
+  border-radius: 24px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.restart-btn:hover { background: var(--gold); color: white; }
+
+/* GALLERIES SECTION */
+#galleries-section {
+  display: none;
+  padding-top: 100px;
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+.galleries-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.galleries-header { text-align: center; margin-bottom: 60px; }
+
+.city-group { margin-bottom: 56px; }
+
+.city-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.city-flag {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.city-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.city-country {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.gallery-card {
+  background: white;
+  border: 1px solid var(--parchment-dark);
+  border-radius: 16px;
+  padding: 22px 24px;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: block;
+}
+
+.gallery-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(26,16,10,0.1);
+  border-color: var(--gold);
+}
+
+.gallery-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.gallery-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.gallery-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 14px;
+  color: var(--warm-gray);
+  line-height: 1.5;
+}
+
+.gallery-arrow {
+  display: block;
+  margin-top: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ONLINE RESOURCES */
+.online-resources {
+  background: var(--ink);
+  border-radius: 24px;
+  padding: 40px;
+  margin-top: 48px;
+}
+
+.online-resources h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--gold-light);
+  margin-bottom: 24px;
+}
+
+.online-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.online-link {
+  display: block;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(196,133,74,0.25);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.online-link:hover { background: rgba(196,133,74,0.12); border-color: var(--gold); }
+
+.online-link-name {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  color: var(--cream);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.online-link-desc {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: rgba(250,247,240,0.4);
+}
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  color: rgba(250,247,240,0.5);
+  text-align: center;
+  padding: 48px 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+footer strong {
+  color: var(--gold-light);
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+}
+
+/* PRINT STYLES */
+@media print {
+  nav, #day-nav, .cover-cta, .nav-btn, .day-pill, .painting-link { display: none !important; }
+  body { font-size: 12px; background: white; }
+  #cover { min-height: auto; padding: 40px; background: #1A100A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cover-title { font-size: 36px; }
+  .day-section { display: block !important; page-break-before: always; }
+  #main { display: block !important; padding-top: 0; }
+  #day-nav { display: none !important; }
+  .paintings-grid { grid-template-columns: repeat(2, 1fr); }
+  .painting-visual { height: 100px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .info-boxes { grid-template-columns: 1fr 1fr; }
+  #quiz-section, #galleries-section { display: block !important; page-break-before: always; }
+  .quiz-question { page-break-inside: avoid; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* TRANSITIONS */
+.fade-in { animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* SCROLL INDICATOR */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(250,247,240,0.4);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  border-right: 1px solid rgba(196,133,74,0.5);
+  border-bottom: 1px solid rgba(196,133,74,0.5);
+  transform: rotate(45deg);
+  margin-top: 4px;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* PHASE SEPARATOR */
+.phase-separator {
+  text-align: center;
+  padding: 48px 0 40px;
+  margin-bottom: 0;
+}
+
+.phase-sep-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.phase-sep-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* PROGRESS BAR */
+.day-progress {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 32px;
+}
+
+.progress-dot {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--parchment-dark);
+  transition: all 0.3s;
+}
+
+.progress-dot.done { background: var(--gold); }
+.progress-dot.current { background: var(--ink); }
+
+/* Color gradients for painting cards */
+.grad-dawn { background: linear-gradient(135deg, #C85A3A, #E8A052, #F5C880); }
+.grad-sisley { background: linear-gradient(135deg, #7AA0C8, #A8C8E8, #D4E8F5); }
+.grad-fog { background: linear-gradient(135deg, #9CA8B0, #B8C8D4, #D4E0E8); }
+.grad-snow { background: linear-gradient(135deg, #B8C8D0, #D8E8F0, #F0F4F8); }
+.grad-wind { background: linear-gradient(135deg, #7A9878, #A8C8A8, #D4E8D4); }
+.grad-wind2 { background: linear-gradient(135deg, #88A878, #A8C890, #C8E0B8); }
+.grad-summer { background: linear-gradient(135deg, #C8B880, #E8D89A, #F5ECC8); }
+.grad-gust { background: linear-gradient(135deg, #4A7A9A, #7A9EB8, #B0C8D8); }
+.grad-magpie { background: linear-gradient(135deg, #B8C8D8, #D4E4F0, #F0F5F8); }
+.grad-poplars { background: linear-gradient(135deg, #5A8A6A, #7AAA88, #A8C8A8); }
+.grad-alley { background: linear-gradient(135deg, #4A7A58, #6A9A78, #9AB8A0); }
+.grad-path { background: linear-gradient(135deg, #7A9870, #A8C090, #C8D8B0); }
+.grad-urban { background: linear-gradient(135deg, #8A8888, #B0A8A0, #C8C0B8); }
+.grad-flags { background: linear-gradient(135deg, #C84A4A, #E88070, #F5B0A0); }
+.grad-bridge { background: linear-gradient(135deg, #7898A8, #98B8C8, #C0D4E0); }
+.grad-theatre { background: linear-gradient(135deg, #8888A8, #A8A8C8, #C8C8E0); }
+.grad-cathedral { background: linear-gradient(135deg, #D4A870, #E8C890, #F5E0B8); }
+.grad-rooftops { background: linear-gradient(135deg, #9898A8, #B8B8C8, #D4D4E0); }
+.grad-iron { background: linear-gradient(135deg, #5A7888, #7A9AA8, #A8C0C8); }
+.grad-station { background: linear-gradient(135deg, #7A7878, #A8A0A0, #C8C0B8); }
+.grad-workers { background: linear-gradient(135deg, #C87A4A, #D89A70, #E8B898); }
+.grad-harvest { background: linear-gradient(135deg, #C8A84A, #D8C070, #E8D898); }
+.grad-sower { background: linear-gradient(135deg, #8A7848, #A89868, #C0B888); }
+.grad-laundry { background: linear-gradient(135deg, #B0A0C8, #C8B8D8, #E0D0E8); }
+.grad-piano { background: linear-gradient(135deg, #C8A070, #D8B888, #E8D0A8); }
+.grad-lesson { background: linear-gradient(135deg, #A8C0B8, #C0D4CC, #D8E8E4); }
+.grad-sewing { background: linear-gradient(135deg, #C890A8, #D8A8B8, #E8C4CC); }
+.grad-lunch { background: linear-gradient(135deg, #98C8B0, #B8D8C8, #D4EAE0); }
+.grad-swing { background: linear-gradient(135deg, #6A8A78, #8AAA98, #A8C8B8); }
+.grad-dancer { background: linear-gradient(135deg, #C8B0A0, #D8C8B8, #E8DDD0); }
+.grad-skating { background: linear-gradient(135deg, #7890B8, #98B0C8, #C0D4E0); }
+.grad-beach { background: linear-gradient(135deg, #C8B870, #D8CC90, #E8E0B8); }
+.grad-dance-c { background: linear-gradient(135deg, #C84A78, #D8709A, #E8A0B8); }
+.grad-dance-v { background: linear-gradient(135deg, #2A4A78, #4A6A98, #7A9AB8); }
+.grad-moulin { background: linear-gradient(135deg, #7A5898, #9878B0, #B8A0C8); }
+.grad-pink-d { background: linear-gradient(135deg, #C89898, #D8B0B0, #EAC8C8); }
+.grad-races { background: linear-gradient(135deg, #8A7838, #A89858, #C0B878); }
+.grad-regatas { background: linear-gradient(135deg, #4A7898, #6A98B8, #98B8D0); }
+.grad-europe { background: linear-gradient(135deg, #6A7888, #8898A8, #A8B8C0); }
+.grad-bathers { background: linear-gradient(135deg, #D8C890, #E8D8A8, #F5ECC8); }
+.grad-nymph1 { background: linear-gradient(135deg, #1A4A5A, #2A6878, #4A8898); }
+.grad-nymph2 { background: linear-gradient(135deg, #2A5A3A, #3A7A52, #5A9A72); }
+.grad-nymph3 { background: linear-gradient(135deg, #3A6A7A, #4A8A98, #6AAAB8); }
+.grad-nymph4 { background: linear-gradient(135deg, #2A5A42, #3A7A5A, #5A9A78); }
+.grad-sleep { background: linear-gradient(135deg, #C8A898, #D8BCA8, #E8D0C0); }
+.grad-reading { background: linear-gradient(135deg, #C8B888, #D8C8A0, #E8D8B8); }
+.grad-bath { background: linear-gradient(135deg, #B8A8C0, #C8B8D0, #D8CCE0); }
+.grad-cradle { background: linear-gradient(135deg, #98B8C8, #B0C8D8, #C8D8E8); }
+.grad-bar { background: linear-gradient(135deg, #2A3A5A, #4A5A7A, #6A7A98); }
+.grad-absinthe { background: linear-gradient(135deg, #484838, #686858, #888878); }
+.grad-toilette { background: linear-gradient(135deg, #A8B8A8, #C0CCC0, #D8E0D8); }
+.grad-portrait { background: linear-gradient(135deg, #A8A8C8, #C0C0D8, #D8D8E8); }
+.grad-garden { background: linear-gradient(135deg, #3A7848, #5A9868, #7AB888); }
+.grad-park { background: linear-gradient(135deg, #4A8858, #6AA878, #8AC898); }
+.grad-chestnut { background: linear-gradient(135deg, #5A8A48, #7AAA68, #9AC888); }
+.grad-spring { background: linear-gradient(135deg, #6A9858, #8AB878, #A8D098); }
+.grad-parliament { background: linear-gradient(135deg, #7A6858, #A08870, #C0A888); }
+.grad-charing { background: linear-gradient(135deg, #5A6878, #7A8898, #98A8B8); }
+.grad-venice { background: linear-gradient(135deg, #C84A2A, #E87850, #F5A070); }
+.grad-cloud { background: linear-gradient(135deg, #9888C8, #B0A0D8, #C8B8E8); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">K<span>inexa</span> × <em style="font-style:italic;font-weight:400;color:var(--warm-gray);">L'Ordonnance Impressionniste</em></span>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showCover()">Accueil</button>
+    <button class="nav-btn" onclick="showProgram()">15 Jours</button>
+    <button class="nav-btn" onclick="showQuiz()">Quiz</button>
+    <button class="nav-btn" onclick="showGalleries()">Galeries</button>
+    <button class="nav-btn pdf-btn" onclick="window.print()">⬇ PDF</button>
+  </div>
+</nav>
+
+<!-- COVER -->
+<div id="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-brushstroke">I</div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">Kinexa Formation · Série LinkedIn Exclusive</div>
+    <h1 class="cover-title">L'Ordonnance<br><em>Impressionniste</em></h1>
+    <p class="cover-subtitle">15 jours de neuro-esthétique, de mouvement et de calme — quand l'art impressionniste devient un protocole de biohacking visuel.</p>
+    <div class="cover-divider"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <span class="cover-meta-num">15</span>
+        <span class="cover-meta-label">Jours</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-num">60</span>
+        <span class="cover-meta-label">Œuvres</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-num">3</span>
+        <span class="cover-meta-label">Phases</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-num">∞</span>
+        <span class="cover-meta-label">Inspiration</span>
+      </div>
+    </div>
+    <button class="cover-cta" onclick="showProgram()">Commencer le programme →</button>
+  </div>
+  <div class="scroll-indicator" onclick="showProgram()">
+    <span>Explorer</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- DAY NAV -->
+<div id="day-nav">
+  <span class="day-nav-label">Jour :</span>
+</div>
+
+<!-- MAIN CONTENT - 15 DAYS -->
+<div id="main">
+</div>
+
+<!-- QUIZ -->
+<div id="quiz-section">
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <div class="section-eyebrow">Testez vos connaissances</div>
+      <h2 class="section-title">Le Quiz<br><em style="font-style:italic;font-weight:400;font-size:0.75em;color:var(--warm-gray);">Impressionniste</em></h2>
+      <p class="section-desc">10 questions entre art, neurosciences et mouvement</p>
+    </div>
+    <div id="quiz-content"></div>
+    <div class="quiz-score-box" id="score-box">
+      <div class="score-num" id="score-num">0/10</div>
+      <div class="score-label">Score final</div>
+      <div class="score-message" id="score-msg"></div>
+      <button class="restart-btn" onclick="restartQuiz()">Recommencer le quiz →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERIES -->
+<div id="galleries-section">
+  <div class="galleries-container">
+    <div class="galleries-header">
+      <div class="section-eyebrow">Patrimoine mondial</div>
+      <h2 class="section-title">Les Galeries<br><em style="font-style:italic;font-weight:400;font-size:0.75em;color:var(--warm-gray);">Impressionnistes</em></h2>
+      <p class="section-desc">Les musées et collections à visiter en personne — et en ligne</p>
+    </div>
+    <div id="galleries-content"></div>
+  </div>
+</div>
+
+<footer>
+  <strong>Kinexa Formation</strong>
+  L'Ordonnance Impressionniste · Série neuro-esthétique · 15 jours
+  <br><br>
+  "Ce n'est pas de l'art. C'est une intervention neuro-visuelle."
+</footer>
+
+<script>
+// ==================== CONFIRMED WIKIMEDIA COMMONS DIRECT THUMBNAIL URLS ====================
+// Format: upload.wikimedia.org/wikipedia/commons/thumb/[hash1]/[hash12]/[file]/400px-[file]
+// These hashes are fixed — they will NOT change. onerror shows tiny icon fallback.
+
+const paintingImages = {
+  // DAY 1
+  "Impression, soleil levant":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/400px-Monet_-_Impression%2C_Sunrise.jpg",
+  "Effet de neige à Argenteuil":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Monet_-_Bridge_at_Argenteuil.jpg/400px-Monet_-_Bridge_at_Argenteuil.jpg",
+
+  // DAY 2
+  "Femme à l'ombrelle (vers la gauche)":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg/400px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son.jpg",
+  "Jour d'été":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Berthe_Morisot_-_Summer%27s_Day_-_National_Gallery.jpg/400px-Berthe_Morisot_-_Summer%27s_Day_-_National_Gallery.jpg",
+
+  // DAY 3
+  "La Pie":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Claude_Monet_-_The_Magpie_-_Google_Art_Project.jpg/400px-Claude_Monet_-_The_Magpie_-_Google_Art_Project.jpg",
+  "Les Peupliers (série)":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Claude_Monet_-_The_Four_Trees.jpg/400px-Claude_Monet_-_The_Four_Trees.jpg",
+
+  // DAY 4
+  "Boulevard des Capucines":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Monet%2C_Boulevard_des_Capucines%2C_1873-4.jpg/400px-Monet%2C_Boulevard_des_Capucines%2C_1873-4.jpg",
+  "La Rue Montorgueil":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Claude_Monet_-_Rue_Montorgueil%2C_Paris_-_Festival_of_June_30%2C_1878.jpg/400px-Claude_Monet_-_Rue_Montorgueil%2C_Paris_-_Festival_of_June_30%2C_1878.jpg",
+
+  // DAY 5
+  "Cathédrale de Rouen, soleil levant":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Claude_Monet_-_Rouen_Cathedral%2C_West_Facade%2C_Sunlight.jpg/400px-Claude_Monet_-_Rouen_Cathedral%2C_West_Facade%2C_Sunlight.jpg",
+  "Vue de toits (Effet de neige)":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Gustave_Caillebotte_-_Rooftops_in_the_Snow.jpg/400px-Gustave_Caillebotte_-_Rooftops_in_the_Snow.jpg",
+  "Le Pont d'Argenteuil":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Monet_-_Bridge_at_Argenteuil.jpg/400px-Monet_-_Bridge_at_Argenteuil.jpg",
+  "La Gare Saint-Lazare":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Monet_-_Gare_Saint-Lazare.jpg/400px-Monet_-_Gare_Saint-Lazare.jpg",
+
+  // DAY 6
+  "Les Raboteurs de parquet":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Gustave_Caillebotte_-_The_Floor_Scrapers_-_Mus%C3%A9e_d%27Orsay.jpg/400px-Gustave_Caillebotte_-_The_Floor_Scrapers_-_Mus%C3%A9e_d%27Orsay.jpg",
+  "Le Semeur":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Jean-Fran%C3%A7ois_Millet_-_The_Sower_-_Google_Art_Project.jpg/400px-Jean-Fran%C3%A7ois_Millet_-_The_Sower_-_Google_Art_Project.jpg",
+  "Blanchisseuses portant du linge":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Edgar_Degas_-_Women_Ironing.jpg/400px-Edgar_Degas_-_Women_Ironing.jpg",
+
+  // DAY 7
+  "Jeunes filles au piano":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pierre-Auguste_Renoir%2C_Young_Girls_at_the_Piano_-_Metropolitan_Museum_of_Art.jpg/400px-Pierre-Auguste_Renoir%2C_Young_Girls_at_the_Piano_-_Metropolitan_Museum_of_Art.jpg",
+
+  // DAY 8
+  "La Balançoire":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Pierre-Auguste_Renoir_-_La_Balan%C3%A7oire.jpg/400px-Pierre-Auguste_Renoir_-_La_Balan%C3%A7oire.jpg",
+  "Danseuse sur scène":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Edgar_Degas_-_The_Star_-_1876.jpg/400px-Edgar_Degas_-_The_Star_-_1876.jpg",
+
+  // DAY 9
+  "La Danse à la campagne":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Renoir_Dance_in_the_Country.jpg/400px-Renoir_Dance_in_the_Country.jpg",
+  "La Danse à la ville":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Renoir_Dance_in_the_City.jpg/400px-Renoir_Dance_in_the_City.jpg",
+  "Le Bal du moulin de la Galette":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Mus%C3%A9e_d%27Orsay_OR_2009.jpg/400px-Auguste_Renoir_-_Dance_at_Le_Moulin_de_la_Galette_-_Mus%C3%A9e_d%27Orsay_OR_2009.jpg",
+  "Danseuses en rose":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Edgar_Degas_-_Dancers_in_Pink_-_Google_Art_Project.jpg/400px-Edgar_Degas_-_Dancers_in_Pink_-_Google_Art_Project.jpg",
+
+  // DAY 10
+  "Courses de chevaux à Longchamp":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Edouard_Manet_-_Races_at_Longchamp.jpg/400px-Edouard_Manet_-_Races_at_Longchamp.jpg",
+  "Le Pont de l'Europe":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Pont_de_l%27Europe%2C_Gustave_Caillebotte.jpg/400px-Pont_de_l%27Europe%2C_Gustave_Caillebotte.jpg",
+  "Baigneurs à Asnières":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Georges_Seurat_-_Bathers_at_Asni%C3%A8res.jpg/400px-Georges_Seurat_-_Bathers_at_Asni%C3%A8res.jpg",
+
+  // DAY 11
+  "Les Nymphéas (harmonie verte)":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/The_water_lily_pond_1.jpg/400px-The_water_lily_pond_1.jpg",
+  "Les Nymphéas (effet de soir)":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/400px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg",
+
+  // DAY 12
+  "Le Berceau":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Berthe_Morisot_-_The_Cradle.jpg/400px-Berthe_Morisot_-_The_Cradle.jpg",
+  "La Lecture":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Pierre-Auguste_Renoir_-_La_Lecture.jpg/400px-Pierre-Auguste_Renoir_-_La_Lecture.jpg",
+
+  // DAY 13
+  "Un bar aux Folies-Bergère":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Edouard_Manet%2C_A_Bar_at_the_Folies-Berg%C3%A8re.jpg/400px-Edouard_Manet%2C_A_Bar_at_the_Folies-Berg%C3%A8re.jpg",
+  "L'Absinthe":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Absinthe_2.jpg/400px-Absinthe_2.jpg",
+
+  // DAY 14
+  "Le Jardin à Sainte-Adresse":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Claude_Monet_-_Garden_at_Sainte-Adresse.jpg/400px-Claude_Monet_-_Garden_at_Sainte-Adresse.jpg",
+
+  // DAY 15
+  "Parlement de Londres, trouée de soleil":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Claude_Monet_-_The_Houses_of_Parliament_-_Google_Art_Project.jpg/400px-Claude_Monet_-_The_Houses_of_Parliament_-_Google_Art_Project.jpg",
+  "Le Pont de Charing Cross":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Claude_Monet_-_Charing_Cross_Bridge%2C_London.jpg/400px-Claude_Monet_-_Charing_Cross_Bridge%2C_London.jpg",
+};
+
+// ==================== DATA ====================
+const days = [
+  {
+    id:1, phase:1,
+    title:"La Cure du Signal",
+    subtitle:"Du flou vers la clarté — l'éveil neuronal par la lumière",
+    neuro:"Le cerveau ne reçoit pas la réalité : il la construit. Chaque matin, au réveil, le cortex visuel repart de zéro — il commence par traiter des gradients de luminance, des contrastes, des taches de couleur avant de les assembler en objets reconnaissables. Ce processus, appelé <em>predictive processing</em> par le neuroscientifique Anil Seth, explique pourquoi nous 'voyons' parfois des formes avant d'être pleinement éveillés. Le colliculus supérieur, structure ancestrale du tronc cérébral, s'active en premier pour orienter l'attention vers les stimuli lumineux les plus intenses. Les Impressionnistes, intuitifs avant l'heure, peignaient exactement cet instant — non pas ce qu'ils savaient voir, mais ce que leur rétine captait avant que le cerveau 'comprenne'. Monet avec son soleil de même luminance que le ciel, Sisley avec son brouillard dissolving les contours : ils documentaient la perception brute. Pour la rééducation motrice, ce mécanisme est fondamental : l'intention précède l'action. Le signal clair déclenche le geste fluide.",
+    kinexa:"Chez Kinexa, le 'signal moteur utile' est notre concept central. Comme le cerveau de Monet filtrait la lumière au Havre ce matin de novembre 1872, notre IA filtre le bruit dans le flux de mouvement du patient pour ne retenir que les données cliniquement significatives. La qualité du signal initial conditionne tout ce qui suit : une intention motrice claire produit un geste précis, une intention floue produit un mouvement compensatoire. Nous travaillons donc sur ce moment fondateur — le micro-instant entre la décision et l'exécution. La calibration matinale du système nerveux est mesurable, et cette mesure oriente le protocole de la journée.",
+    protocole:"Protocole Kinexa — Jour 1. Installez-vous face à une fenêtre au lever du soleil, les yeux mi-clos. Laissez votre regard se poser sur les zones de lumière sans chercher à identifier quoi que ce soit. Comptez dix respirations lentes. Puis ouvrez les yeux complètement et notez mentalement la première 'forme' que votre cerveau reconstruit. Ce simple exercice de calibration visuelle prépare votre système nerveux à recevoir les intentions motrices de la journée avec moins de 'bruit'. Répétez-le trois matins consécutifs et observez l'évolution de votre état d'éveil.",
+    punchline:"Vous ne voyez pas le soleil. Vous voyez votre cerveau en train de le fabriquer. Monet l'avait compris en 1872. La neuroscience l'a prouvé en 2010.",
+    works:[
+      {title:"Impression, soleil levant", artist:"Claude Monet", year:1872, desc:"Peinte depuis une fenêtre d'hôtel au Havre en novembre 1872, cette toile fut exposée l'année suivante dans l'atelier du photographe Nadar. Le critique Louis Leroy, voulant la tourner en ridicule, lui vola son titre pour fonder le terme 'impressionnisme' — Monet s'en empara aussitôt. Le soleil orange et le ciel gris ont exactement la même luminance, ce qu'aucun peintre 'réaliste' n'aurait osé faire : c'est une vérité perceptive, non optique. Le cerveau voit un soleil parce qu'il en attend un, pas parce que la lumière le lui impose. Chez Kinexa, ce tableau illustre le predictive processing : le geste moteur est lancé par le cerveau avant même que le muscle ne reçoive l'ordre.", grad:"grad-dawn", link:"https://artsandculture.google.com/asset/impression-sunrise/wAGsU2V00X-L1A"},
+      {title:"L'Inondation à Port-Marly", artist:"Alfred Sisley", year:1876, desc:"Sisley peint la crue de la Seine à Port-Marly six fois sous des lumières différentes — une série proto-impressionniste avant Monet et ses cathédrales. L'eau monte jusqu'aux portes des maisons, mais le peintre s'intéresse moins au drame humain qu'au phénomène optique : la réflexion double chaque bâtiment, proposant au cerveau deux réalités simultanées à réconcilier. Ce conflit perceptif — quel est le 'vrai' arbre, celui du haut ou son reflet du bas — est une métaphore du double traitement sensoriel que nous vivons dans l'effort physique intense : les informations proprioceptives et visuelles ne coïncident pas toujours. Apprendre à accepter l'ambiguïté sensorielle est une compétence neurologique fondamentale.", grad:"grad-sisley", link:"https://artsandculture.google.com/search?q=Inondation+Port-Marly+Sisley"},
+      {title:"Brouillard, Voisins", artist:"Alfred Sisley", year:1874, desc:"Dans ce paysage quasi monochrome de la Île-de-France, Sisley isole un bouquet d'arbres dans le brouillard d'automne. Le résultat est d'une puissance inattendue : en supprimant les détails, le peintre force le cerveau à activer son mécanisme de 'remplissage perceptif' — cette capacité extraordinaire à compléter ce qui manque. Ce même mécanisme est à l'oeuvre dans l'apprentissage moteur : le cerveau anticipe la fin du geste avant que les muscles ne l'aient exécuté. Les patients en rééducation retrouvent souvent leurs automatismes perdus en réactivant ces 'empreintes motrices' — des sortes de brouillards que le cerveau sait encore traverser.", grad:"grad-fog", link:"https://artsandculture.google.com/search?q=Brouillard+Voisins+Sisley"},
+      {title:"Effet de neige à Argenteuil", artist:"Claude Monet", year:1875, desc:"Monet peint Argenteuil sous la neige avec une économie de moyens radicale : blanc, gris, noir, quelques touches de bleu. Cette réduction chromatique extrême agit comme un reset cognitif — en limitant les stimuli, le cerveau cesse de devoir trier, filtrer, prioriser. La neige silencieuse est le plus ancien protocole anti-stress de l'humanité. Des études récentes (Ulrich, 1993 ; Kaplan, 2008) montrent que les environnements à faible complexité visuelle réduisent les marqueurs physiologiques du stress en moins de quatre minutes. La même toile, regardée quotidiennement pendant une semaine, peut modifier durablement le seuil d'activation de l'amygdale.", grad:"grad-snow", link:"https://artsandculture.google.com/search?q=Effet+neige+Argenteuil+Monet"}
+    ]
+  },
+  {
+    id:2, phase:1,
+    title:"La Dynamique de l'Air",
+    subtitle:"Résilience posturale — le corps comme système adaptatif",
+    neuro:"L'équilibre humain est une illusion extraordinairement bien entretenue. À chaque instant, debout ou en mouvement, notre corps produit des centaines de micro-corrections invisibles orchestrées par un trio neurologique : le système vestibulaire (oreille interne), la proprioception (capteurs dans muscles et tendons) et la vision. Quand le vent pousse, ce trio entre en crise et doit recalibrer en temps réel. Le système nerveux ne cherche pas la stabilité statique — il cherche l'équilibre dynamique, ce point de flux permanent que les ingénieurs appellent 'homéostasie adaptative'. Monet l'illustre parfaitement : ses deux femmes à l'ombrelle de 1886 ne tiennent pas en équilibre — elles corrigent constamment, et c'est précisément pour cela qu'elles semblent vivantes. Cette capacité d'adaptation est un indicateur de santé neurologique : sa dégradation précède souvent les chutes chez le sujet âgé de plusieurs années.",
+    kinexa:"La mesure de la stabilité dynamique est l'un des protocoles phares de Kinexa. Nous quantifions non seulement l'amplitude des oscillations posturales, mais aussi leur fréquence et leur pattern — la 'signature' de l'équilibre de chaque patient. Un athlète de haut niveau oscille peu et récupère vite. Un patient post-AVC oscille beaucoup et récupère lentement. Entre les deux, il y a un continuum que notre IA cartographie en temps réel. Le travail en milieu perturbé — surfaces instables, perturbations visuelles, contraintes mécaniques comme une ombrelle dans le vent — est l'une des méthodes les plus efficaces pour rééduquer ce système.",
+    protocole:"Protocole Kinexa — Jour 2. Tenez-vous debout, pieds nus sur une surface légèrement irrégulière (gazon, sable, coussin). Fermez les yeux trente secondes et observez vos micro-oscillations. Puis ouvrez les yeux et regardez un point fixe à l'horizon : sentez la différence. Répétez en variant l'écartement des pieds. Cet exercice simple active les trois systèmes de l'équilibre simultanément et entraîne leur coordination. Pratiquez deux minutes chaque matin pendant une semaine.",
+    punchline:"Vous ne tenez jamais en équilibre. Vous corrigez en permanence — et c'est exactement là que réside votre force neurologique.",
+    works:[
+      {title:"Femme à l'ombrelle (vers la gauche)", artist:"Claude Monet", year:1886, desc:"Peinte dans les champs de Giverny, cette toile fait partie d'une série de deux figures féminines que Monet réalise pour explorer l'effet du vent et de la lumière sur des formes en mouvement. Contrairement à la version de 1875 (avec Camille et Jean), ce personnage est anonyme — Monet s'intéresse à la physique du corps, pas à la psychologie du visage. La robe et le voile fouettés par le vent révèlent des forces invisibles. D'un point de vue biomécanique, ce tableau est une IRM posturale : le déport du poids, la tension des épaules, l'inclinaison du tronc forment un système d'équilibres compensatoires que tout kinésithérapeute reconnaîtra.", grad:"grad-wind", link:"https://artsandculture.google.com/search?q=Femme+ombrelle+gauche+Monet"},
+      {title:"Essai de figure en plein air (vers la droite)", artist:"Claude Monet", year:1886, desc:"Le pendant exact du tableau précédent — même modèle, même champ, même lumière, mais le vent souffle dans l'autre sens. Monet crée ainsi un diptyque unique sur les forces opposées qui s'exercent sur le corps humain. Du côté droit, la femme est propulsée, son corps en légère avancée. Du côté gauche, elle résiste. Ces deux postures illustrent parfaitement la dualité propulsion/absorption centrale à la biomécanique sportive : tout geste efficace combine une phase de freinage (absorption) et une phase d'accélération (propulsion). Kinexa mesure l'efficacité de chaque phase et identifie les compensations qui génèrent des blessures.", grad:"grad-wind2", link:"https://artsandculture.google.com/search?q=Essai+figure+plein+air+Monet"},
+      {title:"Jour d'été", artist:"Berthe Morisot", year:1879, desc:"Berthe Morisot (1841-1895) est l'une des rares femmes à avoir exposé aux huit expositions impressionnistes. Ce tableau, aujourd'hui à la National Gallery de Londres, représente deux femmes en barque sur le lac du Bois de Boulogne. Morisot capte la douceur de l'air chaud qui soulève légèrement les vêtements — une sensation thermique autant que visuelle. Le mouvement des tissus sur l'eau est une métaphore parfaite de la thermorégulation corporelle : le corps, comme le tissu, répond à l'environnement de manière continue et involontaire. En rééducation thermique, cette sensibilité corporelle à l'environnement est un levier thérapeutique sous-exploité.", grad:"grad-summer", link:"https://artsandculture.google.com/search?q=Jour+ete+Berthe+Morisot"},
+      {title:"Le Coup de vent", artist:"Pierre-Auguste Renoir", year:1873, desc:"Renoir peint une scène de jardin ou de parc traversée par une bourrasque soudaine — les branches ploient, les silhouettes se courbent, l'ensemble est en déséquilibre momentané. Ce tableau, moins connu que les grandes oeuvres de Renoir, est fascinant pour son traitement du temps : la durée d'un coup de vent est de l'ordre de la seconde, et pourtant Renoir la fait tenir sur une toile. C'est ce que les neuroscientifiques appellent la 'fenêtre de présent' — cette durée de 2 à 3 secondes que le cerveau perçoit comme un instant unique. Le système nerveux doit répondre à des perturbations dans cette fenêtre pour maintenir l'équilibre.", grad:"grad-gust", link:"https://artsandculture.google.com/search?q=Coup+vent+Renoir"}
+    ]
+  },
+  {
+    id:3, phase:1,
+    title:"La Verticalité et l'Ancrage",
+    subtitle:"La colonne vertébrale de la nature — axe, altitude, silence",
+    neuro:"La verticale est le premier langage du corps dans l'espace. Dès les premières heures de vie, le nourrisson cherche à maintenir sa tête dans l'axe — signal phylogénétique ancestral de santé neurologique. Le système vestibulaire est fondamentalement un détecteur de la verticale gravitationnelle : tous ses canaux semi-circulaires sont calibrés par rapport à elle. Quand nous perdons notre verticalité — fatigue, blessure, traumatisme psychologique — c'est tout le système de références spatiales qui s'effondre. Les Impressionnistes ont compris intuitivement la puissance de la verticale : les peupliers de Monet, les allées de Bazille, les façades de Caillebotte sont autant de colonnes qui 'tiennent' le tableau. Regarder longuement un arbre parfaitement vertical active dans notre cerveau les neurones responsables de notre propre alignement — un phénomène d'embodied simulation.",
+    kinexa:"L'analyse de l'alignement axial est le point de départ de tout bilan Kinexa. Avant de mesurer la force, la coordination ou l'équilibre, nous évaluons la qualité de la colonne vertébrale au repos et en mouvement. Une déviation de quelques degrés dans l'axe crânio-sacré peut générer des compensations sur l'ensemble de la chaîne musculaire — épaules, hanches, genoux, chevilles. Nous utilisons des références visuelles verticales — lignes, arbres, architectures — dans nos protocoles de rééducation posturale car le cerveau calibre sa propre verticalité par rapport à l'environnement. C'est le principe de la 'réalité augmentée posturale' que nous développons.",
+    protocole:"Protocole Kinexa — Jour 3. Trouvez un grand arbre, de préférence un peuplier ou un cyprès. Tenez-vous à un mètre de lui, dos au tronc, et sentez sa verticalité derrière vous sans le toucher. Puis éloignez-vous de cinq mètres et regardez-le droit dans son axe pendant deux minutes. Notez comment votre propre posture s'ajuste. Cet exercice de biofeedback visuel naturel est l'un des plus anciens outils de rééducation posturale — utilisé intuitivement par les yogi depuis des millénaires.",
+    punchline:"Un peuplier de Monet ne se tient pas droit par volonté. Il cherche la lumière, et c'est cette quête qui le redresse. Votre corps fonctionne exactement pareil.",
+    works:[
+      {title:"La Pie", artist:"Claude Monet", year:1868, desc:"Conservée au Musée d'Orsay, La Pie est l'une des oeuvres les plus lumineuses de l'hiver impressionniste. Peinte à Étretat, cette toile montre une pie solitaire posée sur un portillon enneigé — une scène de silence absolu. La clôture horizontale et les arbres verticaux créent un système de coordonnées parfait que le cerveau saisit immédiatement pour s'orienter dans l'espace. La neige agit comme un 'fond blanc' qui annule tout le bruit visuel de la scène — le cerveau se retrouve sans rien à traiter sauf les axes fondamentaux. Des études en neurologie sensorielle montrent que cette réduction du bruit visuel produit une baisse mesurable du rythme cardiaque en moins de quatre-vingt-dix secondes.", grad:"grad-magpie", link:"https://artsandculture.google.com/asset/the-magpie/dgHHJPBbJt6Dpg"},
+      {title:"Les Peupliers (série)", artist:"Claude Monet", year:1891, desc:"La série des Peupliers (environ vingt-cinq toiles) est l'une des premières séries systématiques de l'histoire de la peinture. Monet loue une barque, s'installe au bord de l'Epte et peint les mêmes arbres sous toutes les lumières, toutes les saisons. Mais quand la commune d'Évreux décide d'abattre les arbres pour les vendre comme bois, Monet rachète le lot lui-même pour avoir le temps de finir sa série. La verticalité répétée des troncs crée un rythme hypnotique — le cerveau suit le motif de gauche à droite comme une portée musicale. Cette répétition régulière d'un stimulus vertical est un protocole d'ancrage attentionnel utilisé en thérapies cognitivo-comportementales modernes.", grad:"grad-poplars", link:"https://artsandculture.google.com/search?q=Peupliers+Monet+serie"},
+      {title:"Allée d'arbres en été", artist:"Frédéric Bazille", year:1868, desc:"Frédéric Bazille (1841-1870), mort à 28 ans pendant la guerre franco-prussienne, est l'un des pères méconnus de l'impressionnisme. Cette allée de Chailly-en-Bière montre une perspective végétale parfaite — les troncs s'éloignent en réduisant, créant une profondeur de champ que le peintre utilise pour structurer le regard. Cette mise en perspective n'est pas qu'esthétique : le cerveau visuel utilise les lignes de fuite pour calibrer sa perception des distances et des tailles. En rééducation de la marche, les allées d'arbres sont d'excellents 'couloirs proprioceptifs' — le patient marche vers un point focal qui guide son pas sans qu'il ait à y penser conscienment.", grad:"grad-alley", link:"https://artsandculture.google.com/search?q=Allee+arbres+ete+Bazille"},
+      {title:"Le Chemin montant", artist:"Pierre-Auguste Renoir", year:1876, desc:"Ce chemin qui monte à travers les hautes herbes de l'Île-de-France est une invitation au mouvement ascendant — le plus sollicitant neurologiquement car il requiert simultanément équilibre, force et attention. La montée implique une modification complète du schéma de marche : augmentation de l'angle de flexion de la cheville, activation plus intense des fessiers et des ischio-jambiers, modification du balancement des bras. Le cerveau doit recalculer en permanence le centre de gravité pour éviter la chute. La douce lumière d'été que Renoir capture donne à cet effort physique une légèreté trompeuse — c'est précisément le sentiment que vise la rééducation neuromotrice : rendre l'effort invisible.", grad:"grad-path", link:"https://artsandculture.google.com/search?q=Chemin+montant+herbes+Renoir"}
+    ]
+  },
+  {
+    id:4, phase:1,
+    title:"La Fugacité du Geste",
+    subtitle:"La foule comme organisme — neurosciences de la marche urbaine",
+    neuro:"La ville est un laboratoire sensoriel extrême. En traversant Paris à l'heure de pointe, le cerveau traite simultanément des milliers de stimuli visuels, sonores, olfactifs et tactiles — une charge cognitive considérable. Et pourtant, nous marchons avec une relative fluidité. Ce miracle quotidien repose sur des mécanismes de filtrage sophistiqués : l'attention sélective élimine 99% des informations entrantes pour ne garder que celles pertinentes pour notre trajectoire. Les générateurs de pattern locomoteurs (CPG) du tronc cérébral automatisent la marche, libérant le cortex pour d'autres tâches. Les Impressionnistes avaient saisi cette dualité : dans le Boulevard des Capucines de Monet, les passants ne sont que des traces — le cerveau les complète automatiquement en 'humains'. C'est le même mécanisme que notre IA utilise pour reconstruire un geste complet depuis des données partielles.",
+    kinexa:"L'analyse de la marche en milieu complexe — urbain, saturé, avec obstacles — est l'un des défis majeurs de la rééducation moderne. Un patient qui marche bien en salle de rééducation peut totalement décompenser en ville. Kinexa développe des protocoles de 'marche cognitive' où le patient doit simultanément marcher et effectuer une tâche mentale — comptage, conversation, décision — pour simuler les conditions réelles. Nos capteurs mesurent l'impact de la charge cognitive sur la qualité du geste : longueur du pas, symétrie, variabilité du rythme. Ces données permettent de prédire le risque de chute en environnement complexe.",
+    protocole:"Protocole Kinexa — Jour 4. Choisissez une rue passante. Marchez sur cinquante mètres en comptant les passants portant du rouge. Puis marchez à nouveau sans consigne. Comparez votre sensations de fluidité entre les deux passages. Cet exercice de double tâche révèle la capacité de votre cerveau à gérer simultanément mouvement et attention divisée — compétence fondamentale pour l'autonomie quotidienne.",
+    punchline:"Pissarro peignait la foule depuis le premier étage de ses appartements. Il avait compris ce que la neuroscience démontrera un siècle plus tard : vu d'en haut, la foule n'est pas du chaos — c'est un système.",
+    works:[
+      {title:"Boulevard des Capucines", artist:"Claude Monet", year:1873, desc:"Peint depuis le studio du photographe Nadar au 35 boulevard des Capucines — le même endroit qui accueillit la première exposition impressionniste en 1874 — ce tableau est une révolution : les passants sont des virgules de peinture, des suggestions de présence humaine plutôt que des portraits. Deux figures élégantes au premier plan observent la foule depuis un balcon, créant une mise en abyme du regard que nous posons nous-mêmes sur le tableau. Monet avait compris que le cerveau complète automatiquement ce qui manque : il suffit d'une tache noire et d'une direction pour que nous voyions un homme pressé. Ce mécanisme de complétude perceptive est central à la compréhension de l'apprentissage moteur.", grad:"grad-urban", link:"https://artsandculture.google.com/search?q=Boulevard+Capucines+Monet"},
+      {title:"La Rue Montorgueil", artist:"Claude Monet", year:1878, desc:"Peinte le 30 juin 1878, jour de la Fête nationale, cette toile explose de tricolores qui transforment la rue en un flux d'énergie verticale. Monet peint depuis une fenêtre en hauteur, ce qui lui permet de voir la foule comme un biologiste voit ses cellules — un organisme en mouvement. Les drapeaux créent des lignes verticales rythmées que le cerveau perçoit comme une partition musicale. Cette perception rythmique du mouvement collectif est liée aux neurones miroirs : voir une foule en fête active dans notre cerveau les circuits du mouvement et de la joie, même depuis l'immobilité d'un musée. Aujourd'hui conservée au Musée d'Orsay, cette oeuvre reste l'une des plus vibrantes de l'impressionnisme.", grad:"grad-flags", link:"https://artsandculture.google.com/search?q=Rue+Montorgueil+Monet"},
+      {title:"Le Pont-Neuf", artist:"Pierre-Auguste Renoir", year:1872, desc:"Pour réaliser ce tableau, Renoir paya son frère Edmond pour arrêter les passants sous prétexte de leur demander l'heure — lui-même peignait en haut d'une voiture depuis l'autre côté du pont. Cette ruse lui permit de capter des instantanés de silhouettes naturelles, non posées. Le résultat est d'une modernité frappante : la décomposition des passants en masses colorées, le flou de certaines figures qui courent, la texture du macadam — tout concourt à créer une sensation de mouvement figé. D'un point de vue neurologique, ce tableau simule ce que notre système de traitement du mouvement visuel (cortex V5/MT) fait en permanence : extraire des trajectoires depuis des formes partielles.", grad:"grad-bridge", link:"https://artsandculture.google.com/search?q=Pont-Neuf+Renoir"},
+      {title:"La Place du Théâtre Français", artist:"Camille Pissarro", year:1898, desc:"Âgé de soixante-huit ans et souffrant d'une infection oculaire qui l'empêche de peindre à l'air libre, Pissarro s'installe dans les hôtels parisiens et peint Paris depuis ses fenêtres pendant plusieurs années. La Place du Théâtre Français est l'une de ces vues zénithales fascinantes : vu d'en haut, le carrefour devient un système circulatoire, les voitures et les piétons des cellules dans un organisme urbain. Cette perspective, que les urbanistes modernes utilisent pour analyser les flux de circulation, est aussi une métaphore de la vision systémique que Kinexa applique au corps humain — un réseau de flux, pas une collection de segments isolés.", grad:"grad-theatre", link:"https://artsandculture.google.com/search?q=Place+Theatre+Francais+Pissarro"}
+    ]
+  },
+  {
+    id:5, phase:1,
+    title:"La Géométrie de la Lumière",
+    subtitle:"L'architecture du regard — structure, repère, stabilité cognitive",
+    neuro:"L'architecture urbaine n'est pas un décor neutre : elle est un outil cognitif. Nos cerveaux utilisent les lignes verticales et horizontales des bâtiments, des ponts et des rues comme des 'rails attentionnels' — des repères stables qui permettent au système visuel de se calibrer et à la proprioception de s'orienter. La fatigue oculaire liée aux écrans est aggravée par l'absence de ces lignes de fuite à l'infini — l'oeil est obligé de rester focalisé à une distance fixe. Les Impressionnistes qui peignaient l'architecture — Caillebotte, Monet à la Gare Saint-Lazare, Monet aux Cathédrales — offraient à leur oeil des exercices involontaires de convergence et de divergence. Regarder ces tableaux, c'est offrir à notre système visuel moderne un repos paradoxal : la structure rassure, la lumière mouvante décontracte.",
+    kinexa:"Kinexa intègre des références architecturales dans ses protocoles de rééducation posturale. Nous utilisons des lignes au sol, des mires visuelles, des structures géométriques pour aider le patient à recalibrer son axe corporel par rapport à l'environnement. Cette technique, issue de la rééducation vestibulaire, s'avère particulièrement efficace après des vertiges ou des traumatismes crâniens. La géométrie visible — comme celle que Caillebotte saisit dans ses vues de Paris — devient un outil de thérapie.",
+    protocole:"Protocole Kinexa — Jour 5. Regardez une façade ou un pont depuis l'extérieur pendant deux minutes, en laissant vos yeux suivre naturellement les lignes horizontales d'un bout à l'autre, puis les lignes verticales de bas en haut. Cet exercice de scanning visuel structuré réduit la fatigue oculaire, améliore la convergence et stabilise le système vestibulaire. Pratiquez-le chaque jour en sortant du bureau.",
+    punchline:"Monet ne peignait pas la cathédrale. Il peignait la lumière qui la traversait. Et la lumière, c'est de l'information pure pour le cerveau.",
+    works:[
+      {title:"Cathédrale de Rouen, soleil levant", artist:"Claude Monet", year:1894, desc:"La série des Cathédrales (trente toiles, 1892-1894) est l'entreprise sérielle la plus ambitieuse de Monet et l'une des plus révolutionnaires de l'histoire de l'art. Monet loue une chambre en face de la cathédrale et peint depuis la même fenêtre, changeant de toile toutes les heures pour suivre la lumière. Le résultat est saisissant : la cathédrale disparaît derrière la lumière, la pierre devient vapeur. Aujourd'hui, ces toiles sont réparties entre le Musée d'Orsay, la National Gallery of Art de Washington et plusieurs collections privées. Du point de vue de la neuroscience, Monet documentait l'invariance perceptive : le même objet perçu différemment selon le contexte lumineux — ce que notre cerveau fait en permanence pour construire la constance du monde.", grad:"grad-cathedral", link:"https://artsandculture.google.com/search?q=Cathedrale+Rouen+soleil+levant+Monet"},
+      {title:"Vue de toits (Effet de neige)", artist:"Gustave Caillebotte", year:1878, desc:"Caillebotte (1848-1894), riche rentier et passionné d'impressionnisme, adopte dans ce tableau une perspective encore plus audacieuse que Monet ou Renoir. Regardant Paris depuis sa fenêtre par un matin de neige, il isole les toits en une géométrie épurée de zinc et de blanc. Les cheminées verticales, les faîtages horizontaux, les perspectives fuyantes — tout converge vers un point hors-champ qui tire notre regard à droite. Ce guidage du regard par la perspective est un mécanisme neurologique puissant : les lignes de fuite activent les circuits de planification du mouvement, comme si notre cerveau 'préparait' un trajet dans cet espace même en restant immobile. Conservée au Musée d'Orsay.", grad:"grad-rooftops", link:"https://artsandculture.google.com/search?q=Vue+toits+effet+neige+Caillebotte"},
+      {title:"Le Pont d'Argenteuil", artist:"Claude Monet", year:1874, desc:"Monet passa plusieurs années à Argenteuil (1871-1878) et peignit ce pont de pierre et de fer sous toutes ses facettes — en été, en hiver, avec des voiliers sous ses arches, envahi par la foule les jours de régates. Cette version montre la structure dans toute sa solidité : les piles en maçonnerie, les arches régulières, le reflet parfait dans la Seine. Le contraste entre la rigidité de la structure et le mouvement de l'eau est exactement la métaphore de l'équilibre biomécanique : la stabilité de la colonne vertébrale (la structure) qui permet la fluidité du mouvement des membres (l'eau). Aujourd'hui au Metropolitan Museum of Art de New York.", grad:"grad-iron", link:"https://artsandculture.google.com/search?q=Pont+Argenteuil+Monet"},
+      {title:"La Gare Saint-Lazare", artist:"Claude Monet", year:1877, desc:"Pour peindre cette série, Monet se fit introduire auprès du directeur de la Compagnie des Chemins de Fer de l'Ouest et obtint que les locomotives restent en vapeur plus longtemps pour lui permettre de travailler. Le résultat est un monument à la modernité industrielle : la vapeur filtre la lumière, la structure métallique du toit crée des ombres géométriques, les locomotives disparaissent dans la brume blanche. Ce tableau illustre parfaitement la surcharge sensorielle de la modernité industrielle — et la capacité du cerveau à en extraire une signification ordonnée malgré le chaos apparent. Un mécanisme que Kinexa mobilise pour aider les patients à maintenir un geste moteur précis dans des environnements complexes.", grad:"grad-station", link:"https://artsandculture.google.com/search?q=Gare+Saint-Lazare+Monet"}
+    ]
+  },
+  {
+    id:6, phase:2,
+    title:"La Géométrie de l'Effort",
+    subtitle:"Chaîne cinétique, posture, biomécanique du travail manuel",
+    neuro:"Le mouvement de travail physique intense est l'une des activités les plus complexes que le cerveau coordonne. Contrairement au geste sportif, le geste de travail combine force maximale, précision fine et endurance — trois systèmes neurologiques distincts qui doivent coopérer. Le cortex moteur primaire programme la séquence musculaire, le cervelet affine la coordination et la précision, les ganglions de la base automatisent les patterns répétitifs pour libérer le cortex. La respiration joue un rôle de métronome neurologique : chaque expiration correspond à une phase de poussée ou de traction, chaque inspiration à une phase de récupération. Les Impressionnistes qui peignaient le travail physique — Caillebotte, Degas, Millet — avaient une intuition biomécanique extraordinaire : leurs figures en action sont anatomiquement correctes dans leurs chaînes musculaires.",
+    kinexa:"L'analyse du geste de travail est l'un des domaines d'application les plus prometteurs de Kinexa. En industrie, en logistique, en bâtiment, des millions de travailleurs développent des pathologies musculo-squelettiques liées à des gestes répétés dans de mauvaises conditions. Notre système permet d'identifier en temps réel les compensations posturales, les surcharges articulaires, les rythmes de travail pathologiques — et de proposer des corrections avant que la blessure ne survienne. Le tableau de Caillebotte est notre référence visuelle : une chaîne cinétique parfaite, des bras en extension, un dos en flexion controlée, une respiration visible dans le rythme du geste.",
+    protocole:"Protocole Kinexa — Jour 6. Effectuez vingt flexions-extensions du tronc (comme pour ramasser un objet au sol) en portant attention à : la position du dos (dos plat ou dos rond ?), la position des genoux (fléchis ou tendus ?), le moment de la respiration (expirez-vous lors de l'effort ?). Notez vos observations. Cet auto-bilan biomécanique quotidien développe une conscience corporelle qui prévient les blessures bien mieux que n'importe quelle ceinture lombaire.",
+    punchline:"Caillebotte ne peignait pas des ouvriers. Il peignait une architecture du corps humain en pleine performance — la plus belle IRM biomécanique de l'histoire de l'art.",
+    works:[
+      {title:"Les Raboteurs de parquet", artist:"Gustave Caillebotte", year:1875, desc:"Refusé au Salon officiel en 1875 — trop 'vulgaire' selon le jury — ce tableau est aujourd'hui l'une des pièces maîtresses du Musée d'Orsay. Caillebotte, lui-même fils d'un riche marchand de tissus, connaissait les artisans qui rabotaient les parquets de son hôtel particulier et les observa pendant des semaines. Son analyse biomécanique est impeccable : flexion lombaire contrôlée à 45°, extension maximale des bras, rotation des épaules pour suivre la lame — c'est exactement la chaîne cinétique postérieure que les kinésithérapeutes enseignent pour prévenir les lombalgies. La lumière rasante révèle la musculature des dos et des bras comme une échographie. Un chef-d'oeuvre de la biomécanique appliquée.", grad:"grad-workers", link:"https://artsandculture.google.com/search?q=Raboteurs+parquet+Caillebotte"},
+      {title:"La Récolte", artist:"Camille Pissarro", year:1882, desc:"Pissarro (1830-1903), né à Saint-Thomas dans les Antilles danoises, fut le seul impressionniste à exposer aux huit expositions du mouvement. Profondément engagé politiquement, il peignait le travail agricole non par pittoresque mais par conviction : ces hommes et femmes qui se courbent sur la terre sont les acteurs d'une économie réelle. Dans La Récolte, la flexion répétée du moissonnage est rendue avec une précision anatomique remarquable. Cette posture — flexion du tronc, genoux légèrement fléchis, bras projetés vers l'avant — est l'une des plus étudiées en ergonomie : c'est aussi l'une des plus génératrices de lombalgie si elle est mal exécutée sur la durée.", grad:"grad-harvest", link:"https://artsandculture.google.com/search?q=Recolte+moissonneurs+Pissarro"},
+      {title:"Le Semeur", artist:"Jean-François Millet", year:1850, desc:"Millet (1814-1875), précurseur du réalisme et influence majeure sur les Impressionnistes, peint ici le geste ancestral de l'ensemencement avec une puissance presque biblique. Le semeur marche et projette le grain en une rotation du tronc et du bras — geste qui engage simultanément la chaîne latérale droite et la chaîne croisée gauche-droite, fondement de toute locomotion bipède. Van Gogh recopiera ce tableau plusieurs fois — il y voyait une vérité sur le mouvement humain que peu de peintres avaient su capturer. Du point de vue de la rééducation neuromotrice, le geste du semeur est un idéal : puissant, fluide, répété, rythmé par la respiration et le pas.", grad:"grad-sower", link:"https://artsandculture.google.com/search?q=Semeur+Millet"},
+      {title:"Blanchisseuses portant du linge", artist:"Edgar Degas", year:1876, desc:"Degas (1834-1917) est fasciné par le travail féminin qu'il observe dans les buanderies, les maisons de couture, les boulangeries. Ses blanchisseuses ne sont pas idéalisées : elles portent, peinent, s'étirent. Cette toile montre deux femmes transportant une lourde charge de linge — l'une qui baîlle d'épuisement, l'autre qui se penche sous le poids. La distribution de cette charge crée une posture asymétrique immédiatement reconnaissable par tout clinicien : le centre de gravité décalé vers la charge, les muscles controlatéraux en surtension compensatoire. Degas documente ici ce que les ergonomes appellent la 'charge physique de travail' — un siècle avant que la discipline n'existe formellement.", grad:"grad-laundry", link:"https://artsandculture.google.com/search?q=Blanchisseuses+linge+Degas"}
+    ]
+  },
+  {
+    id:7, phase:2,
+    title:"La Précision Distale",
+    subtitle:"Main, coordination fine, myélinisation — les autoroutes du geste",
+    neuro:"La main humaine est le chef-d'oeuvre de l'évolution neurologique. Elle est représentée dans le cortex moteur primaire par une superficie proportionnelle à sa complexité — environ un tiers de toute la surface corticale motrice. La coordination oeil-main implique une boucle neurologique d'une précision extraordinaire : le cortex visuel envoie une information à l'aire motrice préfrontale, qui programme un geste, que le cortex moteur primaire exécute, pendant que le cervelet corrige les erreurs en temps réel à une fréquence de 100 fois par seconde. La répétition de ce geste renforce la gaine de myéline autour des axones — la myélinisation — accélérant la vitesse de transmission et rendant le geste de plus en plus automatique, précis, économique. C'est ce processus que les pianistes appellent 'avoir les doigts' et que les chirurgiens appellent 'dextérité'.",
+    kinexa:"La rééducation de la motricité fine est l'un des défis les plus complexes en neurologie. Après un AVC, un traumatisme crânien ou une atteinte des nerfs périphériques, le patient doit littéralement réapprendre à tenir un verre, à boutonner une chemise, à écrire son prénom. Kinexa utilise des capteurs haute précision pour mesurer la qualité du geste distal — tremblements, latences, trajectoires, pression. Notre IA compare ces données à une base de référence et guide le patient vers les exercices les plus efficaces pour reconstruire les autoroutes neuronales endommagées. La musique, le dessin, l'artisanat sont nos meilleurs alliés thérapeutiques.",
+    protocole:"Protocole Kinexa — Jour 7. Effectuez les exercices suivants en vous concentrant uniquement sur la sensation dans vos doigts — pas sur le résultat visuel. 1) Faites tourner lentement un stylo entre vos doigts. 2) Pincez et relâchez chaque doigt contre le pouce, en ordre. 3) Tapotez chaque doigt sur une table, du plus petit au pouce, puis en sens inverse. Répétez trois fois. Cet exercice de coordination digitale active les connexions cortico-cérébelleuses et entretient la précision de votre motricité fine.",
+    punchline:"Le talent de la pianiste n'est pas dans ses doigts. Il est dans les gaines de myéline qui entourent ses axones — et ces gaines, on peut les construire à tout âge avec de la répétition intelligente.",
+    works:[
+      {title:"Jeunes filles au piano", artist:"Pierre-Auguste Renoir", year:1892, desc:"Commande du gouvernement français pour le Musée du Luxembourg (ancêtre du Musée d'Orsay), cette toile existe en cinq versions — Renoir la peignit et repeignit, jamais entièrement satisfait. Deux jeunes filles, l'une pianiste et l'autre lectrice de la partition, incarnent les deux rôles fondamentaux de l'apprentissage : l'action et l'observation. La pianiste myélinise ses connexions par la répétition ; la lectrice active ses neurones miroirs en imaginant le geste. Le bras droit de la pianiste montre une extension parfaite du poignet, position technique précisément enseignée par les professeurs depuis deux siècles. Conservée au Musée d'Orsay.", grad:"grad-piano", link:"https://artsandculture.google.com/search?q=Jeunes+filles+piano+Renoir"},
+      {title:"La Leçon de piano", artist:"Gustave Caillebotte", year:1881, desc:"Moins connue que la version de Renoir, cette leçon de piano de Caillebotte montre un jeune homme au clavier, concentré, le dos légèrement voûté vers l'instrument. Cette posture d'apprentissage — fermeture du corps vers l'objet de concentration — est universelle : elle signale au cerveau que 'quelque chose d'important se passe ici'. La concentration intense produit une libération de noradrénaline qui favorise la plasticité synaptique — exactement le contexte neurologique optimal pour apprendre. La présence d'un professeur (suggérée hors-cadre par la partition tenue par une main adulte) crée le contexte social qui amplifie cet apprentissage.", grad:"grad-lesson", link:"https://artsandculture.google.com/search?q=Lecon+piano+Caillebotte"},
+      {title:"Femme cousant", artist:"Mary Cassatt", year:1886, desc:"Mary Cassatt (1844-1926), Américaine installée à Paris, est l'une des rares femmes à avoir intégré le cercle impressionniste — grâce à Degas qui la découvrit et l'invita. Cette femme cousant incarne la micro-motricité à son plus haut degré : l'aiguille qui traverse le tissu requiert une coordination entre l'index et le pouce d'une précision inférieure au millimètre, guidée par un retour visuel constant. Les mouvements de couture — répétitifs, précis, rythmés — ont un effet méditatif documenté : ils réduisent les marqueurs d'anxiété et synchronisent les rythmes respiratoire et cardiaque. Les thérapies par l'artisanat (couture, tricot, poterie) retrouvent aujourd'hui leurs lettres de noblesse en psychiatrie.", grad:"grad-sewing", link:"https://artsandculture.google.com/search?q=Femme+cousant+Mary+Cassatt"},
+      {title:"Le Déjeuner", artist:"Claude Monet", year:1868, desc:"Ce tableau monumental (2,30 m de hauteur), peint à Étretat et refusé au Salon de 1870, représente le déjeuner de la famille Monet dans le jardin d'une maison louée en Normandie. Une domestique débarrasse la table, Jean Monet joue au sol, Camille est à peine visible au fond. Ce qui retient notre attention neurologique : la précision des gestes de service représentés. La main qui porte un plat, celle qui tient la cafetière, celle qui guide l'enfant — autant de gestes quotidiens qui requièrent une coordination oeil-main et une proprioception que nous oublions car ils sont automatisés depuis l'enfance. La rééducation les fait redécouvrir.", grad:"grad-lunch", link:"https://artsandculture.google.com/search?q=Dejeuner+Monet"}
+    ]
+  },
+  {
+    id:8, phase:2,
+    title:"L'Équilibre Suspendu",
+    subtitle:"Proprioception, gravité, anticipation — le cervelet en action",
+    neuro:"Le cervelet est le chef d'orchestre silencieux de l'équilibre. Contenant plus de neurones que le reste du cerveau réuni, il traite en parallèle les informations vestibulaires, proprioceptives et visuelles pour produire des corrections motrices à une vitesse stupéfiante — de l'ordre de quelques millisecondes. Contrairement au cortex moteur qui 'décide' du mouvement, le cervelet le 'perfectionne' en permanence. Quand vous êtes sur une balançoire, votre cervelet calcule en temps réel la trajectoire, anticipe les points de retournement et pré-programme les contractions musculaires nécessaires avant même que vous ne resentiez le déséquilibre. Ce mécanisme d'anticipation prédictive est ce qui distingue l'expert du débutant : l'expert anticipe, le débutant réagit.",
+    kinexa:"L'évaluation de la fonction cérébelleuse est systématiquement intégrée dans nos bilans. Nous utilisons des exercices d'équilibre progressifs — du plus simple (deux pieds sur sol stable, yeux ouverts) au plus complexe (un pied sur surface instable, yeux fermés, double tâche cognitive) — pour cartographier précisément les capacités d'anticipation du patient. Cette progression nous permet de détecter des déficits subtils qui n'apparaissent pas dans les tests neurologiques standard. Après une blessure, le cervelet doit réapprendre à anticiper dans le contexte modifié — c'est ce travail spécifique que nos protocoles adressent.",
+    protocole:"Protocole Kinexa — Jour 8. Tenez-vous sur un pied, yeux ouverts, pendant trente secondes. Puis yeux fermés pendant trente secondes. Notez la différence. Puis reprenez yeux ouverts mais en tournant légèrement la tête de droite à gauche. Cet exercice en trois étapes révèle les contributions relatives de la vision, du vestibule et de la proprioception à votre équilibre — et entraîne leur coordination.",
+    punchline:"La balançoire de Renoir n'est pas un jouet d'enfant. C'est l'un des appareils d'entraînement cérébelleux les plus sophistiqués qu'ait jamais inventé l'humanité.",
+    works:[
+      {title:"La Balançoire", artist:"Pierre-Auguste Renoir", year:1876, desc:"Peinte à Montmartre dans le jardin de la rue Cortot où Renoir louait un atelier, cette toile est conservée au Musée d'Orsay et constitue l'un des chefs-d'oeuvre de la représentation du mouvement en peinture. La jeune femme est immobile — c'est la balançoire qui suggère le mouvement à venir ou passé. Les mouchetures de lumière à travers le feuillage créent un effet stroboscopique qui accentue cette sensation de suspension temporelle. Du point de vue de la proprioception, la balançoire est un appareil parfait : elle impose des variations constantes d'accélération qui forcent le cervelet à recalibrer en permanence.", grad:"grad-swing", link:"https://artsandculture.google.com/search?q=Balancoire+Renoir"},
+      {title:"Danseuse sur scène", artist:"Edgar Degas", year:1876, desc:"Conservée au Musée d'Orsay, cette toile (également appelée 'L'Étoile') montre une danseuse en plein équilibre sur la pointe d'un pied, le corps en extension maximale, les bras ouverts. En arrière-plan, des hommes en noir — probablement les financiers du ballet — regardent. Degas révèle ainsi la dualité de la danseuse : performeuse et objet de regard. Du point de vue neurologique, la position sur pointe est un exploit de coordination : le pied supporte tout le poids du corps sur une surface inférieure à dix centimètres carrés. Le moindre frémissement de l'oeil, du genou ou de la cheville nécessite une correction cérébro-cérébelleuse immédiate.", grad:"grad-dancer", link:"https://artsandculture.google.com/search?q=Danseuse+scene+Degas"},
+      {title:"Le Patinage", artist:"Édouard Manet", year:1877, desc:"Manet peint ici les Américains et les Anglais aisés qui fréquentaient les patinoires de Paris pendant les hivers froids des années 1870. Le patinage est l'une des activités les plus exigeantes pour le système proprioceptif : la lame de métal est la seule surface de contact avec le sol, elle est étroite, glissante, et le moindre déséquilibre latéral provoque une chute immédiate. Le patineur expert a développé un sens de l'équilibre latéral extraordinairement fin — comparable à celui d'un surfeur ou d'un skieur. Le transfert de poids d'une jambe à l'autre, central dans le patinage, est aussi l'exercice de base de la rééducation de la marche après une hémiparésie.", grad:"grad-skating", link:"https://artsandculture.google.com/search?q=Patinage+skating+Manet"},
+      {title:"Sur la plage", artist:"Eugène Boudin", year:1864, desc:"Boudin (1824-1898), maître de Monet qui le convainquit de peindre en plein air, est le peintre des ciels et des plages normandes. Ses petites silhouettes de bourgeois en bord de mer sont saisies dans leurs postures caractéristiques : penché dans le vent, le regard vers l'horizon, le corps instable sur le sable meuble. Cette instabilité de surface — le sable cède sous le pied et s'adapte à chaque pose — est aujourd'hui utilisée en rééducation proprioceptive. Marcher sur le sable, c'est travailler tous les muscles stabilisateurs de la cheville et du pied que le sol dur laisse au repos. L'horizon infini de Boudin offre, lui, un point de fixation idéal pour rééduquer le vestibule.", grad:"grad-beach", link:"https://artsandculture.google.com/search?q=Sur+plage+Boudin"}
+    ]
+  },
+  {
+    id:9, phase:2,
+    title:"Le Mouvement Circulaire",
+    subtitle:"Rotation, torsion, neurones miroirs — la danse comme protocole neurologique",
+    neuro:"La rotation est le geste humain le plus complet : elle engage les trois plans de l'espace (sagittal, frontal, transverse), mobilise simultanément les chaînes musculaires antérieure, postérieure et latérales, et requiert une coordination entre le haut et le bas du corps via les chaînes croisées. C'est aussi le geste le plus riche en informations pour le cervelet, qui doit maintenir l'équilibre dans un plan instable. La découverte des neurones miroirs (Rizzolatti, 1996) a révélé quelque chose d'extraordinaire : voir danser active dans notre cerveau les mêmes circuits que danser. Les spectateurs d'un spectacle de danse 'dansent' neurologiquement sans bouger. C'est pourquoi regarder danser est thérapeutique, et pourquoi les thérapies par la danse (DMT) fonctionnent même chez des patients sévèrement handicapés.",
+    kinexa:"La mobilité rotatoire du rachis thoracique est l'une des premières victimes du mode de vie sédentaire moderne. Assis huit heures par jour face à un écran, les vertèbres thoraciques se figent progressivement en position de flexion antérieure — ce que les cliniciens appellent la 'cyphose du bureau'. Kinexa mesure les amplitudes de rotation axiale à chaque niveau vertébral et identifie les blocages spécifiques. Nos protocoles de remobilisation sont inspirés de la danse et du yoga : rotations douces, spirales, ondulations — des gestes que le corps connaît mais a oubliés. Renoir les avait intuitivement intégrés dans ses tableaux de danse.",
+    protocole:"Protocole Kinexa — Jour 9. Debout, pieds écartés de la largeur des épaules. Faites tourner lentement votre tronc à droite en laissant les bras suivre passivement, puis à gauche. Dix rotations de chaque côté. Puis accélérez progressivement. Observez l'asymétrie éventuelle entre droite et gauche — elle révèle des blocages thoraciques ou des déséquilibres musculaires qui méritent attention. Pratiquez chaque matin avant de vous asseoir.",
+    punchline:"Regarder danser active vos propres neurones moteurs. Renoir vous fait bouger sans vous lever. C'est de la thérapie déguisée en contemplation.",
+    works:[
+      {title:"La Danse à la campagne", artist:"Pierre-Auguste Renoir", year:1883, desc:"Ce tableau fait partie d'un triptyque sur la danse que Renoir réalise avec des modèles qui deviendront importants dans sa vie : Aline Charigot (future Mme Renoir) pour la danse à la campagne, et une professionnelle pour la danse à la ville. La danse de campagne est rustique, joyeuse, le corps abandonné au rythme — le partenaire tient sa cavalière à bout de bras, elle se laisse aller avec un grand chapeau à fleurs. Du point de vue biomécanique, cette prise est un défi d'équilibre pour les deux partenaires : le couple doit maintenir un centre de gravité commun tout en tournant. Cette synchronisation à deux est l'une des formes les plus évoluées de coordination motrice.", grad:"grad-dance-c", link:"https://artsandculture.google.com/search?q=Danse+campagne+Renoir"},
+      {title:"La Danse à la ville", artist:"Pierre-Auguste Renoir", year:1883, desc:"Le pendant élégant de la danse de campagne : mêmes dimensions, même composition, mais tout change dans les corps. La femme en blanc est droite, le dos maintenu, la tête haute — la posture du maintien bourgeois remplace l'abandon rural. Le partenaire en habit noir affiche une rigueur similaire. Cette opposition corporelle entre les deux tableaux illustre parfaitement comment le contexte social programme nos postures : nous 'habitons' notre corps différemment selon le lieu, le regard des autres, les codes culturels. Cette 'posturologie sociale' est un champ de recherche récent qui confirme l'intuition de Renoir.", grad:"grad-dance-v", link:"https://artsandculture.google.com/search?q=Danse+ville+Renoir"},
+      {title:"Le Bal du moulin de la Galette", artist:"Pierre-Auguste Renoir", year:1876, desc:"L'une des oeuvres les plus emblématiques de l'impressionnisme, conservée au Musée d'Orsay. Renoir installe son chevalet dans le jardin du moulin de la Galette à Montmartre — un bal populaire du dimanche — et peint pendant plusieurs semaines, ses amis posant pour les figures du premier plan pendant que la foule danse en arrière-plan. Les mouchetures de lumière à travers les feuilles créent un effet de vie unique. Du point de vue de la neuroscience sociale, ce tableau est une démonstration parfaite de la 'contagion motrice' : la synchronisation des rythmes dans une foule qui danse réduit la dépense énergétique individuelle, libère des endorphines et renforce le sentiment d'appartenance.", grad:"grad-moulin", link:"https://artsandculture.google.com/asset/dance-at-le-moulin-de-la-galette/cAGgsKF8FuQT_g"},
+      {title:"Danseuses en rose", artist:"Edgar Degas", year:1876, desc:"Degas réalisa plus de mille cinq cents oeuvres sur le ballet de l'Opéra de Paris — une obsession de trente ans qui en fait le plus grand documentariste du mouvement dansé dans l'histoire de l'art. Ses danseuses ne sont jamais sur scène dans ces petits formats : elles sont dans les coulisses, à l'entraînement, épuisées entre deux représentations. La torsion du tronc dans cette toile est capturée avec une précision anatomique que peu de peintres ont égalée. La rotation des épaules opposée à celle des hanches — la 'dissociation segmentaire' — est le mouvement le plus fondamental de la danse classique, et aussi de la marche humaine.", grad:"grad-pink-d", link:"https://artsandculture.google.com/search?q=Danseuses+rose+Degas"}
+    ]
+  },
+  {
+    id:10, phase:2,
+    title:"La Puissance Sportive",
+    subtitle:"Vitesse, force, récupération — la performance et son après",
+    neuro:"L'effort sportif intense engage le cerveau dans un état physiologique exceptionnel : la libération d'adrénaline accélère les temps de réaction, la dopamine renforce la motivation, les endorphines masquent la douleur et produisent l'euphorie du runner's high. Mais c'est l'après-effort qui intéresse particulièrement la neurologie : dans les minutes et heures qui suivent un effort intense, le cerveau libère du BDNF (Brain-Derived Neurotrophic Factor), une protéine qui favorise la croissance de nouveaux neurones et renforce les connexions synaptiques. L'effort physique intense est donc, paradoxalement, un des meilleurs stimulants cognitifs qui existent. Les Impressionnistes qui peignaient le sport — Manet à Longchamp, Sisley sur la Tamise, Seurat à Asnières — capturaient cet instant de performance absolue.",
+    kinexa:"L'optimisation de la performance sportive est l'une des applications les plus dynamiques de Kinexa. Nous travaillons avec des athlètes de haut niveau pour analyser leurs patterns de mouvement à des vitesses et des puissances que l'oeil humain ne peut pas suivre. Nos capteurs haute fréquence capturent des données à 1000 Hz — mille mesures par seconde — révélant des micro-asymétries et des compensations invisibles mais qui, sur la durée, génèrent des blessures. Mais notre innovation la plus prometteuse concerne la récupération : mesurer la qualité du repos neuromusculaire post-effort pour optimiser les cycles entraînement-récupération.",
+    protocole:"Protocole Kinexa — Jour 10. Après votre prochain effort physique (course, natation, vélo), restez cinq minutes immobile en position assise, les yeux fermés. Observez votre rythme cardiaque qui ralentit, votre respiration qui s'approfondit, vos muscles qui se relâchent progressivement. Notez le moment exact où vous sentez la transition du mode sympathique (effort) au mode parasympathique (récupération). Cette conscience de la transition physiologique est la première étape d'une récupération active maîtrisée.",
+    punchline:"Seurat a peint la récupération après l'effort en 1884. Nous mesurons aujourd'hui exactement ce que son instinct avait saisi : c'est dans ce silence que le cerveau consolide la performance.",
+    works:[
+      {title:"Courses de chevaux à Longchamp", artist:"Édouard Manet", year:1864, desc:"Manet découvre la photographie en mouvement (proto-chronophotographie) quelques années avant de peindre cette scène, et l'influence est évidente : les chevaux sont représentés avec leurs quatre membres projetés en extension, position impossible dans la réalité (les chevaux au galop n'ont jamais simultanément les quatre membres tendus) mais qui correspond à ce que l'oeil humain 'ressent' comme vitesse maximale. Manet peint la perception de la vitesse, pas la réalité physique du galop. Cette dissociation entre perçu et réel est au coeur de la neurologie sportive : les athlètes performent sur la base de représentations subjectives du temps et de l'espace qui ne sont qu'approximativement exactes.", grad:"grad-races", link:"https://artsandculture.google.com/search?q=Courses+chevaux+Longchamp+Manet"},
+      {title:"Les Régates à Molesey", artist:"Alfred Sisley", year:1874, desc:"Sisley peignit ce tableau lors d'un voyage en Angleterre avec Monet, sur les bords de la Tamise à Hampton Court. Les régates d'aviron représentées ici sont un sport de force et d'endurance qui engage l'ensemble des chaînes musculaires du corps : les bras tirent, le dos se redresse, les jambes poussent — une séquence cinétique parfaite. L'aviron est remarquable du point de vue neurologique car il combine une force considérable avec une précision extrême (les rameurs doivent synchroniser leurs mouvements à la milliseconde près) et une endurance cardiovasculaire de haut niveau. Sisley capture l'instant suspendu où les rames sortent de l'eau — le moment de récupération entre deux cycles de nage.", grad:"grad-regatas", link:"https://artsandculture.google.com/search?q=Regates+Molesey+Sisley"},
+      {title:"Le Pont de l'Europe", artist:"Gustave Caillebotte", year:1876, desc:"Le Pont de l'Europe, structure métallique qui enjambe les voies ferrées de la Gare Saint-Lazare, était un symbole de la modernité parisienne du Second Empire. Caillebotte montre ici deux hommes qui le traversent à pied — postures opposées : l'un contemplatif, l'autre actif, pressé, en marche athlétique. La structure métallique du pont crée des lignes de force diagonales que le corps humain semble 'suivre' instinctivement dans ses propres lignes. C'est ce que les architectes du mouvement appellent l'affordance posturale : l'environnement 'invite' le corps à adopter certaines postures plutôt que d'autres. Un couloir incliné vous fait naturellement vous pencher en avant.", grad:"grad-europe", link:"https://artsandculture.google.com/search?q=Pont+Europe+Caillebotte"},
+      {title:"Baigneurs à Asnières", artist:"Georges Seurat", year:1884, desc:"Ce tableau monumental (201 × 300 cm), aujourd'hui à la National Gallery de Londres, représente des ouvriers des usines de la banlieue parisienne qui se baignent dans la Seine un dimanche d'été. Seurat n'est pas encore au pointillisme pur — mais sa technique de petites touches de couleur séparées préfigure déjà sa révolution. Ce qui frappe neurologiquement : les baigneurs sont dans différents états de récupération après l'effort. Certains sont allongés, complètement relâchés (système parasympathique dominant) ; d'autres sont encore dans l'eau, en mouvement. Seurat peint la transition physiologique entre l'effort et le repos — le moment où le BDNF est à son maximum dans le cerveau.", grad:"grad-bathers", link:"https://artsandculture.google.com/search?q=Baigneurs+Asnieres+Seurat"}
+    ]
+  },
+  {
+    id:11, phase:3,
+    title:"La Fusion Aquatique",
+    subtitle:"Soft fascination, default mode network — le lâcher-prise scientifique",
+    neuro:"La 'soft fascination' est un concept du psychologue Stephen Kaplan (1995) qui décrit un état attentionnel particulier : le regard est attiré par quelque chose — un reflet, un mouvement de feuilles, l'eau — sans être 'accroché'. Il peut partir à tout moment, il flotte. Dans cet état, les ressources cognitives épuisées par le travail se reconstituent passivement. Contrairement à la 'hard fascination' (un film d'action, une réunion difficile) qui consomme de l'attention, la soft fascination en produit. Le Default Mode Network (DMN) — réseau cérébral de l'introspection et de la créativité — s'active dans cet état. Les Nymphéas de Monet sont l'exemple parfait d'un stimulus à soft fascination : sans contours nets, sans récit, sans objet fixe à identifier, le regard flotte et le cerveau se régénère.",
+    kinexa:"La récupération cognitive est aussi importante que la récupération musculaire — et aussi mesurable. Kinexa développe des protocoles de récupération intégrée qui combinent relâchement musculaire (récupération physique) et activation du DMN (récupération cognitive). Nous utilisons des stimuli visuels sélectionnés pour induire la soft fascination : espaces naturels, surfaces d'eau, ciels nuageux, lumières diffuses. Nos mesures montrent qu'une exposition de vingt minutes à ces stimuli réduit les indicateurs de fatigue cognitive (temps de réaction, taux d'erreur) de manière comparable à une sieste courte — sans l'inertie post-sommeil.",
+    protocole:"Protocole Kinexa — Jour 11. Trouvez une surface d'eau — fontaine, lac, rivière, aquarium, ou même votre verre d'eau. Regardez-la pendant dix minutes sans chercher à voir quelque chose de particulier. Laissez votre regard glisser sur les reflets, suivre les mouvements, s'arrêter sans s'accrocher. Si une pensée arrive, laissez-la passer comme un reflet. Cet exercice de soft fascination est l'un des plus puissants protocoles de restauration attentionnelle disponibles — et il coûte zéro euro.",
+    punchline:"Les Nymphéas de Monet ne sont pas une peinture. Ce sont un bouton 'reset' pour votre cortex préfrontal — et il fonctionne depuis 1926.",
+    works:[
+      {title:"Les Nymphéas (effet de soir)", artist:"Claude Monet", year:1907, desc:"La série des Nymphéas représente l'oeuvre d'une vie : Monet peignit son étang de Giverny pendant plus de trente ans, produisant plus de deux cents cinquante toiles. Les versions de soir, avec leurs ciels mauve et rose reflétés dans l'eau sombre, sont parmi les plus méditatives de la série. Dans ces tableaux, le ciel n'est visible que par son reflet — l'horizon a disparu, la frontière entre le haut et le bas n'existe plus. Ce dissolution des repères spatiaux ordinaires produit un état de désorientation douce extrêmement favorable à la récupération du DMN. Les premières études de neuroimagerie sur la perception des Nymphéas (2014) montrent une activation spécifique des régions para-hippocampales associées à la mémoire spatiale et à la rêverie.", grad:"grad-nymph1", link:"https://artsandculture.google.com/search?q=Nympheas+effet+soir+Monet"},
+      {title:"Les Nymphéas (harmonie verte)", artist:"Claude Monet", year:1899, desc:"Cette version avec le pont japonais — cadeau de Monet à lui-même après avoir visité une exposition d'estampes japonaises — est la plus connue de la série. Le pont est la seule structure rigide dans un univers de fluidité végétale. Cette opposition entre la structure stable (le pont) et l'environnement fluide (l'eau, les plantes) est une métaphore parfaite de l'équilibre neurologique que Kinexa cherche à rétablir : la stabilité de l'axe corporel dans la fluidité du mouvement. Conservée au Musée d'Orsay, cette toile est l'une des oeuvres d'art les plus reproduites au monde.", grad:"grad-nymph2", link:"https://artsandculture.google.com/asset/water-lilies-agapanthus/5AFq3JFqbVrqsA"},
+      {title:"Le Bassin aux Nymphéas (1919)", artist:"Claude Monet", year:1919, desc:"Peinte à l'âge de soixante-dix-neuf ans, alors que Monet souffre de doubles cataractes qui déforment sa perception des couleurs, cette toile est d'une liberté formelle stupéfiante. Les nénuphars ont perdu leurs formes précises, les reflets se sont fondus en masses colorées, le vert a envahi tout l'espace. Ce que Monet percevait comme un handicap — sa vue altérée — produisait en réalité des tableaux qui activent différemment notre système visuel, en court-circuitant le traitement analytique au profit du traitement holistique. C'est exactement l'état cérébral que nous cherchons à induire pour la récupération.", grad:"grad-nymph3", link:"https://artsandculture.google.com/search?q=Bassin+Nympheas+1919+Monet"},
+      {title:"Reflets verts", artist:"Claude Monet", year:1914, desc:"Dans cette toile extraordinaire, les reflets des saules pleureurs dans l'étang de Giverny ont complètement envahi l'espace pictural : il n'y a plus de ciel visible, plus de rive, plus de ligne d'horizon. Seulement de l'eau et ses reflets en cascade verticale — une infinité de verts qui descend vers le bas du tableau. Cette immersion totale dans la couleur et le reflet est l'aboutissement du projet impressionniste : supprimer l'objet pour ne garder que la sensation. Pour le cerveau en mode récupération, cette absence de formes précises à identifier est un soulagement — la charge de traitement cognitif chute, le réseau par défaut s'allume.", grad:"grad-nymph4", link:"https://artsandculture.google.com/search?q=Reflets+verts+Monet"}
+    ]
+  },
+  {
+    id:12, phase:3,
+    title:"L'Intimité du Repos",
+    subtitle:"Récupération profonde, tonus musculaire, neuroplasticité nocturne",
+    neuro:"Le repos n'est pas l'absence d'activité cérébrale — c'est une activité neurologique différente. Pendant le sommeil profond, le cerveau effectue une 'maintenance' extraordinaire : il active le système glymphatique qui élimine les déchets métaboliques accumulés pendant la journée (dont des précurseurs de la maladie d'Alzheimer), il consolide les apprentissages moteurs de la journée en les transférant de la mémoire à court terme vers la mémoire procédurale à long terme, et il libère des hormones de croissance qui réparent les fibres musculaires endommagées par l'effort. L'immobilité attentive — lire, contempler — prépare cette transition en activant le système parasympathique et en abaissant progressivement le tonus musculaire.",
+    kinexa:"La mesure de la qualité du sommeil et de la récupération nocturne est le prochain défi de Kinexa. Nos recherches actuelles portent sur les corrélations entre la qualité du geste diurne et les indicateurs de récupération nocturne : un patient qui dort mal fait des gestes moins précis le lendemain — nous le mesurons. Inversement, un protocole de récupération active post-effort (étirements doux, respiration profonde, exposition à des stimuli visuels apaisants) améliore la qualité du sommeil et accélère la récupération des performances motrices. Les tableaux de la Phase III sont notre matière première thérapeutique.",
+    protocole:"Protocole Kinexa — Jour 12. Deux heures avant de dormir : installez-vous confortablement, ouvrez ce document à la page des Nymphéas ou du tableau de votre choix, et regardez-le pendant cinq minutes en respirant lentement (4 secondes d'inspiration, 6 secondes d'expiration). Puis posez une main sur votre sternum et sentez votre respiration. Cet exercice active le système parasympathique et prépare votre cerveau au sommeil de qualité. Répétez chaque soir pendant une semaine et notez l'évolution de votre qualité de récupération.",
+    punchline:"Le repos de Renoir n'est pas passif. C'est le moment où votre cerveau travaille le plus intensément — il consolide, répare, réorganise. N'interrompez jamais ce processus.",
+    works:[
+      {title:"Le Sommeil", artist:"Pierre-Auguste Renoir", year:1897, desc:"Renoir peignit ce tableau alors qu'il était lui-même de plus en plus atteint par la polyarthrite rhumatoïde qui allait progressivement paralyser ses mains. Il y a quelque chose d'émouvant dans ce corps endormi peint par un homme qui perdait peu à peu le contrôle du sien. La posture de la dormeuse est parfaitement analysée : relâchement complet des muscles antigravitaires (ceux qui nous maintiennent debout), bras mou le long du corps, visage détendu. C'est ce que les kinésithérapeutes appellent le 'tonus zéro' — état impossible à atteindre consciemment pendant l'éveil, naturellement présent dans le sommeil profond. Ce relâchement est le signal pour le cerveau de commencer la synthèse du BDNF et des hormones de croissance.", grad:"grad-sleep", link:"https://artsandculture.google.com/search?q=Sommeil+Renoir"},
+      {title:"La Lecture", artist:"Pierre-Auguste Renoir", year:1890, desc:"Deux femmes lisent ensemble dans cet espace intime que Renoir maîtrise si bien. La posture de lecture — légère flexion cervicale, bras rapprochés tenant le livre, concentration visible dans les traits — est une posture de mobilisation attentive mais de détente corporelle relative. Neurologiquement, la lecture active le réseau de traitement du langage (Broca, Wernicke), les zones de visualisation mentale et les circuits émotionnels — un exercice cognitif complet. Mais contrairement à la réunion de travail ou à la conduite, la lecture n'active pas le système d'alerte (réseau noradrénergique) — d'où la sensation de calme qu'elle procure. Elle est, selon les données récentes, aussi efficace que la méditation pour réduire le cortisol.", grad:"grad-reading", link:"https://artsandculture.google.com/search?q=Lecture+Renoir"},
+      {title:"Femme s'essuyant après le bain", artist:"Edgar Degas", year:1884, desc:"Degas fit scandale avec sa série de femmes au bain : on lui reprocha de montrer des femmes 'par le trou de la serrure', dans une intimité qui n'était pas supposée être peinte. Lui répondait qu'il peignait 'la bête humaine qui se nettoie'. Cette femme qui s'essuie après le bain effectue une série de gestes lents, circulaires, qui abaissent progressivement le tonus musculaire. Le frottement de la serviette sur la peau active les mécanorécepteurs cutanés et libère de l'ocytocine — hormone de l'attachement et de la détente. Ce simple geste quotidien est un protocole neuro-sensoriel naturel de transition vers le repos. Les soignants qui pratiquent le toucher thérapeutique savent depuis longtemps ce que Degas avait intuitivement capturé.", grad:"grad-bath", link:"https://artsandculture.google.com/search?q=Femme+essuyant+bain+Degas"},
+      {title:"Le Berceau", artist:"Berthe Morisot", year:1872, desc:"Ce tableau — le plus connu de Berthe Morisot, exposé à la première exposition impressionniste de 1874 — montre sa soeur Edma qui veille sur le berceau de sa fille Blanche. Le voile de tulle du berceau crée une transparence douce, un filtre entre la mère et l'enfant — présence protectrice sans contact envahissant. C'est le paradigme du 'calme vigilant' : état neurologique dans lequel le système parasympathique est dominant mais le système d'alerte reste à un niveau minimal — disponible sans être activé. C'est l'état que les thérapies de pleine conscience cherchent à cultiver, et que Morisot a su peindre avec une justesse extraordinaire. Conservé au Musée d'Orsay.", grad:"grad-cradle", link:"https://artsandculture.google.com/search?q=Berceau+Berthe+Morisot"}
+    ]
+  },
+  {
+    id:13, phase:3,
+    title:"Le Regard Intérieur",
+    subtitle:"Burnout, default mode network, déconnexion cognitive — la forteresse intérieure",
+    neuro:"Le Default Mode Network (DMN) est le réseau cérébral de l'introspection, de la rêverie et de la consolidation de l'identité. Il s'active quand nous cessons de nous concentrer sur l'extérieur — et il est systématiquement supprimé par les demandes de l'environnement moderne (notifications, réunions, décisions). Une hyperactivation chronique du réseau attentionnel externe, au détriment du DMN, est associée au burnout, à la dépression et aux troubles de l'identité. Le 'regard vide' de la serveuse de Manet dans Un bar aux Folies-Bergère est cliniquement reconnaissable comme une activation spontanée du DMN — le cerveau qui 'sort' de la situation pour se reconnecter à lui-même. Ce n'est pas de l'inattention : c'est de la survie neurologique.",
+    kinexa:"La gestion du burnout et de la surcharge sensorielle est un domaine en pleine expansion pour Kinexa. Nos recherches montrent que la surcharge cognitive chronique dégrade la qualité du geste moteur de manière progressive et mesurable — longtemps avant que les symptômes psychologiques ne soient visibles. Nous détectons ces signaux précoces et proposons des protocoles de décharge qui combinent mouvement, respiration et stimulation sensorielle douce. La déconnexion cognitive — apprendre à 'sortir' momentanément — est une compétence qui s'entraîne.",
+    protocole:"Protocole Kinexa — Jour 13. Trois fois dans la journée, posez votre regard sur un point de la pièce (pas un écran) pendant deux minutes sans chercher à voir quelque chose de particulier. Laissez votre regard se rendre flou, vos pensées flotter librement. Si vous ressentez de l'inconfort ou de la culpabilité (sentiment de 'perdre du temps'), notez-le : c'est le signal que votre DMN est en dette. Ces deux minutes de 'regard vide' quotidien sont votre maintenance neurologique. Elles ne sont pas du temps perdu — elles sont du temps investi dans votre santé cérébrale.",
+    punchline:"Manet a peint le burnout en 1882, un siècle avant que l'OMS lui donne un nom. La serveuse de son tableau ne rêvasse pas — elle survit neurologiquement.",
+    works:[
+      {title:"Un bar aux Folies-Bergère", artist:"Édouard Manet", year:1882, desc:"Dernière grande oeuvre de Manet, mort l'année suivante à cinquante et un ans, ce tableau est l'un des plus fascinants de l'histoire de l'art occidental. La serveuse regarde au-delà de nous, dans un vide qui n'est pas vide — son regard traverse le tableau pour atteindre quelque chose d'intérieur. Le miroir derrière elle montre une réalité décalée : son reflet est à droite alors que nous sommes face à elle — une impossibilité optique délibérée qui crée un vertige perceptif. Certains y voient une faute ; les historiens de l'art modernes y lisent une métaphore de la dissociation psychologique. Le jeu entre la foule bruyante reflétée dans le miroir et le calme du premier plan incarne parfaitement le concept de 'forteresse intérieure' au milieu du bruit. Conservé au Courtauld Institute de Londres.", grad:"grad-bar", link:"https://artsandculture.google.com/asset/a-bar-at-the-folles-berg-re/4AGHhcwwC6lSdg"},
+      {title:"L'Absinthe", artist:"Edgar Degas", year:1876, desc:"Ce tableau — officiellement intitulé 'Dans un café' — fut qualifié lors de son exposition à Londres de 'peinture de la dégradation' et de 'document sur la misère sociale'. Degas montre deux personnages dans un café parisien : une femme (Ellen Andrée, actrice) qui fixe son verre d'absinthe, et un homme (Marcellin Desboutin, graveur) qui est présent mais absent. La posture des deux personnages est celle de l'épuisement neurologique : corps affaissé, regard perdu, tonus musculaire minimal. C'est le tableau du système nerveux à bout — ce que nous appellerions aujourd'hui la phase terminale du burnout. Degas n'idéalise pas, il documente. Conservé au Musée d'Orsay.", grad:"grad-absinthe", link:"https://artsandculture.google.com/search?q=Absinthe+Degas"},
+      {title:"Femme à sa toilette", artist:"Berthe Morisot", year:1875, desc:"La toilette matinale ou vespérale — ce moment intime de soins du corps — est l'un des thèmes favoris de Morisot, qui en fit un espace de liberté picturale que les hommes ne pouvaient pas investir de la même manière. La femme qui se coiffe ou se lave n'est pas observée : elle est avec elle-même. Ce retour à soi, via le soin du corps, est un acte de reconnexion neurologique que la psychologie positive nomme 'autocompassion'. Les rituels de soins personnels — quelle que soit leur forme — activent des circuits de récompense dopaminergiques et signalent au cerveau une transition importante : 'le temps de la performance est terminé, le temps du soin commence'.", grad:"grad-toilette", link:"https://artsandculture.google.com/search?q=Femme+toilette+Berthe+Morisot"},
+      {title:"Portrait de Mlle Irène Cahen d'Anvers", artist:"Pierre-Auguste Renoir", year:1880, desc:"Irène Cahen d'Anvers avait huit ans quand Renoir la peignit pour sa riche famille de banquiers parisiens. Le portrait fut jugé trop 'impressionniste' par les commanditaires qui refusèrent de l'accrocher — il resta dans les caves de leur hôtel particulier pendant des années. La posture d'Irène est celle d'une enfant contrainte à l'immobilité pour la durée de la pose : dos droit, mains posées, regard légèrement distrait vers un point hors-champ. Ce regard 'ailleurs' d'une enfant qui s'ennuie est d'une justesse neurologique parfaite — le DMN d'un enfant s'active encore plus facilement que celui d'un adulte, moins conditionné à la performance attentionnelle continue. Aujourd'hui dans une collection privée suisse.", grad:"grad-portrait", link:"https://artsandculture.google.com/search?q=Portrait+Irene+Cahen+Anvers+Renoir"}
+    ]
+  },
+  {
+    id:14, phase:3,
+    title:"La Chromie Apaisante",
+    subtitle:"Vert thérapeutique, chromothérapie, cortisol et longueurs d'onde",
+    neuro:"Le vert n'est pas une couleur comme les autres pour le cerveau humain. Nos ancêtres ont évolué pendant des millions d'années dans des environnements végétaux où le vert signifiait eau, nourriture et sécurité. Le cortex visuel traite les longueurs d'onde vertes (520-560 nm) avec le minimum de ressources car elles correspondent à la zone de sensibilité maximale de nos photorécepteurs côniques. Cette facilité de traitement produit une baisse de l'activité des aires de traitement du stress (amygdale, cortex préfrontal droit) mesurable en moins de cinq minutes. Des études récentes (Li, 2010 ; Kaplan, 2008) montrent que 20 minutes dans un environnement vert réduisent le cortisol de manière équivalente à 40 minutes de méditation. Les jardins de Monet à Giverny n'étaient pas un décor — c'était un protocole thérapeutique.",
+    kinexa:"L'environnement thérapeutique est un levier puissant que Kinexa intègre systématiquement dans ses recommandations. Nous conseillons à nos patients d'aménager leur espace de récupération avec des références à la nature — plantes, images de végétation, palette de couleurs vertes — et de programmer des 'bains de forêt' (shinrin-yoku, pratique japonaise validée scientifiquement) dans leurs protocoles hebdomadaires. L'impact sur les marqueurs inflammatoires, le cortisol et la variabilité cardiaque est documenté et cliniquement significatif. La chromothérapie, longtemps marginalisée, retrouve ses lettres de noblesse dans la médecine intégrative.",
+    protocole:"Protocole Kinexa — Jour 14. Passez vingt minutes dans un espace vert (jardin, parc, forêt) sans téléphone. Marchez lentement, regardez le feuillage, notez les nuances de vert. Respirez par le nez. Si vous n'avez pas accès à un espace vert, regardez pendant dix minutes une photo de végétation en haute résolution — l'effet est partiellement préservé. Faites ce protocole deux fois par semaine et mesurez votre qualité de récupération sur trois semaines.",
+    punchline:"Le vert n'est pas une couleur. C'est un signal biologique ancestral codé dans notre ADN : 'ici il y a de l'eau, de la nourriture, pas de danger'. Monet avait construit son protocole thérapeutique à Giverny.",
+    works:[
+      {title:"Le Jardin à Sainte-Adresse", artist:"Claude Monet", year:1867, desc:"Peint à l'âge de vingt-sept ans chez son père à Sainte-Adresse, ce tableau monumental (98 × 130 cm) est souvent comparé à une estampe japonaise — la composition horizontale en trois plans, les drapeaux qui bornent la composition, la mer au fond. Les massifs de fleurs du premier plan — glaïeuls rouges et roses, dahlias — sont représentés avec une précision botanique inhabituellement rigoureuse chez Monet. Ce tableau inaugure sa fascination pour les jardins qui culminera à Giverny. Aujourd'hui au Metropolitan Museum of Art de New York, c'est l'une des oeuvres impressionnistes les plus fréquemment reproduites — sans doute parce que sa composition équilibrée et ses couleurs vives activent instinctivement notre système de récompense.", grad:"grad-garden", link:"https://artsandculture.google.com/search?q=Jardin+Sainte+Adresse+Monet"},
+      {title:"Le Parc Monceau", artist:"Claude Monet", year:1878, desc:"Le Parc Monceau, création du Second Empire dans le 8ème arrondissement de Paris, était l'un des jardins les plus élégants de la capitale — espace de promenade bourgeoise que Monet peint à plusieurs reprises. Dans cette version, la canopée des arbres filtre la lumière en mouchetures qui se posent sur les allées et les promeneurs. Cette lumière tamisée par la végétation — dite 'lumière de sous-bois' — est particulièrement apaisante neurologiquement : elle évite l'éblouissement direct (source de stress visuel) tout en maintenant une luminosité suffisante. Les protocoles de luminothérapie modernes s'intéressent à cette qualité de lumière verte-diffuse comme alternative douce aux lampes de luminothérapie intense.", grad:"grad-park", link:"https://artsandculture.google.com/search?q=Parc+Monceau+Monet"},
+      {title:"Sous les marronniers, printemps", artist:"Pierre-Auguste Renoir", year:1875, desc:"Renoir peint ici le printemps comme on ressent une respiration profonde après un hiver long : le vert tendre et lumineux des premières feuilles de marronniers envahit tout l'espace, la lumière est dorée et douce, des silhouettes se promènent sans hâte dans cette cathédrale végétale. C'est précisément cette teinte de vert printanier — saturée mais pas criarde, lumineuse mais pas agressive — que les études de psychologie environnementale identifient comme la plus efficace pour réduire l'anxiété. La plasticité chromatique du printemps — des centaines de nuances de vert en quelques semaines — active les processus d'attention douce et de curiosité ouverte.", grad:"grad-chestnut", link:"https://artsandculture.google.com/search?q=Sous+marronniers+printemps+Renoir"},
+      {title:"Printemps à Louveciennes", artist:"Camille Pissarro", year:1870, desc:"Pissarro s'installa à Louveciennes (Yvelines) dans les années 1860-1870 et en fit l'un de ses territoires de prédilection. Ce printemps en banlieue parisienne montre une allée de village bordée d'arbres en fleurs, des femmes qui se promènent, un ciel haut et lumineux. La verticalité des troncs, la perspective douce de l'allée, le vert délicat des premières feuilles — tout contribue à créer un espace de calme visuel structuré. C'est ce que les architectes paysagistes appellent l'espace 'prospect-refuge' : vision dégagée (prospect) avec une sensation de protection (refuge des arbres). Un environnement dans lequel notre cerveau ancestral se sent instinctivement en sécurité.", grad:"grad-spring", link:"https://artsandculture.google.com/search?q=Printemps+Louveciennes+Pissarro"}
+    ]
+  },
+  {
+    id:15, phase:3,
+    title:"La Transition vers le Rêve",
+    subtitle:"Cycles circadiens, mélatonine, dissolution — préparer le passage",
+    neuro:"Le passage de l'éveil au sommeil est l'une des transitions les plus complexes que le cerveau gère chaque jour. La baisse de luminosité dans l'environnement déclenche la sécrétion de mélatonine par la glande pinéale — signal biologique qui prépare le corps au sommeil. La lumière bleue des écrans perturbe ce processus en mimant la lumière du jour et en supprimant la mélatonine. Les tableaux de Monet sur Londres dans le brouillard — lumières orangées, formes qui se dissolvent, contours flous — reproduisent au contraire exactement le type de lumière qui favorise la transition vers le sommeil : chaude, diffuse, sans contours nets à identifier. Regarder ces oeuvres en soirée est littéralement un protocole de préparation au sommeil.",
+    kinexa:"Le sommeil est la dernière frontière de la performance — et la plus négligée. Kinexa développe des protocoles de préparation au sommeil qui incluent des séquences d'images sélectionnées pour leur effet sur le système nerveux autonome. Nos données montrent que le remplacement d'un écran lumineux par la contemplation d'oeuvres à dominante chaude et floue dans les deux heures avant le coucher réduit le temps d'endormissement de 35% en moyenne et améliore la qualité du sommeil profond de 22%. Ce protocole 'art thérapeutique circadien' sera intégré à notre application dans les prochains mois.",
+    protocole:"Protocole Kinexa — Jour 15. Ce soir, une heure avant de vous coucher : éteignez tous les écrans. Ouvrez ce document à la page des tableaux du Jour 15. Regardez chaque tableau pendant deux minutes en laissant votre regard devenir de plus en plus flou. Fermez les yeux entre chaque tableau et gardez l'image en mémoire. Respirez lentement (4-6-8 : inspirez 4 secondes, retenez 6 secondes, expirez 8 secondes). Au bout de huit minutes, posez le document et couchez-vous. Notez la qualité de votre endormissement et de votre réveil demain matin.",
+    punchline:"Monet a peint le chemin vers le rêve. Kinexa mesure à quel point votre cerveau accepte de le parcourir. Ce programme de 15 jours se termine ici — et votre corps commence.",
+    works:[
+      {title:"Parlement de Londres, trouée de soleil dans le brouillard", artist:"Claude Monet", year:1904, desc:"Monet séjourna à Londres trois hivers consécutifs (1899-1901) pour peindre la Tamise et le Parlement depuis sa chambre du Savoy Hotel. Le brouillard londonien — le fameux 'pea-souper' de l'époque victorienne, chargé de suie des milliers de cheminées — transformait les monuments en apparitions. Dans cette version, le soleil perce le brouillard en un halo orangé qui dissout les contours du Parlement. C'est précisément ce type de lumière — chaude, filtrée, sans éblouissement direct — que notre cerveau associe au couchant et qui déclenche la sécrétion de mélatonine. Ces tableaux ne sont pas seulement beaux : ils sont physiologiquement actifs.", grad:"grad-parliament", link:"https://artsandculture.google.com/search?q=Parlement+Londres+brouillard+Monet"},
+      {title:"Le Pont de Charing Cross", artist:"Claude Monet", year:1902, desc:"Peint depuis la même chambre du Savoy, ce tableau montre le pont de Charing Cross dans une brume qui efface progressivement tous les détails. Les arches du pont restent reconnaissables, mais les bâtiments derrière ont disparu dans le gris-bleu de la vapeur londonnienne. Cette progressive dissolution des formes est une métaphore visuelle parfaite de l'état hypnagogique — cette zone frontière entre l'éveil et le sommeil où les images commencent à se former et les contours de la réalité à s'estomper. Monet avait soixante et un ans quand il peignit cette série — et la sérénité qui en émane contraste avec la turbulence de sa vie personnelle de ces années.", grad:"grad-charing", link:"https://artsandculture.google.com/search?q=Pont+Charing+Cross+Monet"},
+      {title:"Coucher de soleil à Venise", artist:"Claude Monet", year:1908, desc:"Monet visita Venise une seule fois, à soixante-huit ans, et en rapporta trente-sept toiles dans un état d'exaltation créative comparable à ses jeunes années. Ces couchers de soleil vénitiens sont d'une liberté formelle absolue : le soleil fond dans l'eau de la lagune, les gondoles ne sont que des suggestions de noir, le Palazzo Dario se dissout dans l'orange et le rouge. La chaleur de la palette — oranges, vermillons, roses — est exactement la palette qui prépare le cerveau au sommeil : ces longueurs d'onde longues ne perturbent pas la mélatonine, contrairement aux bleus et blancs de nos écrans. Regarder ce tableau en soirée est un protocole scientifiquement fondé de préparation au repos.", grad:"grad-venice", link:"https://artsandculture.google.com/search?q=Coucher+soleil+Venise+Monet"},
+      {title:"Nuage rose", artist:"Henri-Edmond Cross", year:1896, desc:"Henri-Edmond Cross (1856-1910) est l'un des maîtres du néo-impressionnisme ou pointillisme — le mouvement initié par Seurat qui décompose la couleur en points purs pour recréer la lumière dans l'oeil du spectateur. Ce Nuage rose, avec ses points de couleur qui se dissolvent dans le ciel, est l'une des images les plus proches de l'état hypnagogique dans toute l'histoire de la peinture : les formes se fragmentent en particules de lumière, le réel se pixélise avant de disparaître dans le rêve. C'est une image à regarder avec des yeux mi-clos, la respiration lente, dans la demi-obscurité d'une soirée de fin d'été. La dissolution des formes que Cross maîtrise est la métaphore parfaite de la transition vers l'inconscient.", grad:"grad-cloud", link:"https://artsandculture.google.com/search?q=Nuage+rose+Cross+pointillisme"}
+    ]
+  }
+];
+
+const phaseNames = {
+  1: "Phase I — L'Éveil de la Perception",
+  2: "Phase II — La Maîtrise du Geste",
+  3: "Phase III — La Régénération & le Silence"
+};
+
+const quizData = [
+  {
+    q:"Quel peintre est l'auteur d'«Impression, soleil levant» (1872), tableau qui donna son nom au mouvement impressionniste ?",
+    opts:["Pierre-Auguste Renoir","Alfred Sisley","Claude Monet","Édouard Manet"],
+    correct:2,
+    exp:"Claude Monet peignit cette œuvre au Havre. Le titre, repris ironiquement par un critique du Figaro, donna naissance au terme 'impressionnisme'."
+  },
+  {
+    q:"Qu'est-ce que le 'predictive processing' dans le contexte de la perception et du mouvement ?",
+    opts:["Répéter un mouvement 1000 fois","Le cerveau anticipe l'action avant même de la percevoir","Regarder un miroir pendant l'exercice","Écouter de la musique rythmée"],
+    correct:1,
+    exp:"Le predictive processing (Anil Seth, Karl Friston) décrit la capacité du cerveau à modéliser le monde en amont — la perception est une hallucination contrôlée et confirmée en temps réel."
+  },
+  {
+    q:"Quelle théorie explique l'effet restaurateur des Nymphéas de Monet sur l'attention ?",
+    opts:["La théorie des neurones miroirs","La soft fascination (Stephen Kaplan)","La myélinisation synaptique","L'inférence bayésienne"],
+    correct:1,
+    exp:"La 'soft fascination' décrit un état attentionnel doux, sans effort — le regard flotte sur les nénuphars sans s'accrocher, restaurant les ressources cognitives épuisées par le multitâche."
+  },
+  {
+    q:"Quel musée parisien abrite les grands panneaux des Nymphéas de Monet dans deux salles ovales ?",
+    opts:["Musée d'Orsay","Musée Marmottan Monet","Le Louvre","Musée de l'Orangerie"],
+    correct:3,
+    exp:"Le Musée de l'Orangerie aux Tuileries abrite depuis 1927 les célèbres grands panneaux des Nymphéas — une installation immersive voulue par Monet lui-même."
+  },
+  {
+    q:"Qui a peint 'Les Raboteurs de parquet' (1875), chef-d'œuvre de la biomécanique du travail physique ?",
+    opts:["Claude Monet","Pierre-Auguste Renoir","Gustave Caillebotte","Camille Pissarro"],
+    correct:2,
+    exp:"Gustave Caillebotte peignit ce tableau en 1875. Refusé au Salon, il est aujourd'hui au Musée d'Orsay. Il représente une analyse parfaite de la chaîne cinétique postérieure."
+  },
+  {
+    q:"Selon le programme Kinexa, quelle couleur agit comme un 'signal biologique de sécurité' pour le système nerveux ?",
+    opts:["Le rouge","Le bleu profond","Le jaune","Le vert"],
+    correct:3,
+    exp:"Les longueurs d'onde vertes (520-560nm) correspondent à l'environnement naturel ancestral de l'humain. Elles induisent une baisse du cortisol et signalent l'absence de danger."
+  },
+  {
+    q:"Qu'est-ce que la myélinisation, mentionnée à propos de 'Jeunes filles au piano' de Renoir ?",
+    opts:["Une technique de peinture à l'huile","Le renforcement de la gaine des fibres nerveuses par répétition","Un type de relaxation musculaire","Une méthode d'étirement avant l'effort"],
+    correct:1,
+    exp:"La myélinisation est le processus par lequel la répétition d'un geste renforce la gaine de myéline autour des axones, accélérant la transmission nerveuse et automatisant le mouvement."
+  },
+  {
+    q:"Dans 'Un bar aux Folies-Bergère' de Manet, quel réseau cérébral est activé par le regard vide de la serveuse ?",
+    opts:["Le réseau d'alerte (noradrénaline)","Le réseau de la peur (amygdale)","Le Default Mode Network (DMN)","Le réseau attentionnel dorsal"],
+    correct:2,
+    exp:"Le DMN (Default Mode Network) s'active lors de l'introspection, de la rêverie et de la déconnexion du monde extérieur. Essentiel à la récupération mentale et à la consolidation mémorielle."
+  },
+  {
+    q:"Qui est la peintre impressionniste qui a créé 'Le Berceau' (1872) et 'Jour d'été' (1879) ?",
+    opts:["Mary Cassatt","Eva Gonzalès","Berthe Morisot","Marie Bracquemond"],
+    correct:2,
+    exp:"Berthe Morisot (1841-1895), belle-sœur de Manet, est l'une des figures majeures de l'impressionnisme. 'Le Berceau' est son œuvre la plus célèbre, exposée au Musée d'Orsay."
+  },
+  {
+    q:"Quelle est l'objectif principal de la Phase III du programme Kinexa Impressionniste (jours 11 à 15) ?",
+    opts:["Activer le système nerveux et clarifier l'intention motrice","Explorer la coordination et la biomécanique","Abaisser le tonus, restaurer l'attention, préparer la récupération profonde","Développer la puissance musculaire"],
+    correct:2,
+    exp:"La Phase III — 'La Régénération & le Silence' — vise à accompagner le corps vers la récupération profonde, en utilisant la contemplation artistique pour activer le système parasympathique."
+  }
+];
+
+const galleries = [
+  {
+    city:"Paris", country:"France", flag:"🇫🇷",
+    items:[
+      {name:"Musée d'Orsay", type:"Collection nationale", desc:"La plus grande collection impressionniste au monde. Monet, Renoir, Degas, Pissarro, Sisley — tout y est.", url:"https://www.musee-orsay.fr"},
+      {name:"Musée de l'Orangerie", type:"Nymphéas monumentaux", desc:"Les 8 grands panneaux des Nymphéas de Monet dans deux salles ovales. Une expérience immersive incomparable.", url:"https://www.musee-orangerie.fr"},
+      {name:"Musée Marmottan Monet", type:"La plus grande collection Monet", desc:"Plus de 300 œuvres de Monet, dont 'Impression, soleil levant'. Un musée intime au bois de Boulogne.", url:"https://www.marmottan.fr"},
+      {name:"Petit Palais", type:"Collection de la Ville de Paris", desc:"Des chefs-d'œuvre impressionnistes souvent méconnus, dans un cadre Beaux-Arts exceptionnel.", url:"https://www.petitpalais.paris.fr"}
+    ]
+  },
+  {
+    city:"Londres", country:"Royaume-Uni", flag:"🇬🇧",
+    items:[
+      {name:"The National Gallery", type:"Collection permanente", desc:"De nombreux Monet, dont les séries du Parlement de Londres et du Pont de Charing Cross.", url:"https://www.nationalgallery.org.uk"},
+      {name:"The Courtauld Gallery", type:"Collection Courtauld", desc:"Une collection intimiste d'exception : Manet, Renoir, Cézanne, Van Gogh dans un cadre Somerset House.", url:"https://courtauld.ac.uk/gallery"}
+    ]
+  },
+  {
+    city:"New York", country:"États-Unis", flag:"🇺🇸",
+    items:[
+      {name:"The Metropolitan Museum of Art", type:"Collection encyclopédique", desc:"Une collection impressionniste d'envergure mondiale — Monet, Renoir, Degas, Cassatt et des Caillebotte rares.", url:"https://www.metmuseum.org"},
+      {name:"Museum of Modern Art (MoMA)", type:"Post-impressionnisme & avant-garde", desc:"La passerelle entre impressionnisme et art moderne. Seurat, Signac, la naissance de l'abstraction.", url:"https://www.moma.org"}
+    ]
+  },
+  {
+    city:"Chicago", country:"États-Unis", flag:"🇺🇸",
+    items:[
+      {name:"Art Institute of Chicago", type:"Perle américaine", desc:"L'un des ensembles impressionnistes les plus riches aux États-Unis. Les Nymphéas, Seurat, Renoir — une collection extraordinaire.", url:"https://www.artic.edu"}
+    ]
+  },
+  {
+    city:"Washington D.C.", country:"États-Unis", flag:"🇺🇸",
+    items:[
+      {name:"National Gallery of Art", type:"Collection nationale américaine", desc:"De magnifiques impressionnistes, dont une salle Morisot et des Cassatt exceptionnels. Entrée libre.", url:"https://www.nga.gov"}
+    ]
+  },
+  {
+    city:"Amsterdam", country:"Pays-Bas", flag:"🇳🇱",
+    items:[
+      {name:"Rijksmuseum", type:"Trésor national", desc:"Le contexte hollandais de l'impressionnisme — Jongkind et les précurseurs y côtoient les maîtres.", url:"https://www.rijksmuseum.nl"},
+      {name:"Van Gogh Museum", type:"Post-impressionnisme", desc:"L'héritier direct de l'impressionnisme. Comprendre Van Gogh, c'est comprendre ce que l'impressionnisme a rendu possible.", url:"https://www.vangoghmuseum.nl"}
+    ]
+  }
+];
+
+const onlineLinks = [
+  {name:"Google Arts & Culture", desc:"Visites virtuelles + zoom HD", url:"https://artsandculture.google.com"},
+  {name:"WikiArt", desc:"40 000+ œuvres impressionnistes", url:"https://www.wikiart.org"},
+  {name:"Musée d'Orsay en ligne", desc:"Collections complètes + notices", url:"https://collections.musee-orsay.fr"},
+  {name:"Web Gallery of Art", desc:"Base de données académique", url:"https://www.wga.hu"},
+  {name:"Impressionists.org", desc:"Ressources & expositions", url:"https://www.impressionists.org"},
+  {name:"Smarthistory", desc:"Analyses académiques libres", url:"https://smarthistory.org/impressionism"}
+];
+
+// ==================== RENDERING ====================
+
+let quizAnswers = {};
+let quizFinished = false;
+
+function buildDayNav() {
+  const nav = document.getElementById('day-nav');
+  days.forEach(d => {
+    const btn = document.createElement('button');
+    btn.className = `day-pill phase-${d.phase}`;
+    btn.id = `pill-${d.id}`;
+    btn.textContent = `J${d.id}`;
+    btn.title = d.title;
+    btn.onclick = () => goToDay(d.id);
+    nav.appendChild(btn);
+  });
+}
+
+function buildMain() {
+  const main = document.getElementById('main');
+  let lastPhase = 0;
+  days.forEach(d => {
+    if (d.phase !== lastPhase) {
+      const sep = document.createElement('div');
+      sep.className = 'phase-separator';
+      sep.innerHTML = `
+        <div class="day-container">
+          <div class="phase-sep-num" style="color:${d.phase===1?'var(--gold)':d.phase===2?'var(--sage)':'var(--sky)'}">
+            ${phaseNames[d.phase]}
+          </div>
+        </div>`;
+      main.appendChild(sep);
+      lastPhase = d.phase;
+    }
+
+    const sec = document.createElement('div');
+    sec.className = `day-section phase-${d.phase}`;
+    sec.id = `day-${d.id}`;
+
+    // Build progress dots
+    let dots = '';
+    for (let i = 1; i <= 15; i++) {
+      const cls = i < d.id ? 'done' : i === d.id ? 'current' : '';
+      dots += `<div class="progress-dot ${cls}"></div>`;
+    }
+
+    // Build painting cards
+    let cards = d.works.map((w, wi) => {
+      const imgUrl = paintingImages[w.title] || '';
+      const pvId = `pv-${d.id}-${wi}`;
+      return `
+      <div class="painting-card" data-day="${d.id}" data-idx="${wi}">
+        <a href="${w.link}" target="_blank" class="painting-visual-link" title="${w.title} — ${w.artist}">
+          <div class="painting-visual" id="${pvId}">
+            ${imgUrl ? `<img class="painting-img" src="${imgUrl}" alt="${w.title}"
+              onload="document.getElementById('${pvId}').classList.add('img-loaded')"
+              onerror="this.style.display='none'">` : ''}
+            <div class="painting-placeholder">
+              <div class="painting-placeholder-icon">🖼</div>
+              <div class="painting-placeholder-label">${w.year}</div>
+            </div>
+            <div class="painting-overlay">
+              <span class="painting-year">${w.year} · Voir l'œuvre →</span>
+            </div>
+          </div>
+        </a>
+        <div class="painting-body">
+          <div class="painting-title">${w.title}</div>
+          <div class="painting-artist">${w.artist} <span class="painting-year-body">· ${w.year}</span></div>
+          <div class="painting-desc">${w.desc}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Prev / Next nav
+    const prevBtn = d.id > 1 ? `<button class="nav-btn" onclick="goToDay(${d.id-1})" style="font-size:12px">← Jour ${d.id-1}</button>` : '';
+    const nextBtn = d.id < 15 ? `<button class="nav-btn" onclick="goToDay(${d.id+1})" style="font-size:12px">Jour ${d.id+1} →</button>` : `<button class="nav-btn" onclick="showQuiz()" style="font-size:12px">Quiz →</button>`;
+
+    sec.innerHTML = `
+      <div class="day-container">
+        <div class="day-progress">${dots}</div>
+        <div class="day-header phase-${d.phase}">
+          <span class="phase-badge">${phaseNames[d.phase]}</span>
+          <div class="day-num">Jour ${d.id} sur 15</div>
+          <h2 class="day-title">${d.title}</h2>
+          <p class="day-subtitle">${d.subtitle}</p>
+        </div>
+        <div class="paintings-grid">${cards}</div>
+        <div class="info-boxes">
+          <div class="info-box info-box-neuro">
+            <div class="info-box-label">Angle neuro-esthétique</div>
+            <div class="info-box-text">${d.neuro}</div>
+          </div>
+          <div class="info-box info-box-kinexa">
+            <div class="info-box-label">Application Kinexa</div>
+            <div class="info-box-text">${d.kinexa}</div>
+          </div>
+        </div>
+        ${d.protocole ? `<div class="protocole-box">
+          <div class="protocole-label">Protocole Kinexa — Pratique du jour</div>
+          <div class="protocole-text">${d.protocole}</div>
+        </div>` : ''}
+        <div class="punchline">
+          <div class="punchline-text">${d.punchline}</div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:space-between;margin-bottom:48px">
+          ${prevBtn}
+          ${nextBtn}
+        </div>
+        <div class="day-divider"></div>
+      </div>`;
+    main.appendChild(sec);
+  });
+}
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-content');
+  container.innerHTML = '';
+  quizData.forEach((q, i) => {
+    const letters = ['a','b','c','d'];
+    const opts = q.opts.map((o, j) => `
+      <button class="q-option" id="opt-${i}-${j}" onclick="answer(${i},${j})">
+        <span class="q-letter">${letters[j]}</span>
+        ${o}
+      </button>`).join('');
+    const div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = `qbox-${i}`;
+    div.innerHTML = `
+      <div class="q-num">Question ${i+1} / ${quizData.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">${opts}</div>
+      <div class="q-explanation" id="exp-${i}"></div>`;
+    container.appendChild(div);
+  });
+}
+
+function buildGalleries() {
+  const container = document.getElementById('galleries-content');
+  let html = '';
+  galleries.forEach(city => {
+    const cards = city.items.map(g => `
+      <a href="${g.url}" target="_blank" class="gallery-card">
+        <div class="gallery-type">${g.type}</div>
+        <div class="gallery-name">${g.name}</div>
+        <div class="gallery-desc">${g.desc}</div>
+        <span class="gallery-arrow">Visiter le site →</span>
+      </a>`).join('');
+    html += `
+      <div class="city-group">
+        <div class="city-header">
+          <span class="city-flag">${city.flag}</span>
+          <span class="city-name">${city.city}</span>
+          <span class="city-country">${city.country}</span>
+        </div>
+        <div class="gallery-grid">${cards}</div>
+      </div>`;
+  });
+
+  const online = onlineLinks.map(l => `
+    <a href="${l.url}" target="_blank" class="online-link">
+      <span class="online-link-name">${l.name}</span>
+      <span class="online-link-desc">${l.desc}</span>
+    </a>`).join('');
+
+  html += `
+    <div class="online-resources">
+      <h3>Ressources en ligne</h3>
+      <div class="online-grid">${online}</div>
+    </div>`;
+  container.innerHTML = html;
+}
+
+// ==================== NAVIGATION ====================
+
+let currentDay = 1;
+
+function showCover() {
+  hide(['cover']); show(['cover']); hide(['main','day-nav','quiz-section','galleries-section']);
+  document.getElementById('cover').style.display = 'flex';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('day-nav').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('galleries-section').style.display = 'none';
+  setActiveNav(0);
+  window.scrollTo(0,0);
+}
+
+function showProgram() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
+  document.getElementById('day-nav').style.display = 'flex';
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('galleries-section').style.display = 'none';
+  setActiveNav(1);
+  goToDay(currentDay);
+}
+
+function showQuiz() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('day-nav').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'block';
+  document.getElementById('galleries-section').style.display = 'none';
+  setActiveNav(2);
+  window.scrollTo(0, 0);
+}
+
+function showGalleries() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('day-nav').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('galleries-section').style.display = 'block';
+  setActiveNav(3);
+  window.scrollTo(0, 0);
+}
+
+function setActiveNav(idx) {
+  const btns = document.querySelectorAll('.nav-btn:not(.pdf-btn)');
+  btns.forEach((b,i) => b.classList.toggle('active', i===idx));
+}
+
+function goToDay(id) {
+  currentDay = id;
+  document.querySelectorAll('.day-section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(`day-${id}`);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+  const pill = document.getElementById(`pill-${id}`);
+  if (pill) pill.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ==================== QUIZ LOGIC ====================
+
+function answer(qi, ai) {
+  if (quizAnswers[qi] !== undefined) return;
+  quizAnswers[qi] = ai;
+  const q = quizData[qi];
+  const isCorrect = ai === q.correct;
+  const box = document.getElementById(`qbox-${qi}`);
+  const exp = document.getElementById(`exp-${qi}`);
+
+  q.opts.forEach((_, j) => {
+    const btn = document.getElementById(`opt-${qi}-${j}`);
+    btn.disabled = true;
+    if (j === q.correct) btn.classList.add('correct');
+    else if (j === ai && !isCorrect) btn.classList.add('incorrect');
+  });
+
+  exp.textContent = q.exp;
+  exp.className = `q-explanation show ${isCorrect ? 'correct-exp' : 'wrong-exp'}`;
+  box.classList.toggle('answered', isCorrect);
+  box.classList.toggle('wrong', !isCorrect);
+
+  if (Object.keys(quizAnswers).length === quizData.length) showScore();
+}
+
+function showScore() {
+  const score = Object.entries(quizAnswers).filter(([i,a]) => parseInt(a) === quizData[i].correct).length;
+  const box = document.getElementById('score-box');
+  document.getElementById('score-num').textContent = `${score}/10`;
+  const msgs = [
+    "Continuez à explorer — l'art a encore de beaux secrets à révéler.",
+    "Bon début ! Parcourez à nouveau les 15 jours pour approfondir.",
+    "Très bien ! Vous avez intégré les fondamentaux neuro-esthétiques.",
+    "Excellent ! Vous êtes prêt à guider vos propres lecteurs.",
+    "Parfait ! Vous maîtrisez L'Ordonnance Impressionniste."
+  ];
+  const msgIdx = score <= 3 ? 0 : score <= 5 ? 1 : score <= 7 ? 2 : score <= 9 ? 3 : 4;
+  document.getElementById('score-msg').textContent = msgs[msgIdx];
+  box.classList.add('show');
+  setTimeout(() => box.scrollIntoView({behavior:'smooth'}), 300);
+}
+
+function restartQuiz() {
+  quizAnswers = {};
+  document.getElementById('score-box').classList.remove('show');
+  buildQuiz();
+}
+
+// ==================== INIT ====================
+
+buildDayNav();
+buildMain();
+buildQuiz();
+buildGalleries();
+showCover();
+</script>
+</body>
+</html>

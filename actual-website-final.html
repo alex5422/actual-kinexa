@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual — What is actually happening right now</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E0C09; --paper:#F8F5EF; --warm:#EDE8DC;
+  --rule:#CEC8B8; --muted:#8A8272; --accent:#1D3828;
+  --gold:#9B7A2A; --gold-l:#C4A45A; --gold-d:#5C4515;
+  --red:#7A1E1E; --panel:#F2EDE3; --dark:#111009;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Libre Baskerville',Georgia,serif;font-size:17px;line-height:1.85;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.3s,border-color 0.3s;}
+nav.scrolled{background:rgba(248,245,239,0.97);border-bottom:1px solid var(--rule);backdrop-filter:blur(6px);}
+nav.hero-mode{background:transparent;border-bottom:1px solid rgba(255,255,255,0.08);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.35em;text-decoration:none;transition:color 0.3s;}
+nav.hero-mode .nav-logo{color:rgba(255,255,255,0.7);}
+nav.scrolled .nav-logo{color:var(--ink);}
+.nav-links{display:flex;gap:22px;}
+.nav-links a{font-family:'Instrument Sans',sans-serif;font-size:12px;text-decoration:none;transition:color 0.2s;}
+nav.hero-mode .nav-links a{color:rgba(255,255,255,0.45);}
+nav.hero-mode .nav-links a:hover{color:rgba(255,255,255,0.85);}
+nav.scrolled .nav-links a{color:var(--muted);}
+nav.scrolled .nav-links a:hover{color:var(--ink);}
+.nav-cta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:7px 16px;text-decoration:none;transition:all 0.2s;}
+nav.hero-mode .nav-cta{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.2);}
+nav.scrolled .nav-cta{background:var(--accent);color:white;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 48px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 65% at 50% 42%, rgba(155,122,42,0.08) 0%, transparent 68%);}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(transparent, var(--dark));}
+.hero-ornament{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.55em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;display:flex;align-items:center;gap:20px;position:relative;z-index:1;}
+.hero-ornament::before,.hero-ornament::after{content:'';display:block;width:52px;height:1px;background:var(--gold-d);}
+.hero-wordmark{font-family:'Playfair Display',serif;font-size:clamp(96px,18vw,200px);font-weight:900;line-height:0.88;letter-spacing:-0.04em;color:var(--paper);position:relative;z-index:1;margin-bottom:0;}
+.hero-rule{width:1px;height:60px;background:linear-gradient(var(--gold-d),transparent);margin:20px auto;position:relative;z-index:1;}
+.hero-sub{font-family:'Playfair Display',serif;font-size:clamp(15px,2vw,21px);font-style:italic;font-weight:400;color:rgba(255,255,255,0.4);max-width:520px;line-height:1.6;position:relative;z-index:1;margin-bottom:44px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;}
+.hero-pill{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.1);padding:6px 14px;}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;color:rgba(255,255,255,0.2);z-index:2;animation:bob 2.2s infinite;}
+.hero-scroll::after{content:'';width:1px;height:32px;background:linear-gradient(var(--gold-d),transparent);}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+
+/* ── SITE BODY ── */
+.site-body{display:grid;grid-template-columns:1fr 340px;}
+.main-col{border-right:1px solid var(--rule);min-width:0;}
+.side-col{background:var(--panel);}
+
+/* ── SECTIONS ── */
+.sec{padding:52px 48px;border-bottom:1px solid var(--rule);}
+.sec:last-child{border-bottom:none;}
+.sec-kicker{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;display:flex;align-items:center;gap:14px;}
+.sec-kicker::after{content:'';flex:1;height:1px;background:var(--rule);}
+h2{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:600;line-height:1.1;margin-bottom:18px;}
+h2 em{font-style:italic;color:var(--gold);font-weight:400;}
+p{margin-bottom:15px;}p:last-child{margin-bottom:0;}
+
+/* ── DRAFT ── */
+.draft-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px;}
+.draft-lead{font-size:18px;font-style:italic;line-height:1.65;border-left:2px solid var(--accent);padding-left:18px;margin-bottom:20px;}
+.pq{background:var(--warm);padding:20px 24px;margin:18px 0;border-left:2px solid var(--rule);}
+.pq blockquote{font-size:16px;font-style:italic;line-height:1.6;margin-bottom:6px;}
+.pq cite{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;}
+.refuses{margin:18px 0;}
+.refuse{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule);font-size:15px;}
+.refuse:first-child{border-top:1px solid var(--rule);}
+.rx{font-family:'DM Mono',monospace;font-size:10px;color:var(--red);flex-shrink:0;}
+
+/* ── CITIES ── */
+.cities-sec{background:var(--dark);color:var(--paper);}
+.cities-sec .sec-kicker{color:var(--gold);}
+.cities-sec .sec-kicker::after{background:rgba(255,255,255,0.08);}
+.cities-sec h2{color:var(--paper);}
+.cap-tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:24px;}
+.cap-tab{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.4);padding:6px 13px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:5px;}
+.cap-tab:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.75);}
+.cap-tab.active{background:var(--gold);border-color:var(--gold);color:var(--dark);}
+.cap-flag{font-size:12px;}
+.city-panel{display:none;}
+.city-panel.active{display:block;}
+.city-name{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:white;margin-bottom:3px;line-height:1;}
+.city-tagline{font-family:'Instrument Sans',sans-serif;font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:22px;line-height:1.5;}
+.chapters-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.chapter{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:12px 14px;cursor:pointer;transition:all 0.15s;}
+.chapter:hover{background:rgba(255,255,255,0.06);}
+.chapter.open{border-left:2px solid var(--gold);background:rgba(155,122,42,0.09);}
+.ch-head{display:flex;align-items:flex-start;gap:9px;}
+.ch-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);min-width:20px;flex-shrink:0;margin-top:3px;}
+.ch-t{font-size:13px;font-weight:700;color:rgba(255,255,255,0.82);line-height:1.3;flex:1;}
+.ch-arr{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);flex-shrink:0;transition:transform 0.18s;}
+.chapter.open .ch-arr{transform:rotate(90deg);}
+.ch-body{display:none;padding:9px 0 0 29px;font-size:12px;color:rgba(255,255,255,0.48);line-height:1.7;}
+.chapter.open .ch-body{display:block;}
+.city-q{margin-top:20px;padding:14px 18px;background:rgba(155,122,42,0.1);border-left:2px solid var(--gold);}
+.cq-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.cq-text{font-size:14px;font-style:italic;color:rgba(255,255,255,0.7);line-height:1.55;}
+
+.reads-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:22px;}
+.read-card{background:var(--ink);color:var(--paper);padding:22px 18px;display:flex;flex-direction:column;gap:0;text-decoration:none;border:1px solid var(--ink);transition:opacity 0.15s;position:relative;overflow:hidden;}
+.read-card:hover{opacity:0.85;}
+.read-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);}
+.read-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;color:rgba(255,255,255,0.22);margin-bottom:8px;}
+.read-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:white;line-height:1.15;margin-bottom:5px;}
+.read-sub{font-family:'Instrument Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.42);line-height:1.5;margin-bottom:14px;flex:1;}
+.read-meta{display:flex;align-items:center;justify-content:space-between;margin-top:auto;flex-wrap:wrap;gap:4px;}
+.read-app-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;background:rgba(155,122,42,0.2);color:var(--gold-l);padding:2px 7px;}
+.read-pages{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.18);}
+
+/* ── APPS ── */
+.apps-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:22px;}
+.app-card{background:var(--paper);border:1px solid var(--rule);padding:22px 20px;cursor:pointer;transition:border-color 0.15s;position:relative;}
+.app-card:hover{border-color:var(--gold);}
+.app-card::after{content:attr(data-num);font-family:'Playfair Display',serif;font-size:80px;font-weight:900;color:rgba(0,0,0,0.04);position:absolute;right:12px;bottom:8px;line-height:1;pointer-events:none;}
+.app-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.app-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:5px;line-height:1.2;}
+.app-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.app-companion{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--rule);padding-top:10px;display:flex;align-items:center;justify-content:space-between;}
+.app-open{color:var(--accent);}
+
+/* ── BOOKS ── */
+.books-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;}
+.book-card{background:var(--warm);border:1px solid var(--rule);padding:14px 16px;border-left:3px solid var(--rule);transition:border-left-color 0.15s;text-decoration:none;display:block;}
+.book-card:hover{border-left-color:var(--gold);}
+.book-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.book-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:1px;line-height:1.25;}
+.book-author{font-family:'Instrument Sans',sans-serif;font-size:11px;font-style:italic;color:var(--muted);margin-bottom:5px;}
+.book-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+
+/* ── CIRCLE ── */
+.circle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px;}
+.c-step{border:1px solid var(--rule);padding:18px 16px;}
+.cs-n{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:6px;}
+.cs-title{font-size:13px;font-weight:700;margin-bottom:5px;}
+.cs-body{font-size:11px;color:var(--muted);line-height:1.6;}
+
+/* ── NEWSLETTER ── */
+.nl-sec{background:var(--dark);color:white;}
+.nl-sec .sec-kicker{color:rgba(255,255,255,0.3);}
+.nl-sec .sec-kicker::after{background:rgba(255,255,255,0.08);}
+.nl-sec h2{color:white;}
+.nl-form{display:flex;gap:0;margin-top:20px;max-width:440px;}
+.nl-inp{font-family:'Libre Baskerville',serif;font-size:15px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-right:none;padding:11px 16px;color:white;flex:1;outline:none;}
+.nl-inp::placeholder{color:rgba(255,255,255,0.25);}
+.nl-inp:focus{border-color:rgba(255,255,255,0.4);}
+.nl-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:var(--gold);color:var(--dark);border:none;padding:11px 18px;cursor:pointer;white-space:nowrap;transition:opacity 0.15s;}
+.nl-btn:hover{opacity:0.85;}
+.nl-note{font-family:'Instrument Sans',sans-serif;font-size:11px;color:rgba(255,255,255,0.3);margin-top:9px;font-style:italic;}
+
+/* ── SIDEBAR ── */
+.side-inner{position:sticky;top:56px;padding:24px 20px;max-height:calc(100vh - 56px);overflow-y:auto;}
+.side-sec{margin-bottom:28px;}
+.side-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:13px;}
+.side-q-list{display:flex;flex-direction:column;gap:2px;}
+.side-q{background:var(--paper);border:1px solid var(--rule);cursor:pointer;overflow:hidden;transition:border-color 0.15s;}
+.side-q:hover,.side-q.open{border-color:var(--accent);}
+.side-q-head{display:flex;align-items:flex-start;gap:8px;padding:10px 11px;}
+.side-q-n{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0;margin-top:2px;}
+.side-q-t{font-family:'Libre Baskerville',serif;font-size:12px;line-height:1.45;flex:1;color:var(--ink);}
+.side-q-a{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0;transition:transform 0.18s;}
+.side-q.open .side-q-a{transform:rotate(90deg);}
+.side-q-body{display:none;padding:0 11px 11px 26px;font-size:11px;color:var(--muted);line-height:1.65;}
+.side-q.open .side-q-body{display:block;}
+.rtypes{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:9px;}
+.rtype{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;border:1px solid var(--rule);background:var(--paper);padding:7px 2px;cursor:pointer;color:var(--muted);text-align:center;transition:all 0.12s;}
+.rtype.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.side-fields{display:flex;flex-direction:column;gap:6px;}
+.s-inp{font-family:'Libre Baskerville',serif;font-size:13px;background:var(--paper);border:1px solid var(--rule);padding:8px 10px;color:var(--ink);width:100%;outline:none;transition:border-color 0.15s;-webkit-appearance:none;border-radius:0;}
+.s-inp:focus{border-color:var(--accent);}
+.s-inp::placeholder{color:var(--rule);}
+.s-ta{resize:none;height:68px;line-height:1.5;}
+.s-submit{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;background:var(--accent);color:white;border:none;padding:10px;cursor:pointer;width:100%;transition:opacity 0.15s;margin-top:2px;}
+.s-submit:hover{opacity:0.82;}
+.s-note{font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;font-style:italic;}
+.feed-list{display:flex;flex-direction:column;gap:3px;}
+.feed-item{background:var(--paper);border:1px solid var(--rule);padding:10px 11px;}
+.feed-item.new{animation:slidein 0.3s ease;}
+@keyframes slidein{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.fi-top{display:flex;align-items:baseline;gap:5px;margin-bottom:5px;flex-wrap:wrap;}
+.fi-name{font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:500;color:var(--ink);}
+.fi-role{font-family:'Instrument Sans',sans-serif;font-size:10px;color:var(--muted);flex:1;}
+.fi-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 5px;}
+.b-q{background:#E6EDE9;color:var(--accent);}
+.b-o{background:#FCEAEA;color:var(--red);}
+.b-a{background:#EDE8DC;color:var(--gold);}
+.fi-text{font-family:'Libre Baskerville',serif;font-size:12px;color:var(--ink);line-height:1.6;font-style:italic;}
+.feed-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-align:right;padding-top:5px;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--rule);padding:20px 48px;display:flex;justify-content:space-between;align-items:center;}
+.f-logo{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--muted);}
+.f-note{font-family:'Instrument Sans',sans-serif;font-size:11px;color:var(--muted);font-style:italic;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .site-body{grid-template-columns:1fr;}
+  .side-col{display:none;}
+  .sec{padding:36px 20px;}
+  .hero{padding:80px 20px;}
+  .draft-cols,.chapters-grid,.books-grid,.reads-grid,.apps-grid{grid-template-columns:1fr;}
+  footer{padding:16px 20px;flex-direction:column;gap:6px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="hero-mode" id="nav">
+  <a class="nav-logo" href="#">Actual</a>
+  <div class="nav-links">
+    <a href="#draft">Draft Zero</a>
+    <a href="#cities">Cities</a>
+    <a href="#library">Library</a>
+    <a href="#who">Who</a>
+    <a href="#reads">Reads</a>
+    <a href="#apps">Apps</a>
+  </div>
+  <a class="nav-cta" href="#newsletter">Subscribe →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ornament">A thinking space · Est. 2025</div>
+  <div class="hero-wordmark">ACTUAL</div>
+  <div class="hero-rule"></div>
+  <p class="hero-sub">A new space. Not one voice — an ecosystem of people who think from experience, not from position. Short, signed, honest.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">No PDFs</span>
+    <span class="hero-pill">No anonymity</span>
+    <span class="hero-pill">No consensus</span>
+    <span class="hero-pill">AI-assisted · human-thought</span>
+  </div>
+  <div class="hero-scroll">Read</div>
+</div>
+
+<!-- SITE BODY -->
+<div class="site-body">
+
+<!-- MAIN -->
+<div class="main-col">
+
+  <!-- DRAFT ZERO -->
+  <div class="sec" id="draft">
+    <div class="sec-kicker">Draft Zero · Founding document</div>
+    <h2>What Actual <em>is</em>.</h2>
+    <p class="draft-lead">Something is changing in the human being — biologically, cognitively, socially. Most thinking spaces are not looking at it directly.</p>
+    <div class="draft-cols">
+      <div>
+        <p style="font-size:15px;color:var(--muted);">Actual is a new space — not a magazine, not a consultancy, not a think tank in the traditional sense. It is an ecosystem built from clinical experience, scientific rigour, and the conviction that the most interesting thinking happens at the intersection of things that don't usually talk to each other: neuroscience and art history, AI and the body, medicine and philosophy.</p>
+        <p style="font-size:15px;color:var(--muted);">The people behind Actual come from hospitals, operating rooms, high-level performance coaching, and research. Their names appear on the work, not on the institution. The institution is the work.</p>
+        <div class="pq"><blockquote>"The mind that has no leisure to compose itself is in an excessive state of slavery."</blockquote><cite>— Seneca, 65 AD · Still true.</cite></div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">What Actual refuses</div>
+        <div class="refuses">
+          <div class="refuse"><span class="rx">×</span>PDFs no one reads past page three</div>
+          <div class="refuse"><span class="rx">×</span>Events where performance replaces thought</div>
+          <div class="refuse"><span class="rx">×</span>Positions designed to offend no one</div>
+          <div class="refuse"><span class="rx">×</span>Expertise without lived experience</div>
+          <div class="refuse"><span class="rx">×</span>Consensus as a substitute for truth</div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:14px;font-style:italic;">This document is deliberately unfinished. React in the panel → </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO -->
+  <div class="sec" id="who" style="background:var(--warm);">
+    <div class="sec-kicker">Who · The Kinexa ecosystem</div>
+    <h2>Not one person.<br><em>A constellation.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:8px;">
+      <div>
+        <p style="font-size:15px;color:var(--muted);">Actual is the thinking space of the Kinexa ecosystem — a network built over thirty years at the intersection of clinical medicine, cognitive neuroscience, high-level performance, and now artificial intelligence.</p>
+        <p style="font-size:15px;color:var(--muted);">The people behind the work come from AP-HP operating rooms, neurological rehabilitation wards, elite sports medicine, choreography, and music. They publish under their names. The institution stays in the background.</p>
+        <p style="font-size:15px;color:var(--muted);">Actual is where this ecosystem thinks in public — slowly, honestly, without the usual protective packaging of institutional language.</p>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--rule);">What the ecosystem brings</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px;display:flex;gap:12px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:3px;flex-shrink:0;">→</span><span>Thirty years of clinical neuroscience and physical medicine</span></div>
+          <div style="padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px;display:flex;gap:12px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:3px;flex-shrink:0;">→</span><span>High-level performance coaching — athletes, musicians, executives</span></div>
+          <div style="padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px;display:flex;gap:12px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:3px;flex-shrink:0;">→</span><span>Art history, Renaissance studies, the biomechanics of gesture</span></div>
+          <div style="padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px;display:flex;gap:12px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:3px;flex-shrink:0;">→</span><span>Agentic AI and its effects on cognitive capital</span></div>
+          <div style="padding:10px 0;font-size:14px;display:flex;gap:12px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:3px;flex-shrink:0;">→</span><span>The conviction that truth requires a name — no anonymity here</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- READS -->
+  <div class="sec" id="reads">
+    <div class="sec-kicker">Reads · Ebooks & briefs</div>
+    <h2>Short documents.<br><em>Long thoughts.</em></h2>
+    <p style="color:var(--muted);font-size:15px;">Each Actual read is signed, dated, open to revision. Clinical experience, neuroscience, art history, philosophy — the Kinexa ecosystem, put in writing. Every read has a companion app that extends the argument into something you can operate.</p>
+    <div class="reads-grid" id="readsGrid"></div>
+  </div>
+
+  <!-- APPS -->
+  <div class="sec" id="apps" style="background:var(--warm);">
+    <div class="sec-kicker">Apps · Interactive tools</div>
+    <h2>Arguments you can <em>operate</em>.</h2>
+    <p style="color:var(--muted);font-size:15px;">Each app is the companion to an Actual read — not an illustration of it, but an extension. Something you can touch, explore, push back against.</p>
+    <div class="apps-grid" id="appsGrid"></div>
+  </div>
+
+  <!-- ACTUAL CITIES -->
+  <div class="sec cities-sec" id="cities">
+    <div class="sec-kicker">Actual Cities · Ongoing series</div>
+    <h2>Ten European capitals.<br><em>Ten ways to understand now.</em></h2>
+    <p style="color:rgba(255,255,255,0.45);font-size:15px;margin-bottom:26px;">Each city is a cognitive map — not a travel guide. What Rome says about power. What Vienna says about endings. What Berlin says about rebuilding. Ten chapters per city. One question for today.</p>
+    <div class="cap-tabs" id="capTabs"></div>
+    <div id="cityPanels"></div>
+  </div>
+
+  <!-- LIBRARY -->
+  <div class="sec" id="library">
+    <div class="sec-kicker">The Actual Library · Curated reading</div>
+    <h2>Books that <em>repair</em> the thinking mind.</h2>
+    <p style="color:var(--muted);font-size:15px;">Not self-help. Not management. Books that dig, disturb, expand. Read with a pencil. Mark what resists you — not what interests you.</p>
+    <div class="books-grid">
+      <a class="book-card" href="https://www.goodreads.com/book/show/30659.Meditations" target="_blank"><div class="book-tag">Stoicism</div><div class="book-title">Meditations</div><div class="book-author">Marcus Aurelius · 2nd c. AD</div><div class="book-desc">An emperor's private journal, never meant to be read. The oldest cognitive self-regulation protocol in existence.</div></a>
+      <a class="book-card" href="https://www.goodreads.com/book/show/11468377-thinking-fast-and-slow" target="_blank"><div class="book-tag">Decision science</div><div class="book-title">Thinking, Fast and Slow</div><div class="book-author">Daniel Kahneman · 2011</div><div class="book-desc">Nobel Prize. The scientific map of why cognitive overload destroys decision quality. No shortcuts available.</div></a>
+      <a class="book-card" href="https://www.goodreads.com/book/show/57933306-stolen-focus" target="_blank"><div class="book-tag">Attention</div><div class="book-title">Stolen Focus</div><div class="book-author">Johann Hari · 2022</div><div class="book-desc">What Silicon Valley built — and knew it was building. The most rigorous investigation into the attention crisis.</div></a>
+      <a class="book-card" href="https://www.goodreads.com/book/show/23692271-sapiens" target="_blank"><div class="book-tag">Long view</div><div class="book-title">Sapiens</div><div class="book-author">Yuval Noah Harari · 2011</div><div class="book-desc">70,000 years in 500 pages. The absolute antidote to the tyranny of the urgent. Read it slowly.</div></a>
+      <a class="book-card" href="https://www.goodreads.com/book/show/25744928-deep-work" target="_blank"><div class="book-tag">Concentration</div><div class="book-title">Deep Work</div><div class="book-author">Cal Newport · 2016</div><div class="book-desc">Deep concentration is the rare skill of this century. How to recover it in a world designed to prevent it.</div></a>
+      <a class="book-card" href="https://www.goodreads.com/book/show/35215.On_Beauty_and_Being_Just" target="_blank"><div class="book-tag">Aesthetics</div><div class="book-title">On Beauty and Being Just</div><div class="book-author">Elaine Scarry · 1999</div><div class="book-desc">A Harvard philosopher's radical thesis: beauty generates equity. Short, dense, changes how you look at things.</div></a>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="sec nl-sec" id="newsletter">
+    <div class="sec-kicker">Subscribe · Free · Every Monday</div>
+    <h2>One thread.<br>One reading.<br><em>One question.</em></h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;">Five minutes. No advertising. No algorithm. No content designed to keep you scrolling. Just one thing worth thinking about this week.</p>
+    <div class="nl-form"><input class="nl-inp" type="email" placeholder="your@email.com" id="nl-email"><button class="nl-btn" onclick="nlSubmit()">Subscribe →</button></div>
+    <p class="nl-note" id="nl-msg">No spam. Unsubscribe in one click. Your email stays with Actual.</p>
+  </div>
+
+</div>
+
+<!-- SIDEBAR -->
+<div class="side-col">
+<div class="side-inner">
+
+  <div class="side-sec">
+    <div class="side-lbl">Open questions in Draft Zero</div>
+    <div class="side-q-list" id="sideQs"></div>
+  </div>
+
+  <div class="side-sec">
+    <div class="side-lbl">Your reaction</div>
+    <div class="rtypes">
+      <button class="rtype on" onclick="setType(this,'q')">Question</button>
+      <button class="rtype" onclick="setType(this,'o')">Objection</button>
+      <button class="rtype" onclick="setType(this,'a')">I'd sign</button>
+    </div>
+    <div class="side-fields">
+      <input class="s-inp" type="text" id="s-name" placeholder="Your name">
+      <input class="s-inp" type="text" id="s-role" placeholder="Your role or field">
+      <textarea class="s-inp s-ta" id="s-text" placeholder="Say it plainly."></textarea>
+      <button class="s-submit" onclick="sideSubmit()">Contribute →</button>
+      <p class="s-note">No anonymity — that's a rule of Actual. Pen names accepted if verified.</p>
+    </div>
+  </div>
+
+  <div class="side-sec">
+    <div class="side-lbl">Reactions <span id="feed-n" style="font-family:monospace;font-size:9px;background:var(--warm);padding:1px 6px;color:var(--muted);">3</span></div>
+    <div class="feed-list" id="feedList"></div>
+    <div class="feed-count" id="feedCount">3 contributions · draft open</div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<footer>
+  <span class="f-logo">ACTUAL · actual.institute · 2025</span>
+  <span class="f-note">Written with AI assistance. The positions are human.</span>
+</footer>
+
+<script>
+/* ── READS & APPS DATA ── */
+const reads=[
+  {num:'Read 001',title:"The Leader's Brief",sub:"On cognitive overload — what history's greatest leaders actually did about it. Marcus Aurelius, Churchill, Buffett, Gates. Written with AI. Without apology.",pages:'10 pages · EN',app:'Historical Thread',file:'actual-ebook-complete.html'},
+  {num:'Read 002',title:'25 Masters · Renaissance',sub:"25 figures of the Renaissance as mirrors of body and intelligence. Leonardo, Vésale, Monteverdi — what the greatest minds knew about attention, beauty, and the limits of the thinking self. — Kinexa",pages:'Bilingual FR/EN',app:'25 Masters Explorer',file:'25masters-v10_def.html'},
+  {num:'Read 003',title:'93 Visionnaires du Geste',sub:"From Pollock to Proust — 93 visionaries across five centuries who understood human movement before science had words for it. Painters, sculptors, dancers, philosophers, filmmakers. — Kinexa",pages:'Collection complète · FR/EN',app:'Visionnaires Explorer',file:'kinexa_MASTER_COMPLET_FINAL.html'},
+  {num:'Read 004',title:'The Motivation Equation',sub:"The neurobiological equation of motivation — striatum, amygdala, somatic markers. What actually drives sustained high performance, and what erodes it. Thirty years of neuroscience, made operable. — Kinexa",pages:'Bilingual FR/EN',app:'Motivation Map',file:'LEquation_de_la_Motivation_eBook.html'},
+  {num:'Read 005',title:'Cognitive Capital & Agentic AI',sub:"AI doesn't just replace tasks. It silently erodes your most strategic asset: your capacity to think, decide, and create independently. What you are losing — and how to stop it. — Kinexa",pages:'Operational guide · Bilingual',app:'Cognitive Capital Index',file:'guide-capital-cognitif-v3-enrichi.html'},
+  {num:'Read 006',title:'The Mind at Work',sub:"Neurophysiology, motricity and culture for human performance. Ten chapters — from the neuro-architecture of motivation to the vagal nerve. The biological mechanisms first, then what transforms them. — Kinexa",pages:'10 chapters · FR',app:'Neurophysiology Map',file:'ebook_esprit_entreprise_v3.html'},
+  {num:'Read 007',title:'Biomechanics · Sports & Dance',sub:"The complete illustrated guide — from sports trauma to dance and music. Muscle chains, fascias, nervous system, injury mechanics, return to performance. Illustrated edition 2026. — Kinexa",pages:'Illustrated · FR',app:'Body Systems Explorer',file:'eBook_Biomecaniques_DrDelong_COMPLET.html'},
+  {num:'Read 008',title:'The Body in Motion',sub:"From the salsa clave to Piazzolla's bandoneón — the neuroscience of rhythm and movement. How music programmes the body before the dancer decides to move. — Kinexa",pages:'Full guide · FR',app:'Rhythm Explorer',file:'ebook_corps_en_mouvement.html'},
+  {num:'Read 009',title:'Sports Traumatology — Treatise',sub:"16 chapters, 6 parts, 400 pages. Anatomy, injuries, prevention, return to sport. The complete clinical reference by a former AP-HP Head of Department. — Kinexa",pages:'400 pages · FR',app:'Injury Atlas',file:'Traumatologie_Sport_ebook.html'},
+  {num:'Read 010',title:'Body & AI — Masterclass Guide',sub:"Your body is your first tool facing AI. Five protocols for surviving cognitive overload — built from thirty years of clinical practice, the operating room, and high-level performance coaching. — Kinexa",pages:'Participant guide · FR',app:'Protocol Builder',file:'ebook-masterclass-delong__1_.html'},
+  {num:'Read 011',title:'Draft Zero',sub:"Actual's founding document. What this space is, what it refuses, what it doesn't know yet. Deliberately incomplete. Open to objection from anyone.",pages:'1 page · EN',app:'Live Discussion',file:'actual-draft-zero.html'},
+];
+
+const apps=[
+  {num:'01',label:'Companion to Read 001',title:'Historical Thread',desc:'Six leaders across 2,000 years — Marcus Aurelius to Bill Gates — each with a documented practice for protecting their thinking. Click through time, read what they actually did.',companion:"Read 001 · The Leader's Brief",open:'Explore below',href:'#cities'},
+  {num:'02',label:'Companion to Read 002',title:'25 Masters Explorer',desc:'25 Renaissance figures mapped by discipline, cognitive practice, and what they say about the overloaded mind today. From Leonardo to Vésale — each one a protocol.',companion:'Read 002 · 25 Masters',open:'In development',href:'#'},
+  {num:'03',label:'Companion to Read 003',title:'Visionnaires Explorer',desc:'93 visionaries of human movement — interactive, searchable by discipline and century. From Pollock to Proust: each figure linked to a practice, a body of work, and a question for today.',companion:'Read 003 · 93 Visionnaires',open:'In development',href:'#'},
+  {num:'04',label:'Companion to Read 004',title:'Motivation Map',desc:"An interactive diagram of the neurobiological motivation equation. Striatum, amygdala, dopamine circuits, vagal feedback — what you can actually modulate, and how. Based on Dr. Delong's clinical framework.",companion:'Read 004 · The Motivation Equation',open:'In development',href:'#'},
+  {num:'05',label:'Companion to Read 005',title:'Cognitive Capital Index',desc:'A self-assessment for executives: where is your cognitive capital being eroded by agentic AI? Which capacities are at risk, which to reclaim first. Built from the clinical framework.',companion:'Read 005 · Cognitive Capital & AI',open:'In development',href:'#'},
+  {num:'06',label:'Companion to Read 007',title:'Body Systems Explorer',desc:'An interactive atlas of the body in sport and dance — muscle chains, fascial connections, nervous pathways. From injury mechanism to return-to-performance protocol. Illustrated.',companion:'Read 007 · Biomechanics',open:'In development',href:'#'},
+  {num:'07',label:'Companion to Actual Cities',title:'Ten Cities · Ten Chapters',desc:'Each European capital as a cognitive map — 10 chapters per city, one question for today. The Renaissance, the Enlightenment, the catastrophes: all readable from where you stand now.',companion:'Actual Cities Series',open:'Open below',href:'#cities'},
+];
+
+function renderReads(){
+  document.getElementById('readsGrid').innerHTML=reads.map(r=>`
+    <a class="read-card" href="${r.file}" ${r.file!=='#'?'target="_blank"':''}>
+      <div class="read-num">${r.num}</div>
+      <div class="read-title">${r.title}</div>
+      <div class="read-sub">${r.sub}</div>
+      <div class="read-meta">
+        <span class="read-app-tag">App: ${r.app}</span>
+        <span class="read-pages">${r.pages}</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+function renderApps(){
+  document.getElementById('appsGrid').innerHTML=apps.map(a=>`
+    <div class="app-card" data-num="${a.num}" onclick="if('${a.href}'!=='#')document.querySelector('${a.href}')?.scrollIntoView({behavior:'smooth'})">
+      <div class="app-label">${a.label}</div>
+      <div class="app-title">${a.title}</div>
+      <div class="app-desc">${a.desc}</div>
+      <div class="app-companion">
+        <span>${a.companion}</span>
+        <span class="app-open">${a.open} →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── CAPITALS DATA ── */
+const capitals=[
+  {id:'paris',name:'Paris',flag:'🇫🇷',sub:'France · What does Paris say about beauty as political instrument?',
+  question:'Paris has always used beauty as governance — from Versailles to Haussmann to the Grand Louvre. Is aesthetic investment in public space soft power, or its most honest form?',
+  chapters:[
+    {t:'Origins & the Île de la Cité',d:'Two thousand years of continuous habitation on a river island. The Parisii Gauls, Roman Lutetia, the Capetian kings — Paris was always a crossing point, not a destination. Every layer of its history still visible if you know where to look.'},
+    {t:'Notre-Dame & Gothic thought',d:'Gothic architecture was not decoration: it was theology made structural. Flying buttresses allowed walls of light. The cathedral as a cognitive machine — designed to overwhelm the senses and reorient the mind toward something larger than itself.'},
+    {t:'Haussmann & the politics of space',d:'Napoleon III gave Haussmann a blank cheque: destroy medieval Paris, build the bourgeois city. Wide boulevards, uniform facades, new parks — and streets impossible to barricade. Urban design as counter-revolutionary infrastructure.'},
+    {t:'The café as institution',d:'Sartre wrote Being and Nothingness at the Café de Flore. Simone de Beauvoir held court at Les Deux Magots. The café as the original co-working space — but for people who were actually thinking, not performing thinking.'},
+    {t:'1789 & the invention of politics',d:'The French Revolution invented the modern political vocabulary: left and right (from seating in the Assemblée), human rights, the nation-state, the public sphere. Every political argument since has used French 18th-century categories.'},
+    {t:'Impressionism & the new gaze',d:'Monet, Renoir, Degas: they stopped painting what things were supposed to look like and started painting how light actually falls. A revolution in perception disguised as a revolution in technique.'},
+    {t:'May 1968 & unfinished business',d:'Students, workers, intellectuals — a month of total disruption that changed nothing institutionally and everything culturally. The permanent tension in French society between radical thought and conservative structure.'},
+    {t:'Fashion as philosophy',d:'Paris fashion is not about clothes. It is about the idea that form matters — that how something looks is a statement about what it is. Chanel, Dior, Saint Laurent: each a complete worldview expressed in fabric.'},
+    {t:'The language question',d:'France has an Académie française to protect its language. The only country that does. This is a theory of culture: language shapes thought, and thought worth protecting requires a language worth protecting.'},
+    {t:'Paris today & the overtourism crisis',d:'50 million tourists a year in a city of 2 million. Every beautiful space becoming a backdrop for someone else\'s content. What does a city owe its visitors versus its residents? Paris is the test case.'},
+  ]},
+  {id:'london',name:'London',flag:'🇬🇧',sub:'United Kingdom · What does London say about empire, memory, and reinvention?',
+  question:'London benefited enormously from empire — its museums, institutions, wealth. Now it negotiates that history in public, in real time. How does a city carry what it was without being paralysed by it?',
+  chapters:[
+    {t:'Londinium & the Roman foundation',d:'Founded by Romans in 43 AD on the Thames. A crossing point, a trading post, a military base. London has always been defined by what passes through it — people, money, ideas — rather than what it produces itself.'},
+    {t:'The City & financial power',d:'The Square Mile: one of two global centres of finance. Lloyd\'s of London, the Bank of England, the stock exchange — an infrastructure of risk management that shapes economies worldwide. Money as the first form of globalisation.'},
+    {t:'The British Museum problem',d:'The largest collection of human civilisation under one roof — most of it acquired under empire. The Elgin Marbles, the Benin Bronzes, the Rosetta Stone. The ongoing negotiation about what museums are for and who they belong to.'},
+    {t:'The pub as democracy',d:'The English pub is a specific institution: standing room, mixed company, no booking required. The one genuinely egalitarian space in a deeply class-stratified society. Architecture as social policy.'},
+    {t:'1940 & the Blitz',d:'Churchill\'s finest hour was also London\'s. The city that kept its theatres open, kept the underground running as shelters. The social solidarity of shared danger, and what it reveals about ordinary people under pressure.'},
+    {t:'Pop culture & soft power',d:'The Beatles, Bowie, the Sex Pistols, Adele. No comparable city has produced more globally influential popular culture. The question of why — and whether it is still happening with the same intensity.'},
+    {t:'Immigration & the city it made',d:'Huguenots, Jews, Caribbeans, South Asians, Eastern Europeans, Nigerians: London was built by successive waves of people who had nowhere else to go and made it somewhere. 300 languages spoken. The most cosmopolitan major city in history.'},
+    {t:'Brexit & the identity fracture',d:'London voted 60% Remain. England voted Leave. Brexit was not a policy choice — it was a diagnosis of a country divided between its cosmopolitan capital and everywhere else. The fracture has not healed.'},
+    {t:'The NHS & the social contract',d:'The National Health Service — free at point of use, funded by taxation — is what the British are most proud of. It is also perpetually underfunded. What it represents versus what it actually is: the permanent British contradiction.'},
+    {t:'London as world city',d:'Not a British city that happens to be world-famous. A world city that happens to be in Britain. Its economy and culture are more connected to New York and Dubai than to Birmingham or Leeds. The question of what that means for democracy.'},
+  ]},
+  {id:'berlin',name:'Berlin',flag:'🇩🇪',sub:'Germany · What does Berlin say about rebuilding after catastrophe?',
+  question:'Berlin was destroyed — physically, morally, ideologically — in 1945, then rebuilt twice. What does it take for a city, or a society, to rebuild its own story without erasing what happened?',
+  chapters:[
+    {t:'Prussia & the militarist tradition',d:'Berlin as Prussian capital: a state built around an army, not an army built around a state. The Junker class, Bismarck\'s realpolitik, unification by blood and iron. The deep roots of German authoritarianism.'},
+    {t:'Weimar & the golden chaos',d:'1919–1933: the freest, most creative, most doomed period in modern European history. Expressionism, the Bauhaus, cabaret, sexual liberation — all in a country simultaneously starving and hyperinflating.'},
+    {t:'1933 & how democracies die',d:'Hitler came to power legally. The Enabling Act was voted through by a parliament that then dissolved itself. Berlin\'s lesson: democracies do not always collapse from outside. They are sometimes dismantled from within.'},
+    {t:'The Wall & the divided city',d:'Built in one night in August 1961. 155 kilometres of concrete, wire, and death strip. Families divided for 28 years. The Wall was not just a border — it was a permanent statement about the system that built it.'},
+    {t:'9 November 1989',d:'The most extraordinary television moment in modern history: crowds of East Germans pouring through checkpoints as border guards stepped aside. Not a revolution planned in advance — one that happened because nobody dared give the order to stop it.'},
+    {t:'The Stasi & surveillance',d:'The East German secret police had 1 in 63 citizens as informants. The most comprehensive domestic surveillance system ever built in a modern state. The files are still being read. Families still discovering who informed on whom.'},
+    {t:'The Memorial & memory',d:'The Holocaust Memorial at the heart of Berlin — 2,711 concrete slabs. Germany has put its worst act at the centre of its capital city. No other country has done anything comparable. Why? And is it enough?'},
+    {t:'Reunification & the price',d:'The DM-Ostmark exchange rate devastated East German industry. The psychological divide — Ossi and Wessi — persists thirty years later. Reunification was a political event, not a social one. The AfD\'s strength in the East is the result.'},
+    {t:'Techno & the new Berlin',d:'After the Wall fell, abandoned East Berlin spaces became the global capital of electronic music. Tresor, Berghain: clubs that operate as cultural institutions. The hedonism of a city that had just escaped forty years of prohibition.'},
+    {t:'Berlin today & gentrification',d:'The cheapest major European capital — until recently. Now facing the same gentrification crisis as everywhere else. A city that built its identity on being affordable for artists and outsiders, watching that identity be bought out from under it.'},
+  ]},
+  {id:'rome',name:'Rome',flag:'🇮🇹',sub:'Italy · What does Rome say about the weight of the past?',
+  question:'Rome is built on Rome. Every layer of history literally beneath your feet — Roman, medieval, Renaissance, Baroque, modern, all compressed. How does a city — or a person — carry that weight without being crushed by it?',
+  chapters:[
+    {t:'The Republic & its lessons',d:'509 to 27 BC: the Roman Republic. Senate, consuls, vetoes, popular assemblies. The first large-scale attempt at non-monarchical government in the western world. Its failures — the slide into autocracy — are as instructive as its achievements.'},
+    {t:'The Empire & expansion',d:'At its peak, the Roman Empire governed 50 million people across three continents. The question historians still argue: did it fall because it expanded too far, or despite not expanding far enough? The question applies to every organisation.'},
+    {t:'Christianity & the capture of Rome',d:'The religion of the persecuted became the religion of the empire in 313 AD. Constantine\'s conversion: genuine faith or political calculation? The question matters because it shaped a millennium of European history.'},
+    {t:'The Papacy as world power',d:'For a thousand years, the Bishop of Rome claimed authority over every Christian monarch in Europe. The Crusades launched from Rome. The Inquisition administered from Rome. Power without armies — and eventually, with them.'},
+    {t:'The Renaissance & classical revival',d:'15th-century Florence looked to Rome\'s ruins for its future. Brunelleschi measured the Pantheon\'s dome. Michelangelo painted the Sistine ceiling. The Renaissance was not a rebirth — it was an argument with antiquity about what humanity could become.'},
+    {t:'Baroque & the art of persuasion',d:'The Counter-Reformation needed art that made people feel, not think. Bernini\'s St Teresa in Ecstasy: religious experience rendered as physical sensation. The Church discovered that beauty is the most effective propaganda ever invented.'},
+    {t:'Unification & the modern state',d:'Italy was unified only in 1861 — one of the last European nations. The north-south divide, the Church\'s hostility to the new state, the weakness of civic institutions: Italy\'s chronic political instability has roots in its late and contested birth.'},
+    {t:'Mussolini & the Roman myth',d:'Fascism needed a mythology. Mussolini gave it the Roman Empire — literally excavating the ancient forums and using them as backdrops for speeches. The danger of a city whose past is so glorious it can be weaponised.'},
+    {t:'Cinema & la dolce vita',d:'Fellini\'s Rome: the Via Veneto in the 1960s, celebrities and paparazzi, beauty and emptiness. La Dolce Vita as diagnosis of a society that had traded meaning for prosperity. The title was ironic. Italians knew.'},
+    {t:'Rome today',d:'50 million tourists, 2.8 million residents, bureaucracy unchanged since Mussolini. Maintenance of the world\'s most valuable cultural heritage with a medium-sized municipality\'s budget. Rome as the impossible administrative challenge.'},
+  ]},
+  {id:'vienna',name:'Vienna',flag:'🇦🇹',sub:'Austria · What does Vienna say about thinking at the edge of catastrophe?',
+  question:'The Habsburg Empire collapsed in 1918 after 600 years. Vienna went from capital of 50 million to capital of 7 million. Freud, Klimt, Wittgenstein all worked in the shadow of something ending. What do we learn from thinking at the edge of collapse?',
+  chapters:[
+    {t:'The Habsburg project',d:'Six centuries of dynastic rule over a patchwork of languages, religions, and ethnicities. The Habsburg answer to multiculturalism: not assimilation, but shared administrative culture. A model for managing diversity — and its limits.'},
+    {t:'Mozart & the Classical ideal',d:'Vienna as the capital of Western classical music: Haydn, Mozart, Beethoven, Schubert all working within kilometres of each other within decades. What conditions produced this concentration of genius?'},
+    {t:'Freud & the unconscious',d:'Freud developed psychoanalysis in bourgeois Vienna because bourgeois Vienna needed it. A society of rigid propriety and violent suppression produced the theory that everything suppressed returns. The couch as the product of its time.'},
+    {t:'The Sezession & provocation',d:'Klimt, Schiele, Kokoschka: Viennese art nouveau was not decoration — it was provocation. The Beethoven Frieze, the Portrait of Adele Bloch-Bauer. Art as the expression of what polite society refused to name.'},
+    {t:'Wittgenstein & language\'s limits',d:'"Whereof one cannot speak, thereof one must be silent." Born into one of Europe\'s richest families, Wittgenstein gave away his inheritance and spent his life finding out what language can and cannot do.'},
+    {t:'1918 & the end of empire',d:'The Habsburg Empire did not survive the First World War. Vienna, built for 50 million, now governed 7 million. The Viennese called their new republic "the state nobody wanted." The century\'s lesson: great structures can end, and life continues.'},
+    {t:'Red Vienna & social democracy',d:'In the 1920s, Socialist Vienna built 60,000 apartments for workers — with libraries, kindergartens, theatres, medical clinics. The Karl-Marx-Hof: one building, 1,400 apartments. The most ambitious social housing experiment in history.'},
+    {t:'1938 & the Anschluss',d:'Austria did not resist. The crowds welcoming Hitler in Vienna were real. The Jewish community — one of Europe\'s most vibrant — was almost entirely destroyed. The postwar Austrian myth of victimhood took decades to dismantle.'},
+    {t:'The coffeehouse as institution',d:'The Viennese Kaffeehaus: order one coffee, stay four hours, read every newspaper, nobody asks you to leave. UNESCO intangible heritage. The last public space designed for unproductive lingering. Actual\'s spiritual ancestor.'},
+    {t:'Vienna today',d:'Consistently voted the world\'s most liveable city. Seat of the UN, IAEA, OPEC. A city that processes its catastrophic 20th century through museums and memorials while remaining very comfortable. Can comfort and memory coexist?'},
+  ]},
+  {id:'madrid',name:'Madrid',flag:'🇪🇸',sub:'Spain · What does Madrid say about power, passion, and late democracy?',
+  question:'Spain\'s transition from dictatorship to democracy after 1975 is considered a model of peaceful political change. Madrid, long suppressed, exploded culturally in the Movida of the 1980s. What does suppression followed by sudden freedom actually produce — and at what cost?',
+  chapters:[
+    {t:'The Habsburgs & the empire',d:'Philip II made Madrid permanent capital in 1561 because of its central position in the peninsula. A city built not from commerce or geography but from royal decree — and shaped by an empire that stretched from the Americas to the Philippines.'},
+    {t:'The Prado & what it holds',d:'Velázquez\'s Las Meninas, Goya\'s Saturno, El Greco\'s Toledo: the Prado contains the most complete record of Spanish political and spiritual life across three centuries. Art not as decoration but as argument about what Spain was and wanted to be.'},
+    {t:'Goya & the black paintings',d:'Diego Velázquez painted power with grace. Francisco Goya painted it with horror. Saturn Devouring His Son, The Third of May: the court painter who became the century\'s most honest witness. What happens to a mind that sees everything.'},
+    {t:'The Civil War & "No pasarán"',d:'Madrid resisted Franco\'s forces from 1936 to 1939. The battle of Universidad Complutense: students and professors defending a university with guns. The city did not fall until the very end. Its resistance became a symbol that outlasted the war.'},
+    {t:'Franco\'s long freeze',d:'Thirty-six years of dictatorship: censorship, repression, official Catholicism, cultural isolation. An entire generation grew up without access to the ideas that were reshaping Europe. The price of that freeze is still being calculated.'},
+    {t:'La Movida & the explosion of freedom',d:'After Franco died in 1975 and democracy arrived, Madrid exploded. Pedro Almodóvar, Alaska, Mecano: a city that had been silenced for forty years suddenly talking about sex, drugs, gender, death, everything at once. The Movida as cultural decompression.'},
+    {t:'The art of the late dinner',d:'Madrid at 10pm is just getting started for dinner. At midnight, the streets are full of people of all ages. The Spanish relationship with time — resistant to northern European productivity culture — is a genuine alternative model, not mere indiscipline.'},
+    {t:'Real Madrid & the politics of football',d:'The Real Madrid vs Atlético derby is the most socially divided fixture in European football: royal club against workers\' club, regime against republic. Football as the continuation of politics by other means.'},
+    {t:'Chueca & LGBTQ+ rights',d:'From a run-down neighbourhood nobody wanted to the most vibrant gay district in Southern Europe in twenty years. Madrid\'s transformation in this regard is one of the fastest cultural shifts any European city has undergone since 1975.'},
+    {t:'Madrid today',d:'A city governing 7 million people in its region, positioning itself as the capital of the Spanish-speaking world (500 million people), and competing with Barcelona for the title of Spain\'s real centre of gravity. The tension is productive.'},
+  ]},
+  {id:'amsterdam',name:'Amsterdam',flag:'🇳🇱',sub:'Netherlands · What does Amsterdam say about tolerance as a model — and its limits?',
+  question:'Amsterdam built its golden age on religious tolerance, which was also commercial strategy: refugees brought skills and capital. Today its liberal policies on drugs and sex work are similarly pragmatic. Is tolerance a value or a business model — and does it matter?',
+  chapters:[
+    {t:'The dam on the Amstel',d:'Founded as a fishing village on a peat bog in the 13th century. A city built on reclaimed land, held together by engineering and collective agreement. The Dutch relationship with water — adversarial and cooperative simultaneously — shaped everything else.'},
+    {t:'The VOC & the first multinational',d:'The Dutch East India Company, founded 1602, was the first publicly traded multinational corporation in history. It had its own army, navy, and diplomatic service. Amsterdam\'s golden age was built on colonial trade — and on the willingness to invest in risk.'},
+    {t:'The Golden Age & Rembrandt',d:'The 17th century: Amsterdam as the richest city in the world. Rembrandt\'s The Night Watch, Vermeer\'s interiors, Spinoza\'s philosophy — all within a generation. What concentrated wealth and relative freedom can produce when they coincide.'},
+    {t:'The Beurs & the first stock exchange',d:'The Amsterdam Stock Exchange, founded 1602: the first permanent stock exchange in the world. Short selling, futures contracts, joint-stock companies — all invented here. The financial instruments that now govern global capitalism were Dutch experiments.'},
+    {t:'Spinoza & the freedom to think',d:'Baruch Spinoza was expelled from the Amsterdam Jewish community in 1656 for ideas too radical even for tolerant Amsterdam. He then lived quietly in the city, grinding lenses and writing philosophy that would not be published in full for decades. Tolerance has always had its limits.'},
+    {t:'The canal houses & their logic',d:'Narrow facades, deep interiors, hooks at the top for hoisting furniture: Amsterdam\'s architecture is pure commercial logic made beautiful. The canal houses were warehouses that also served as homes. Form following function, 17th-century style.'},
+    {t:'Anne Frank & the Achterhuis',d:'The Secret Annex at 263 Prinsengracht: two years of hiding in plain sight in the most tolerant city in Europe, which had nonetheless been occupied for two years before the Franks went into hiding. Tolerance is not immunity.'},
+    {t:'The bicycle & urban design',d:'900,000 bicycles for 800,000 inhabitants. The result of a political decision made in the 1970s to reclaim streets from cars. Amsterdam proves that urban form is a choice, not a destiny — and that the choice compounds over decades.'},
+    {t:'The Red Light District & its contradictions',d:'Amsterdam\'s liberal policy on sex work is not a moral position — it is a regulatory strategy. The city is now reconsidering it. Tolerance as pragmatism meets the limits of what pragmatism can tolerate.'},
+    {t:'Amsterdam today & overtourism',d:'20 million visitors a year in a city of 900,000. The city is actively trying to reduce tourism — refusing to advertise, restricting Airbnb, relocating the cruise terminal. The first major European city to explicitly say: we have too many visitors.'},
+  ]},
+  {id:'prague',name:'Prague',flag:'🇨🇿',sub:'Czech Republic · What does Prague say about memory, occupation, and the right to your own story?',
+  question:'Prague has been occupied, liberated, occupied again, and liberated again within living memory. Václav Havel led a Velvet Revolution against Communist rule in 1989. What does it take to insist on your own story when everything around you wants to write it for you?',
+  chapters:[
+    {t:'Charles IV & the golden age',d:'Charles IV, King of Bohemia and Holy Roman Emperor, made Prague one of the most beautiful cities in Europe in the 14th century: the Charles Bridge, St Vitus Cathedral, Charles University — the oldest in Central Europe, founded 1348.'},
+    {t:'Jan Hus & the Reformation prequel',d:'Jan Hus was burned at the Council of Constance in 1415 for ideas that were simply ahead of their time. His execution triggered the Hussite Wars and prefigured the Reformation by a century. Ideas can survive the deaths of the people who first articulate them.'},
+    {t:'The Defenestration & the Thirty Years\' War',d:'In 1618, Bohemian nobles threw three Catholic royal officials from a Prague castle window. Nobody died — they landed in a dung heap — but the Thirty Years\' War that followed killed a third of the Central European population. The most consequential window in history.'},
+    {t:'Kafka & the impossible city',d:'Franz Kafka was born in Prague, wrote in German, and created a world in which bureaucracy is infinite, guilt is unexplained, and transformation is bodily. The city he described — beautiful, labyrinthine, threatening — still exists. He called it "the little mother with claws."'},
+    {t:'The Munich Agreement & betrayal',d:'In September 1938, Britain and France agreed to give Hitler the Sudetenland to avoid war. They did not invite Czechoslovakia to the meeting. "Peace for our time" lasted eleven months. The lesson about appeasement that still shapes European foreign policy.'},
+    {t:'The Prague Spring & its crushing',d:'In 1968, Alexander Dubček attempted "socialism with a human face." On 20 August, 500,000 Warsaw Pact troops invaded in one night. Jan Palach burned himself alive in protest in January 1969. The occupation lasted twenty years.'},
+    {t:'Charter 77 & civil courage',d:'A document signed by 243 people in 1977, calling on the Czechoslovak government to honour its own human rights commitments. The signatories were surveilled, fired, imprisoned. Václav Havel among them. Twelve years later, he was president.'},
+    {t:'The Velvet Revolution',d:'November 1989: two weeks of peaceful demonstrations, a general strike, and the Communist government resigned. "Velvet" because nothing broke. The most elegant political revolution of the 20th century — and the most complete.'},
+    {t:'Czech beer & the culture of the pivnice',d:'Pilsner was invented in Bohemia in 1842. Czech beer culture — the pivnice, the half-litre glass, the foam ratio, the slow pour — is a system of social norms as elaborate as Japanese tea ceremony. Seriousness applied to pleasure.'},
+    {t:'Prague today',d:'The most visited city per capita in Europe. 4 million tourists a year in the Old Town have made it partly a theme park of itself. The question of how a city preserves its memory when memory has become a product.'},
+  ]},
+  {id:'lisbon',name:'Lisbon',flag:'🇵🇹',sub:'Portugal · What does Lisbon say about empire, loss, and the saudade that remains?',
+  question:'Portugal had the first and last European colonial empire — from 1415 to 1975. Lisbon was the capital of a world that no longer exists. Saudade — the untranslatable Portuguese longing for what is absent — is this country\'s defining emotional register. What does it mean to build a future from loss?',
+  chapters:[
+    {t:'The edge of the known world',d:'Before 1492, Lisbon was literally at the edge of the known world — the last city before the Atlantic. The Portuguese discovered their vocation for the sea out of necessity: a small country hemmed in by Spain had nowhere else to go.'},
+    {t:'Vasco da Gama & the route to India',d:'In 1498, Vasco da Gama rounded the Cape of Good Hope and reached India. The sea route to the spices of Asia made Portugal briefly the wealthiest country in the world. The Tower of Belém was built to celebrate the departure and return.'},
+    {t:'The Manueline style',d:'The architectural style that emerged from the Age of Discovery: ropes, coral, armillary spheres, crosses of the Order of Christ carved in stone. The Jerónimos Monastery is the masterpiece — built with the profits of the spice trade, carved as if the sea had shaped it.'},
+    {t:'The 1755 earthquake',d:'On 1 November 1755, an earthquake followed by tsunami and fire destroyed 85% of Lisbon and killed between 10,000 and 30,000 people. The Marquis of Pombal rebuilt it with extraordinary speed on a rational grid — the Baixa Pombalina — and became the first urban planner of the modern age.'},
+    {t:'Fado & saudade',d:'Fado is not sad music — it is music that takes sadness seriously. Amália Rodrigues\'s voice, the Portuguese guitar\'s timbre, the fado house\'s silence: a performance of longing so precise it becomes beautiful. UNESCO listed it in 2011. The question is what happens when melancholy becomes a tourist product.'},
+    {t:'The last empire',d:'Portugal maintained its African colonies — Mozambique, Angola, Guinea-Bissau, Cape Verde — until 1975, making it the last European colonial power. 560 years of empire, ended by a left-wing military coup. The legacies, in both Portugal and its former colonies, are unresolved.'},
+    {t:'The Carnation Revolution',d:'On 25 April 1974, soldiers placed carnations in the barrels of their guns. The Estado Novo dictatorship, 48 years old, fell in a day. It remains the most beautiful image of political change in modern European history.'},
+    {t:'Pastel de nata & the culture of the bakery',d:'The pastéis de nata were invented by monks at the Jerónimos Monastery in the 18th century. The recipe was sold to a local bakery in 1837 and has been guarded since. The queue outside Pastéis de Belém is a ritual. Portuguese food is simple, generous, profoundly unpretentious.'},
+    {t:'Azulejos & the tiled city',d:'Lisbon\'s blue and white tiles — azulejos — cover facades, church interiors, railway stations, private homes. They have been used since the 15th century. The art of the azulejo is narrative: they tell histories, myths, landscapes. An entire city as an illustrated book.'},
+    {t:'Lisbon today & the golden visa problem',d:'In ten years, Lisbon went from overlooked to overpriced. The golden visa programme, Airbnb, remote workers with northern European salaries: a city that its own residents can no longer afford. The question of who cities are for when they become desirable.'},
+  ]},
+  {id:'brussels',name:'Brussels',flag:'🇧🇪',sub:'Belgium & EU · What does Brussels say about the politics of compromise?',
+  question:'Brussels is simultaneously the capital of Belgium — a country that has twice gone over a year without a government — and the de facto capital of the European Union. It is the world\'s most important city for institutional compromise. Is compromise a virtue, a necessity, or a failure of courage?',
+  chapters:[
+    {t:'The Grand-Place & its improbable survival',d:'The Grand-Place is one of the most beautiful squares in the world — Gothic guild houses, Baroque town hall, gilded facades. It was almost entirely destroyed by Louis XIV\'s artillery bombardment in 1695 and rebuilt within five years. Beauty rebuilt from rubble.'},
+    {t:'Spanish Netherlands & religious war',d:'Brussels under Habsburg Spain: a crossroads of the Reformation\'s most violent battles. The Duke of Alba\'s Council of Blood. The execution of Egmont and Hoorn in the Grand-Place. Belgium\'s history as the permanent battleground of other people\'s disputes.'},
+    {t:'Belgian independence & the opera revolution',d:'In August 1830, a revolution started after a performance of La Muette de Portici — an opera about rebellion. Independence was declared on 4 October. Belgium became a constitutional monarchy that would influence every European constitution that followed.'},
+    {t:'Tintin & the ninth art',d:'Hergé\'s Tintin, Peyo\'s Smurfs, Franquin\'s Spirou, Morris\'s Lucky Luke: Belgium punches so far above its weight in comics that Brussels calls it "the ninth art." The Centre Belge de la Bande Dessinée and 50 murals on city walls. A small country\'s disproportionate cultural invention.'},
+    {t:'Victor Horta & Art Nouveau',d:'Victor Horta\'s Maison Tassel (1893) was the first Art Nouveau building in the world. Brussels contains more Art Nouveau architecture than any other city. Horta understood that the staircase, the banister, the window frame could all be art. The integration of beauty and function as a moral position.'},
+    {t:'The two World Wars',d:'Belgium was invaded twice — 1914 and 1940 — as German armies took the most direct route to France. King Albert I refused to allow German passage in 1914. His grandson Leopold III surrendered in 1940. The two kings became symbols of the two possible responses to impossible choices.'},
+    {t:'Chocolate, beer & the culture of craft',d:'Belgian chocolate (Neuhaus invented the praline in 1912), Belgian beer (1,500 varieties, Trappist ales, lambic and gueuze), Belgian fries (not French). Small country, extraordinary material culture. The Dutch and German traditions of craft applied to pleasure.'},
+    {t:'The EU & the Brussels bubble',d:'40,000 lobbyists, 3,000 official EU positions, the Berlaymont building, the Schuman roundabout: the machinery of European governance concentrated in one neighbourhood. The "Brussels bubble" is real — and the source of most European citizens\' disconnect from the institutions that govern them.'},
+    {t:'Flanders vs Wallonia & the Belgian question',d:'Belgium is a country held together by the absence of consensus about what Belgium is. Dutch-speaking Flanders, French-speaking Wallonia, German-speaking Eupen, and Brussels — a French-speaking island in a Dutch-speaking region. The question of whether Belgium will survive is not rhetorical.'},
+    {t:'Brussels today',d:'180 nationalities, 35% foreign residents, three official languages, six governments for 11 million people. A city that has made complexity its identity. The question of whether radical institutional complexity is a model for the future or a warning about what happens when you refuse to choose.'},
+  ]},
+];
+
+/* ── SIDE QUESTIONS ── */
+const sideQs=[
+  {q:'Who gets to speak about the individual becoming — and on whose behalf?',a:'Any space that thinks about "the human" risks speaking for people not in the room. How does Actual avoid that — structurally, not symbolically?'},
+  {q:'Can a space be both calm and honest about what\'s coming?',a:'Calm is easy when things are going well. Can Actual hold that register when the subject matter is genuinely alarming?'},
+  {q:'Medical AI will create massive access inequalities. Does Actual observe or take sides?',a:'The most powerful diagnostic AI tools will reach well-funded health systems first. Actual has no answer yet on where the line between knowledge and advocacy sits.'},
+  {q:'At what point does Actual become political — and can it avoid it?',a:'Every subject Actual touches has a political reading available. Choosing what not to cover is itself a political act. Not a problem to solve — a tension to manage consciously.'},
+];
+
+/* ── FEED ── */
+const initFeed=[
+  {name:'Marie-Claire V.',role:'Neurologist',type:'q',text:'"Who validates the short notes? Publishing fast and being wrong in public is a real risk in medicine."'},
+  {name:'Thomas R.',role:'Innovation director, hospital group',type:'a',text:'"Expertise disconnected from lived experience — that\'s exactly what\'s missing in every AI-in-health report I read."'},
+  {name:'Yasmine B.',role:'Digital ethics researcher',type:'o',text:'"Beauty and calm as method — slowness is a class privilege. Actual needs to account for this structurally, not just symbolically."'},
+];
+
+let rtype='q',openQ=null,openChap={},activeCity='paris',feedItems=[...initFeed];
+
+/* ── RENDER ── */
+function renderCaps(){
+  document.getElementById('capTabs').innerHTML=capitals.map(c=>
+    `<button class="cap-tab ${c.id===activeCity?'active':''}" onclick="switchCity('${c.id}')"><span class="cap-flag">${c.flag}</span>${c.name}</button>`
+  ).join('');
+  document.getElementById('cityPanels').innerHTML=capitals.map(c=>`
+    <div class="city-panel ${c.id===activeCity?'active':''}" id="panel-${c.id}">
+      <div class="city-name">${c.flag} ${c.name}</div>
+      <div class="city-tagline">${c.sub}</div>
+      <div class="chapters-grid">
+        ${c.chapters.map((ch,i)=>`
+          <div class="chapter ${openChap[c.id]===i?'open':''}" onclick="toggleChap('${c.id}',${i})">
+            <div class="ch-head">
+              <span class="ch-num">${String(i+1).padStart(2,'0')}</span>
+              <span class="ch-t">${ch.t}</span>
+              <span class="ch-arr">›</span>
+            </div>
+            <div class="ch-body">${ch.d}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="city-q"><div class="cq-label">Actual question for today</div><div class="cq-text">${c.question}</div></div>
+    </div>
+  `).join('');
+}
+
+function switchCity(id){activeCity=id;openChap={};renderCaps();}
+function toggleChap(city,i){openChap[city]=openChap[city]===i?null:i;renderCaps();}
+
+function renderSideQs(){
+  document.getElementById('sideQs').innerHTML=sideQs.map((q,i)=>`
+    <div class="side-q ${openQ===i?'open':''}" onclick="toggleQ(${i})">
+      <div class="side-q-head">
+        <span class="side-q-n">0${i+1}</span>
+        <span class="side-q-t">${q.q}</span>
+        <span class="side-q-a">›</span>
+      </div>
+      <div class="side-q-body">${q.a}</div>
+    </div>
+  `).join('');
+}
+function toggleQ(i){openQ=openQ===i?null:i;renderSideQs();}
+
+function renderFeed(items){
+  const b={q:'b-q',o:'b-o',a:'b-a'},l={q:'Question',o:'Objection',a:"I'd sign"};
+  document.getElementById('feedList').innerHTML=items.map(f=>`
+    <div class="feed-item">
+      <div class="fi-top"><span class="fi-name">${f.name}</span><span class="fi-role">${f.role}</span><span class="fi-badge ${b[f.type]}">${l[f.type]}</span></div>
+      <div class="fi-text">${f.text}</div>
+    </div>
+  `).join('');
+  document.getElementById('feed-n').textContent=items.length;
+  document.getElementById('feedCount').textContent=`${items.length} contribution${items.length>1?'s':''} · draft open`;
+}
+
+function setType(btn,t){rtype=t;document.querySelectorAll('.rtype').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function sideSubmit(){
+  const name=document.getElementById('s-name').value.trim();
+  const role=document.getElementById('s-role').value.trim();
+  const text=document.getElementById('s-text').value.trim();
+  if(!name||!text){if(!name)document.getElementById('s-name').style.borderColor='var(--red)';if(!text)document.getElementById('s-text').style.borderColor='var(--red)';return;}
+  document.getElementById('s-name').style.borderColor='';document.getElementById('s-text').style.borderColor='';
+  feedItems.unshift({name:esc(name),role:esc(role||'Contributor'),type:rtype,text:`"${esc(text)}"`});
+  renderFeed(feedItems);
+  setTimeout(()=>{const el=document.querySelector('.feed-item');if(el)el.classList.add('new');},10);
+  document.getElementById('s-name').value='';document.getElementById('s-role').value='';document.getElementById('s-text').value='';
+}
+
+function nlSubmit(){
+  const v=document.getElementById('nl-email').value.trim();
+  if(!v||!v.includes('@')){document.getElementById('nl-email').style.borderColor='rgba(255,100,100,0.5)';return;}
+  document.getElementById('nl-email').style.borderColor='';document.getElementById('nl-email').value='';
+  document.getElementById('nl-msg').textContent='✓ Subscribed. First issue lands Monday.';
+  document.getElementById('nl-msg').style.color='rgba(255,255,255,0.65)';
+}
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav');
+  if(window.scrollY>window.innerHeight*0.8){nav.classList.remove('hero-mode');nav.classList.add('scrolled');}
+  else{nav.classList.add('hero-mode');nav.classList.remove('scrolled');}
+});
+
+renderReads();renderApps();renderCaps();renderSideQs();renderFeed(feedItems);
+</script>
+</body>
+</html>
