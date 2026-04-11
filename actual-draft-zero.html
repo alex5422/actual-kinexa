@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual — Draft Zero</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #18160F;
+    --paper: #F8F5EF;
+    --warm: #F0EBE0;
+    --rule: #D8D2C4;
+    --muted: #8A8272;
+    --accent: #1E3A2B;
+    --accent-light: #E6EDE9;
+    --red: #7A1E1E;
+    --gold: #9B7E2E;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.85;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 26px 52px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px; font-weight: 500; letter-spacing: 0.3em;
+    color: var(--ink); text-decoration: none; text-transform: uppercase;
+  }
+  .version-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.2em;
+    background: var(--warm); border: 1px solid var(--rule);
+    padding: 4px 12px;
+  }
+
+  /* ── LAYOUT ── */
+  .page { display: grid; grid-template-columns: 1fr 380px; min-height: calc(100vh - 73px); }
+
+  /* LEFT — the text */
+  .text-col { padding: 72px 64px 100px 52px; border-right: 1px solid var(--rule); }
+
+  .doc-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 40px;
+  }
+
+  h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(38px, 5vw, 60px); font-weight: 400;
+    line-height: 1.08; letter-spacing: -0.01em;
+    margin-bottom: 10px; color: var(--ink);
+  }
+
+  .dateline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 56px; letter-spacing: 0.04em;
+  }
+
+  .text-col p {
+    margin-bottom: 26px; max-width: 56ch;
+  }
+
+  .lede {
+    font-size: 22px; line-height: 1.6; font-style: italic;
+    color: var(--ink); margin-bottom: 36px;
+  }
+
+  .text-col p + p { }
+
+  .rule-line {
+    border: none; border-top: 1px solid var(--rule);
+    margin: 48px 0;
+  }
+
+  .refuses {
+    margin: 48px 0;
+  }
+  .refuses-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+  }
+  .refuse-item {
+    display: flex; gap: 14px; align-items: baseline;
+    padding: 9px 0; border-bottom: 1px solid var(--rule);
+    font-size: 18px; color: var(--ink);
+  }
+  .refuse-item:first-of-type { border-top: 1px solid var(--rule); }
+  .x { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--red); flex-shrink: 0; }
+
+  .closing {
+    font-size: 18px; font-style: italic;
+    color: var(--muted); border-left: 2px solid var(--rule);
+    padding-left: 24px; margin-top: 48px;
+  }
+
+  /* RIGHT — the engagement panel */
+  .panel-col {
+    padding: 48px 40px 80px;
+    background: var(--warm);
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .panel-section { margin-bottom: 40px; }
+  .panel-section:last-child { margin-bottom: 0; }
+
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 20px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+  }
+
+  /* Open questions — clickable */
+  .q-list { display: flex; flex-direction: column; gap: 2px; }
+  .q-item {
+    border: 1px solid var(--rule); background: var(--paper);
+    cursor: pointer; overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .q-item:hover { border-color: var(--muted); }
+  .q-item.active { border-color: var(--accent); }
+
+  .q-head {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 13px 14px;
+  }
+  .q-n {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .q-t {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px; line-height: 1.45; flex: 1; color: var(--ink);
+  }
+  .q-arr {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--muted); flex-shrink: 0; margin-top: 3px;
+    transition: transform 0.2s;
+  }
+  .q-item.active .q-arr { transform: rotate(90deg); }
+
+  .q-exp {
+    display: none; padding: 0 14px 14px 34px;
+    font-size: 15px; color: var(--muted); line-height: 1.65;
+    font-family: 'EB Garamond', serif;
+  }
+  .q-item.active .q-exp { display: block; }
+
+  /* Reaction type selector */
+  .react-types {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+    margin-bottom: 14px;
+  }
+  .rtype {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    border: 1px solid var(--rule); background: var(--paper);
+    padding: 9px 4px; cursor: pointer; color: var(--muted);
+    text-align: center; transition: all 0.12s;
+  }
+  .rtype.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .fields { display: flex; flex-direction: column; gap: 10px; }
+  input, textarea {
+    font-family: 'EB Garamond', serif; font-size: 16px;
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 10px 14px; color: var(--ink); width: 100%;
+    outline: none; transition: border-color 0.15s;
+    border-radius: 0; -webkit-appearance: none;
+  }
+  input:focus, textarea:focus { border-color: var(--accent); }
+  input::placeholder, textarea::placeholder { color: var(--rule); }
+  textarea { resize: none; height: 90px; line-height: 1.55; }
+
+  .submit {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    background: var(--accent); color: var(--paper);
+    border: none; padding: 13px 24px; cursor: pointer;
+    transition: opacity 0.15s; width: 100%; margin-top: 4px;
+  }
+  .submit:hover { opacity: 0.82; }
+
+  .form-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px; color: var(--muted);
+    line-height: 1.5; margin-top: 8px;
+  }
+
+  /* Live feed */
+  .feed { display: flex; flex-direction: column; gap: 2px; }
+
+  .feed-item {
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 14px 16px;
+  }
+  .feed-item.new {
+    animation: slidein 0.35s ease;
+  }
+  @keyframes slidein { from { opacity:0; transform: translateY(-8px); } to { opacity:1; transform: none; } }
+
+  .feed-top {
+    display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .feed-name {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px; font-weight: 500; color: var(--ink);
+  }
+  .feed-role {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px; color: var(--muted); flex: 1;
+  }
+  .feed-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 7px;
+  }
+  .b-q { background: var(--accent-light); color: var(--accent); }
+  .b-o { background: #FCEAEA; color: var(--red); }
+  .b-a { background: #EDE8DC; color: var(--gold); }
+
+  .feed-text {
+    font-family: 'EB Garamond', serif;
+    font-size: 15px; color: var(--ink); line-height: 1.6;
+    font-style: italic;
+  }
+
+  .feed-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    text-align: right; padding: 6px 0 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 20px 52px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .f-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.15em;
+  }
+  .f-right {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px; color: var(--muted); font-style: italic;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    .text-col { border-right: none; border-bottom: 1px solid var(--rule); padding: 48px 28px 64px; }
+    .panel-col { padding: 40px 28px 60px; }
+    header, footer { padding: 20px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Actual</a>
+  <span class="version-badge">Draft Zero · April 2025</span>
+</header>
+
+<div class="page">
+
+  <!-- LEFT COLUMN -->
+  <div class="text-col">
+
+    <div class="doc-kicker">Founding document</div>
+
+    <h1>What is actually<br>happening right now.</h1>
+    <div class="dateline">First draft · Open to disagreement · Subject to revision</div>
+
+    <p class="lede">
+      Something is changing in the human being — biologically, cognitively, socially. Most thinking spaces are not looking at it directly.
+    </p>
+
+    <p>
+      The speed of change in medicine and artificial intelligence is outpacing our ability to think about it clearly. Not because we lack intelligence — because we lack the right kind of space. Somewhere quiet enough to think. Honest enough to say what we don't know. Small enough to stay real.
+    </p>
+
+    <p>
+      Actual starts from a specific vantage point: people who have worked with the human body at its most fragile have something to say about this moment that engineers and institutional experts do not. The individual becoming something new — biologically augmented, cognitively extended, medically transformed — is not an abstraction. It is a person in front of you.
+    </p>
+
+    <hr class="rule-line">
+
+    <div class="refuses">
+      <div class="refuses-kicker">What Actual refuses</div>
+      <div class="refuse-item"><span class="x">×</span>PDFs no one reads past page three</div>
+      <div class="refuse-item"><span class="x">×</span>Events where performance replaces thought</div>
+      <div class="refuse-item"><span class="x">×</span>Positions designed to offend no one</div>
+      <div class="refuse-item"><span class="x">×</span>Expertise disconnected from lived experience</div>
+      <div class="refuse-item"><span class="x">×</span>Consensus as a substitute for truth</div>
+    </div>
+
+    <p>
+      Actual publishes short, signed notes. Positions, not syntheses. Questions asked plainly. Real disagreements between people who are not trying to agree — without mediation designed to smooth things over.
+    </p>
+
+    <p>
+      Beauty and calm are not decoration here. They are the condition for thought that doesn't just react. A slow space in a fast world is not a luxury. It is a method.
+    </p>
+
+    <p class="closing">
+      This document is deliberately unfinished. The questions in the panel beside it are part of the text. So are the responses it generates.
+    </p>
+
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="panel-col">
+
+    <!-- Open questions -->
+    <div class="panel-section">
+      <div class="panel-label">Open questions in this draft</div>
+      <div class="q-list">
+
+        <div class="q-item" onclick="this.classList.toggle('active')">
+          <div class="q-head">
+            <span class="q-n">01</span>
+            <span class="q-t">Who gets to speak about the individual becoming — and on whose behalf?</span>
+            <span class="q-arr">›</span>
+          </div>
+          <div class="q-exp">Any space that thinks about "the human" risks speaking for people who aren't in the room. How does Actual avoid that — structurally, not just symbolically?</div>
+        </div>
+
+        <div class="q-item" onclick="this.classList.toggle('active')">
+          <div class="q-head">
+            <span class="q-n">02</span>
+            <span class="q-t">Can a space be both calm and honest about what's coming?</span>
+            <span class="q-arr">›</span>
+          </div>
+          <div class="q-exp">Calm is easy when things are going well. The question is whether Actual can hold that register when the subject matter is genuinely alarming — which it sometimes will be.</div>
+        </div>
+
+        <div class="q-item" onclick="this.classList.toggle('active')">
+          <div class="q-head">
+            <span class="q-n">03</span>
+            <span class="q-t">Medical AI will create massive access inequalities. Does Actual observe or take sides?</span>
+            <span class="q-arr">›</span>
+          </div>
+          <div class="q-exp">The most powerful diagnostic AI tools will reach well-funded health systems first. Actual has no answer yet on where the line between knowledge and advocacy sits.</div>
+        </div>
+
+        <div class="q-item" onclick="this.classList.toggle('active')">
+          <div class="q-head">
+            <span class="q-n">04</span>
+            <span class="q-t">How does this differ from Noema, or Works in Progress?</span>
+            <span class="q-arr">›</span>
+          </div>
+          <div class="q-exp">Noema thinks from the West Coast. Works in Progress thinks in solutions. Actual thinks from the body — from clinical experience, from what it means to care for someone. Is that enough to justify another space?</div>
+        </div>
+
+        <div class="q-item" onclick="this.classList.toggle('active')">
+          <div class="q-head">
+            <span class="q-n">05</span>
+            <span class="q-t">At what point does Actual become political — and can it avoid it?</span>
+            <span class="q-arr">›</span>
+          </div>
+          <div class="q-exp">Every subject Actual touches has a political reading available. Choosing what not to cover is itself a political act. This is not a problem to solve — it's a tension to manage consciously.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Reaction form -->
+    <div class="panel-section">
+      <div class="panel-label">Your reaction</div>
+
+      <div class="react-types">
+        <button class="rtype on" onclick="setType(this,'q')">Question</button>
+        <button class="rtype" onclick="setType(this,'o')">Objection</button>
+        <button class="rtype" onclick="setType(this,'a')">I'd sign</button>
+      </div>
+
+      <div class="fields">
+        <input type="text" id="f-name" placeholder="Your name">
+        <input type="text" id="f-role" placeholder="Your role or field">
+        <textarea id="f-text" placeholder="Say it plainly. No need to wrap it up."></textarea>
+        <button class="submit" onclick="submit()">Contribute →</button>
+        <p class="form-note">No anonymity here — that's a rule of Actual. Your name goes with your words.</p>
+      </div>
+    </div>
+
+    <!-- Live feed -->
+    <div class="panel-section">
+      <div class="panel-label">First reactions <span id="cnt" style="font-family:'DM Mono',monospace;font-size:9px;background:var(--accent-light);color:var(--accent);padding:2px 6px;margin-left:4px;">3</span></div>
+      <div class="feed" id="feed">
+
+        <div class="feed-item">
+          <div class="feed-top">
+            <span class="feed-name">Marie-Claire V.</span>
+            <span class="feed-role">Neurologist, CHU Bordeaux</span>
+            <span class="feed-badge b-q">Question</span>
+          </div>
+          <div class="feed-text">"Who validates the short notes? Publishing fast and being wrong in public is a real risk in medicine. How does Actual handle error?"</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-top">
+            <span class="feed-name">Thomas R.</span>
+            <span class="feed-role">Innovation director, hospital group</span>
+            <span class="feed-badge b-a">I'd sign</span>
+          </div>
+          <div class="feed-text">"Expertise disconnected from lived experience — that's exactly what's missing in every AI-in-health report I read. Brilliant engineers who have never seen an anxious patient."</div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-top">
+            <span class="feed-name">Yasmine B.</span>
+            <span class="feed-role">Digital ethics researcher, Sciences Po</span>
+            <span class="feed-badge b-o">Objection</span>
+          </div>
+          <div class="feed-text">"Beauty and calm as method — I understand the intent but I resist it. For many people, noise is not a distraction: it's their material condition. Slowness is a class privilege. Actual will need to account for this structurally."</div>
+        </div>
+
+      </div>
+      <div class="feed-count" id="feed-count">3 contributions · draft open</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span class="f-left">ACTUAL · Draft Zero · 2025</span>
+  <span class="f-right">This document will be revised. That's the point.</span>
+</footer>
+
+<script>
+let rtype = 'q';
+const labels = { q:'Question', o:'Objection', a:"I'd sign" };
+const badges = { q:'b-q', o:'b-o', a:'b-a' };
+
+function setType(btn, t) {
+  rtype = t;
+  document.querySelectorAll('.rtype').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function submit() {
+  const name = document.getElementById('f-name').value.trim();
+  const role = document.getElementById('f-role').value.trim();
+  const text = document.getElementById('f-text').value.trim();
+  if (!name || !text) {
+    if (!name) document.getElementById('f-name').style.borderColor = '#7A1E1E';
+    if (!text) document.getElementById('f-text').style.borderColor = '#7A1E1E';
+    return;
+  }
+  document.getElementById('f-name').style.borderColor = '';
+  document.getElementById('f-text').style.borderColor = '';
+
+  const el = document.createElement('div');
+  el.className = 'feed-item new';
+  el.innerHTML = `
+    <div class="feed-top">
+      <span class="feed-name">${esc(name)}</span>
+      <span class="feed-role">${esc(role || 'Contributor')}</span>
+      <span class="feed-badge ${badges[rtype]}">${labels[rtype]}</span>
+    </div>
+    <div class="feed-text">"${esc(text)}"</div>`;
+
+  const feed = document.getElementById('feed');
+  feed.insertBefore(el, feed.firstChild);
+
+  const n = feed.querySelectorAll('.feed-item').length;
+  document.getElementById('cnt').textContent = n;
+  document.getElementById('feed-count').textContent = `${n} contributions · draft open`;
+
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-role').value = '';
+  document.getElementById('f-text').value = '';
+}
+</script>
+</body>
+</html>

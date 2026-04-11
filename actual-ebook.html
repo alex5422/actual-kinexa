@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actual — The Leader's Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:    #141210;
+    --paper:  #F9F6F0;
+    --warm:   #EDE8DC;
+    --rule:   #CEC9BC;
+    --muted:  #8C8679;
+    --accent: #1D3828;
+    --gold:   #9B7A2A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #E8E4DC;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 11pt;
+    color: var(--ink);
+    padding: 40px 20px;
+  }
+
+  /* ── PAGES ── */
+  .page {
+    background: var(--paper);
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto 24px;
+    padding: 18mm 16mm 16mm 18mm;
+    position: relative;
+    page-break-after: always;
+  }
+
+  /* ── PAGE 1 ── */
+
+  .p1-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 8px;
+    margin-bottom: 28px;
+  }
+  .logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 15pt; font-weight: 500;
+    letter-spacing: 0.25em; color: var(--ink);
+  }
+  .issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt; color: var(--muted);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 28pt; font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.02em; color: var(--ink);
+    margin-bottom: 6px;
+  }
+  h1 em { font-style: italic; font-weight: 400; }
+
+  .deck {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 9.5pt; color: var(--muted);
+    margin-bottom: 22px; letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  /* TWO-COLUMN layout for body */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14mm;
+    margin-bottom: 18px;
+  }
+
+  .col p {
+    font-size: 9.5pt;
+    line-height: 1.75;
+    margin-bottom: 11px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .col p:last-child { margin-bottom: 0; }
+
+  .col p.lede {
+    font-size: 11pt; line-height: 1.65;
+    font-style: italic; margin-bottom: 13px;
+    color: var(--ink);
+  }
+
+  h2 {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); border-bottom: 0.5px solid var(--rule);
+    padding-bottom: 4px; margin-bottom: 9px; margin-top: 14px;
+  }
+  h2:first-child { margin-top: 0; }
+
+  .stat-row {
+    display: flex; gap: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin: 14px 0;
+  }
+  .stat {
+    flex: 1; padding: 8px 10px;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-n {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16pt; font-weight: 700; color: var(--gold);
+    display: block; line-height: 1; margin-bottom: 2px;
+  }
+  .stat-l {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 7pt; color: var(--muted); line-height: 1.4;
+  }
+
+  /* Pull quote */
+  .pq {
+    border-left: 2px solid var(--ink);
+    padding: 6px 12px;
+    margin: 12px 0;
+    font-size: 10pt; font-style: italic;
+    line-height: 1.55; color: var(--ink);
+  }
+  .pq cite {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 7.5pt; font-style: normal;
+    color: var(--muted); display: block; margin-top: 4px;
+  }
+
+  /* Refuse list */
+  .refuses { margin: 12px 0; }
+  .refuse {
+    display: flex; gap: 8px; align-items: baseline;
+    padding: 5px 0; border-bottom: 0.5px solid var(--rule);
+    font-size: 9pt; line-height: 1.4;
+  }
+  .refuse:first-child { border-top: 0.5px solid var(--rule); }
+  .rx {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt; color: #7A1E1E; flex-shrink: 0;
+  }
+
+  /* full-width band */
+  .band {
+    background: var(--warm);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 10px 0; margin: 16px 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14mm;
+  }
+  .band-item { padding: 0 0 0 0; }
+
+  /* ── PAGE 2 ── */
+
+  .p2-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 0.5px solid var(--rule); padding-bottom: 6px;
+    margin-bottom: 22px;
+  }
+  .p2-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 9pt; letter-spacing: 0.25em; color: var(--muted);
+  }
+  .p2-section {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; letter-spacing: 0.2em; color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* Books grid */
+  .books {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 0.5px solid var(--rule);
+    margin-bottom: 16px;
+  }
+  .book {
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--rule);
+    border-right: 0.5px solid var(--rule);
+  }
+  .book:nth-child(2n) { border-right: none; }
+  .book:nth-last-child(-n+2) { border-bottom: none; }
+
+  .book-theme {
+    font-family: 'DM Mono', monospace;
+    font-size: 6.5pt; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 3px;
+  }
+  .book-title {
+    font-size: 9pt; font-weight: 700; line-height: 1.25;
+    margin-bottom: 1px; color: var(--ink);
+  }
+  .book-author {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 7.5pt; font-style: italic; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .book-why { font-size: 8pt; color: var(--muted); line-height: 1.55; }
+
+  /* Circle protocol */
+  .circle-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; border: 0.5px solid var(--rule); margin-bottom: 16px;
+  }
+  .circle-step {
+    padding: 10px 11px;
+    border-right: 0.5px solid var(--rule);
+  }
+  .circle-step:last-child { border-right: none; }
+  .cs-n {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; color: var(--gold); margin-bottom: 4px;
+  }
+  .cs-title {
+    font-size: 8.5pt; font-weight: 700; margin-bottom: 3px;
+    line-height: 1.25;
+  }
+  .cs-body { font-size: 7.5pt; color: var(--muted); line-height: 1.55; }
+
+  /* On surnames */
+  .surname-box {
+    background: var(--warm);
+    border: 0.5px solid var(--rule);
+    border-left: 2px solid var(--ink);
+    padding: 11px 14px;
+    margin-bottom: 16px;
+  }
+  .sb-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 7px;
+  }
+  .sb-text {
+    font-size: 8.5pt; line-height: 1.7; color: var(--ink);
+  }
+  .sb-examples {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 8pt; font-style: italic; color: var(--muted);
+    margin-top: 5px; line-height: 1.5;
+  }
+
+  /* Footer */
+  .page-footer {
+    position: absolute; bottom: 12mm; left: 18mm; right: 16mm;
+    border-top: 0.5px solid var(--rule);
+    padding-top: 6px;
+    display: flex; justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt; color: var(--muted);
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; padding: 0; }
+    .page { margin: 0; width: 100%; min-height: 297mm; }
+  }
+  @media (max-width: 760px) {
+    body { padding: 0; }
+    .page { width: 100%; padding: 8mm; min-height: auto; }
+    .cols, .band { grid-template-columns: 1fr; gap: 0; }
+    .circle-grid { grid-template-columns: 1fr; }
+    .books { grid-template-columns: 1fr; }
+    .book:nth-child(2n) { border-right: none; }
+    .book { border-right: none; }
+    .circle-step { border-right: none; border-bottom: 0.5px solid var(--rule); }
+    .circle-step:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ PAGE ONE ═══════════════════════════════ -->
+<div class="page">
+
+  <div class="p1-header">
+    <span class="logo">ACTUAL</span>
+    <span class="issue">Issue 00 · The Leader's Brief · 2025</span>
+  </div>
+
+  <div class="kicker">On cognitive overload &amp; its antidotes</div>
+  <h1>Your mind<br>deserves <em>better</em><br>than this.</h1>
+  <p class="deck">A brief for senior leaders, managers and CHROs on cognitive fatigue —<br>written with and for the people who think for a living.</p>
+
+  <div class="stat-row">
+    <div class="stat">
+      <span class="stat-n">74 GB</span>
+      <span class="stat-l">of information processed by an executive daily (UC San Diego)</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">47%</span>
+      <span class="stat-l">of working time the mind wanders — Harvard, 2022</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">11 min</span>
+      <span class="stat-l">average time before interruption on a complex task</span>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <h2>The problem has a name</h2>
+      <p class="lede">You don't have a time problem. You have an attention problem. And attention, unlike time, can be cultivated.</p>
+      <p>The human brain was not designed for the continuous information flow that defines modern leadership. Emails before dawn, real-time dashboards, permanent decision-making: these environments systematically exhaust the prefrontal cortex — the seat of judgment, creativity, and long-term vision.</p>
+      <p>The result is not burnout exactly. It is something subtler and more damaging: brilliant leaders who react instead of anticipate. Who execute instead of imagine. Who survive instead of decide.</p>
+      <p>AI amplifies all of this — but it also, used well, creates space. The leaders who will navigate the next decade are not those who process faster. They are those who think better. These are different skills, trained differently.</p>
+
+      <div class="pq">
+        "I spend 80% of my working day reading and thinking."
+        <cite>— Warren Buffett, on his actual calendar</cite>
+      </div>
+
+      <h2>The historical record</h2>
+      <p>Before mindfulness apps, before executive coaching — the leaders who shaped history had found their own protocols. Marcus Aurelius governed an empire and kept a private philosophical journal at the edge of military camps. Churchill painted during the Blitz. Lincoln memorised Shakespeare on horseback during the Civil War. Bill Gates still takes two weeks a year with no meetings and a stack of books.</p>
+      <p>None called it "wellness." They called it thinking.</p>
+    </div>
+
+    <div class="col">
+      <h2>Actual refuses</h2>
+      <div class="refuses">
+        <div class="refuse"><span class="rx">×</span>PDFs no one reads past page three</div>
+        <div class="refuse"><span class="rx">×</span>Keynotes where performance replaces thought</div>
+        <div class="refuse"><span class="rx">×</span>Consensus positions that commit no one</div>
+        <div class="refuse"><span class="rx">×</span>Expertise disconnected from lived experience</div>
+        <div class="refuse"><span class="rx">×</span>Optimism about AI that hasn't earned itself</div>
+      </div>
+
+      <h2>The three antidotes</h2>
+      <p><strong>History.</strong> Not as nostalgia — as perspective. The leaders who understood the present moment best were those who could place it in a longer arc. The Romans governed better because they studied the Greeks. The best AI ethicists today are often historians.</p>
+      <p><strong>Beauty.</strong> Neuroscience now confirms what artists knew: exposure to beauty activates the reward circuit, reduces cortisol, and restores sustained attention. Twenty minutes in front of a Rothko produces measurable cognitive restoration. This is not soft — it is physiology.</p>
+      <p><strong>Reading.</strong> Not scanning. Reading long-form, with a pencil, without a destination. Difficult books train the working memory to hold complex narrative threads — directly improving the capacity to manage ambiguity. A leader who reads literary fiction makes better decisions under uncertainty. This is documented.</p>
+
+      <div class="pq">
+        "Slow space in a fast world is not a luxury. It is a method."
+        <cite>— Actual, founding position</cite>
+      </div>
+
+      <h2>On writing with AI</h2>
+      <p>These pages were written with AI assistance. We do not consider this a disclosure requiring apology. What AI cannot do is think from experience — from having sat with someone in difficulty, from having made a decision that affected real people. That is what Actual brings. The tool is the tool. The thought is the thought.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>ACTUAL · actual.institute</span>
+    <span>Page 1 of 2</span>
+    <span>2025 · All positions are signed · No anonymity</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════ PAGE TWO ═══════════════════════════════ -->
+<div class="page">
+
+  <div class="p2-header">
+    <span class="p2-logo">ACTUAL</span>
+    <span class="p2-section">Reading list &amp; the circle protocol</span>
+  </div>
+
+  <h2>Eight books. Read slowly. In any order.</h2>
+  <div class="books">
+    <div class="book">
+      <div class="book-theme">Stoicism</div>
+      <div class="book-title">Meditations</div>
+      <div class="book-author">Marcus Aurelius · 2nd century</div>
+      <div class="book-why">A Roman emperor's private journal. Never meant to be published. The oldest known anti-cognitive-overload protocol.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Neuroscience</div>
+      <div class="book-title">Thinking, Fast and Slow</div>
+      <div class="book-author">Daniel Kahneman · 2011</div>
+      <div class="book-why">The scientific map of why cognitive overload destroys decision quality. Nobel Prize. No shortcuts.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Attention</div>
+      <div class="book-title">Stolen Focus</div>
+      <div class="book-author">Johann Hari · 2022</div>
+      <div class="book-why">The most rigorous investigation into the attention crisis. What Silicon Valley actually built — and knew it was building.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Deep work</div>
+      <div class="book-title">Deep Work</div>
+      <div class="book-author">Cal Newport · 2016</div>
+      <div class="book-why">The capacity for sustained concentration is the rare skill of the 21st century. Newport explains how to recover it.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Brain &amp; internet</div>
+      <div class="book-title">The Shallows</div>
+      <div class="book-author">Nicholas Carr · 2010</div>
+      <div class="book-why">How digital tools literally rewire the brain — and why long-form reading remains the most powerful resistance.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Flow state</div>
+      <div class="book-title">Flow</div>
+      <div class="book-author">Mihaly Csikszentmihalyi · 1990</div>
+      <div class="book-why">The psychology of optimal experience. How to design a day that produces the state of complete absorption — not just survive it.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Aesthetics</div>
+      <div class="book-title">On Beauty and Being Just</div>
+      <div class="book-author">Elaine Scarry · 1999</div>
+      <div class="book-why">Why beauty makes us more just — and more capable of good judgment. Harvard philosopher. Short. Unsettling.</div>
+    </div>
+    <div class="book">
+      <div class="book-theme">Long view</div>
+      <div class="book-title">Sapiens</div>
+      <div class="book-author">Yuval Noah Harari · 2011</div>
+      <div class="book-why">70,000 years of human history in 500 pages. The absolute antidote to the tyranny of the urgent.</div>
+    </div>
+  </div>
+
+  <h2>The reading circle — six rules</h2>
+  <div class="circle-grid">
+    <div class="circle-step">
+      <div class="cs-n">01 — Who</div>
+      <div class="cs-title">4 to 8 people. Different roles.</div>
+      <div class="cs-body">No existing hierarchy. One criterion only: intellectual curiosity. Mixed profiles produce the most fertile cognitive friction.</div>
+    </div>
+    <div class="circle-step">
+      <div class="cs-n">02 — Where</div>
+      <div class="cs-title">Not a meeting room.</div>
+      <div class="cs-body">A library, a museum, a restaurant with character. The environment conditions the quality of thought. Beautiful spaces produce better thinking — this is not metaphor.</div>
+    </div>
+    <div class="circle-step">
+      <div class="cs-n">03 — How often</div>
+      <div class="cs-title">Once a month. No more.</div>
+      <div class="cs-body">Rare enough to be an event. Regular enough to create a thread. Duration: 2h30 maximum. The real conversations happen at dinner, after.</div>
+    </div>
+    <div class="circle-step">
+      <div class="cs-n">04 — Reading</div>
+      <div class="cs-title">With a pencil. Mark resistance.</div>
+      <div class="cs-body">Not what interests you — what disturbs you. Write one question per marked passage. Not a comment: a question. That is where thought begins.</div>
+    </div>
+    <div class="circle-step">
+      <div class="cs-n">05 — Format</div>
+      <div class="cs-title">Rotating facilitator.</div>
+      <div class="cs-body">Each member leads one session. Three open questions prepared in advance. One passage read aloud (5 minutes). No one dominates. Phones absent — non-negotiable.</div>
+    </div>
+    <div class="circle-step">
+      <div class="cs-n">06 — Close</div>
+      <div class="cs-title">One sentence each.</div>
+      <div class="cs-body">Each person says what they take from the session in a single sentence. Then vote on the next book. That's it. No summary document. No follow-up email.</div>
+    </div>
+  </div>
+
+  <!-- Surnames -->
+  <div class="surname-box">
+    <div class="sb-title">A note on surnames &amp; pen names</div>
+    <div class="sb-text">
+      Actual publishes signed positions — because anonymous thought carries no weight and no accountability. But we recognise that a position on AI, medicine, or institutional governance can have professional consequences for its author. Actual therefore accepts contributions under a verified pen name: a pseudonym known to the editorial team, registered, traceable if legally required, but not public by default.
+    </div>
+    <div class="sb-examples">
+      This is not new: Voltaire, George Orwell, George Sand, Stendhal — the tradition of the signed pseudonym is as old as the tradition of signing. The name protects the person. The position remains accountable. Both matter.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>ACTUAL · actual.institute</span>
+    <span>Page 2 of 2</span>
+    <span>This document was written with AI assistance. The positions are human.</span>
+  </div>
+</div>
+
+</body>
+</html>

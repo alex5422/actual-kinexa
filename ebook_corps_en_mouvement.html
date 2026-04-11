@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Corps en Mouvement — Kinexa Formation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & VARIABLES ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0F2540;
+  --navy2:   #1A3A5C;
+  --gold:    #C8881A;
+  --gold-lt: #F5D89A;
+  --teal:    #1A7070;
+  --cream:   #FAF7F2;
+  --ivory:   #F0EBE0;
+  --ink:     #1C1C1C;
+  --muted:   #6B6B6B;
+  --crim:    #8B1A2C;
+  --purp:    #4A2268;
+  --green:   #1E5C3A;
+  --white:   #FFFFFF;
+  --border:  #D8D0C4;
+  --shadow:  0 4px 32px rgba(15,37,64,.13);
+  --r:       6px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--cream);
+  overflow-x: hidden;
+}
+
+/* ─── PROGRESS BAR ──────────────────────────────────────────────── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  width: 0%; z-index: 9999;
+  transition: width .1s linear;
+}
+
+/* ─── SIDEBAR NAV ───────────────────────────────────────────────── */
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 270px; height: 100vh;
+  background: var(--navy);
+  overflow-y: auto; overflow-x: hidden;
+  z-index: 100;
+  display: flex; flex-direction: column;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: rgba(200,136,26,.4); border-radius: 2px; }
+
+#sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+#sidebar-logo .brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; letter-spacing: .2em;
+  color: var(--gold); text-transform: uppercase;
+  display: block; margin-bottom: 4px;
+}
+#sidebar-logo .title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--white); line-height: 1.2;
+}
+
+#nav-list { list-style: none; padding: 12px 0 40px; flex: 1; }
+#nav-list li a {
+  display: block; padding: 7px 24px;
+  font-size: 13px; color: rgba(255,255,255,.58);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .2s;
+  line-height: 1.4;
+}
+#nav-list li a:hover { color: var(--gold-lt); border-left-color: var(--gold); background: rgba(255,255,255,.04); }
+#nav-list li a.active { color: var(--gold); border-left-color: var(--gold); background: rgba(200,136,26,.08); }
+#nav-list li.sep { height: 1px; background: rgba(255,255,255,.07); margin: 8px 24px; }
+#nav-list li .ch-num {
+  font-size: 10px; color: var(--gold); letter-spacing: .1em;
+  text-transform: uppercase; display: block; margin-bottom: 1px;
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────────────────── */
+#main { margin-left: 270px; }
+
+/* ─── COVER ─────────────────────────────────────────────────────── */
+#cover {
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 80px 80px 80px 100px;
+  position: relative; overflow: hidden;
+}
+
+#cover::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 55%; height: 100%;
+  background: linear-gradient(135deg, rgba(200,136,26,.06) 0%, rgba(26,112,112,.08) 100%);
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+#cover::after {
+  content: '';
+  position: absolute; bottom: -60px; left: -60px;
+  width: 300px; height: 300px;
+  border: 1px solid rgba(200,136,26,.12);
+  border-radius: 50%;
+}
+
+.cover-brand {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; letter-spacing: .25em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0; animation: fadeUp .8s .1s forwards;
+}
+
+.cover-title-1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(64px, 8vw, 108px);
+  font-weight: 300; line-height: .95;
+  color: var(--white);
+  opacity: 0; animation: fadeUp .8s .3s forwards;
+}
+
+.cover-title-2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(64px, 8vw, 108px);
+  font-weight: 700; line-height: .95;
+  color: var(--gold);
+  opacity: 0; animation: fadeUp .8s .45s forwards;
+  margin-bottom: 32px;
+}
+
+.cover-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px; font-weight: 300;
+  color: rgba(255,255,255,.6);
+  max-width: 540px; line-height: 1.6;
+  opacity: 0; animation: fadeUp .8s .6s forwards;
+  margin-bottom: 48px;
+}
+
+.cover-tags {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  opacity: 0; animation: fadeUp .8s .75s forwards;
+}
+.cover-tag {
+  padding: 6px 16px;
+  border: 1px solid rgba(200,136,26,.4);
+  border-radius: 20px;
+  font-size: 12px; letter-spacing: .08em;
+  color: var(--gold-lt);
+}
+
+.cover-scroll-hint {
+  position: absolute; bottom: 40px; left: 100px;
+  font-size: 11px; letter-spacing: .15em; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+  opacity: 0; animation: fadeUp .8s 1s forwards;
+}
+.cover-scroll-hint::before {
+  content: '↓'; display: block; font-size: 20px; margin-bottom: 8px;
+  animation: bounce 2s 2s infinite;
+}
+
+/* ─── CHAPTER DIVIDERS ──────────────────────────────────────────── */
+.chapter-header {
+  background: var(--navy);
+  padding: 80px 100px;
+  position: relative; overflow: hidden;
+}
+.chapter-header::after {
+  content: attr(data-num);
+  position: absolute; right: -20px; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 280px; font-weight: 700;
+  color: rgba(255,255,255,.025);
+  line-height: 1; pointer-events: none;
+  letter-spacing: -.02em;
+}
+
+.ch-label {
+  font-size: 11px; letter-spacing: .25em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 14px; display: block;
+}
+.ch-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 300; color: var(--white);
+  line-height: 1.1; margin-bottom: 16px;
+}
+.ch-sub {
+  font-size: 15px; color: rgba(255,255,255,.45);
+  font-style: italic; max-width: 600px;
+}
+
+/* gold bar below ch header */
+.chapter-header::before {
+  content: '';
+  position: absolute; bottom: 0; left: 100px; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 80%);
+}
+
+/* ─── CONTENT SECTIONS ──────────────────────────────────────────── */
+.content-section {
+  padding: 72px 100px;
+  max-width: 900px;
+}
+
+.content-section + .content-section { padding-top: 0; }
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 600;
+  color: var(--navy2);
+  margin: 56px 0 20px;
+  line-height: 1.2;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ivory);
+  position: relative;
+}
+h2::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0;
+  width: 60px; height: 2px;
+  background: var(--gold);
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--teal);
+  margin: 36px 0 14px;
+}
+
+h4 {
+  font-size: 15px; font-weight: 500;
+  color: var(--crim);
+  margin: 28px 0 10px;
+  letter-spacing: .03em;
+}
+
+p {
+  font-size: 15.5px;
+  line-height: 1.82;
+  color: #2a2a2a;
+  margin-bottom: 18px;
+  max-width: 720px;
+}
+
+/* ─── BOXES ─────────────────────────────────────────────────────── */
+.box {
+  border-radius: var(--r);
+  padding: 24px 28px;
+  margin: 28px 0;
+  max-width: 720px;
+  position: relative;
+}
+
+.box-info { background: #EDF5FB; border-left: 4px solid var(--teal); }
+.box-info .box-title { color: var(--teal); }
+
+.box-gold { background: #FDF6E3; border-left: 4px solid var(--gold); }
+.box-gold .box-title { color: var(--gold); }
+
+.box-warn { background: #FBE9EC; border-left: 4px solid var(--crim); }
+.box-warn .box-title { color: var(--crim); }
+
+.box-green { background: #E8F5EE; border-left: 4px solid var(--green); }
+.box-green .box-title { color: var(--green); }
+
+.box-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: .06em; text-transform: uppercase;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
+.box p { font-size: 14.5px; margin-bottom: 0; max-width: 100%; }
+
+.box-list { list-style: none; margin-top: 10px; }
+.box-list li {
+  font-size: 14.5px; line-height: 1.65;
+  padding: 5px 0 5px 20px;
+  position: relative; color: #2a2a2a;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.box-list li:last-child { border-bottom: none; }
+.box-list li::before {
+  content: '→'; position: absolute; left: 0;
+  color: var(--gold); font-size: 12px;
+}
+.box-gold .box-list li::before { color: var(--gold); }
+.box-green .box-list li::before { content: '✓'; color: var(--green); }
+.box-warn .box-list li::before { content: '⚠'; color: var(--crim); }
+
+/* ─── QUOTE ─────────────────────────────────────────────────────── */
+.quote-block {
+  margin: 40px 0;
+  padding: 32px 40px;
+  background: var(--navy);
+  border-radius: var(--r);
+  max-width: 720px;
+  position: relative;
+}
+.quote-block::before {
+  content: '\201C';
+  position: absolute; top: -10px; left: 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 80px; color: var(--gold); line-height: 1;
+  opacity: .5;
+}
+.quote-block p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-style: italic; font-weight: 300;
+  color: var(--white); line-height: 1.5; margin-bottom: 14px;
+  max-width: 100%;
+}
+.quote-author {
+  font-size: 13px; color: var(--gold);
+  letter-spacing: .08em;
+}
+
+/* ─── MUSICIAN PORTRAIT CARD ────────────────────────────────────── */
+.portrait-card {
+  background: var(--white);
+  border-radius: var(--r);
+  padding: 28px 32px;
+  margin: 28px 0;
+  max-width: 720px;
+  border-top: 3px solid var(--purp);
+  box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+}
+.portrait-card::before {
+  content: '♪';
+  position: absolute; right: 24px; top: 20px;
+  font-size: 48px; color: var(--purp); opacity: .06;
+}
+.portrait-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 700;
+  color: var(--navy2); margin-bottom: 2px;
+}
+.portrait-years { font-size: 13px; color: var(--muted); }
+.portrait-role {
+  font-size: 12px; font-weight: 500;
+  color: var(--purp); letter-spacing: .08em;
+  text-transform: uppercase; margin: 8px 0 14px;
+}
+.portrait-card p {
+  font-size: 14px; line-height: 1.75;
+  color: #3a3a3a; font-style: italic;
+  max-width: 100%; margin-bottom: 0;
+}
+
+/* ─── MUSIC SECTION ─────────────────────────────────────────────── */
+.music-divider {
+  background: #1C5C3C;
+  padding: 24px 100px;
+  display: flex; align-items: center; gap: 16px;
+}
+.music-divider-icon { font-size: 24px; color: rgba(255,255,255,.5); }
+.music-divider-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 600;
+  color: var(--white); letter-spacing: .02em;
+}
+
+.disco-card {
+  background: var(--white);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  margin: 24px 0;
+  max-width: 720px;
+  border-left: 4px solid var(--gold);
+  box-shadow: 0 2px 16px rgba(0,0,0,.07);
+}
+.disco-title {
+  font-size: 13px; font-weight: 500;
+  color: var(--gold); letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.disco-list { list-style: none; }
+.disco-list li {
+  padding: 8px 0 8px 24px;
+  font-size: 14px; line-height: 1.5;
+  color: var(--ink);
+  border-bottom: 1px dashed var(--border);
+  position: relative;
+}
+.disco-list li:last-child { border-bottom: none; }
+.disco-list li::before {
+  content: '▶';
+  position: absolute; left: 0;
+  font-size: 9px; color: var(--gold);
+  top: 50%; transform: translateY(-50%);
+}
+.disco-list li strong {
+  color: var(--navy2);
+  font-weight: 500;
+}
+
+/* ─── TABLE ─────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%; max-width: 720px;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.data-table th {
+  background: var(--navy2);
+  color: var(--white);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 13px; font-weight: 400;
+  letter-spacing: .04em;
+}
+.data-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  line-height: 1.5;
+}
+.data-table tr:nth-child(even) td { background: var(--ivory); }
+.data-table tr:hover td { background: #EDF5FB; }
+
+/* ─── PRACTICE BOX ──────────────────────────────────────────────── */
+.practice-steps { counter-reset: step; list-style: none; margin-top: 8px; }
+.practice-steps li {
+  counter-increment: step;
+  padding: 8px 0 8px 40px;
+  font-size: 14.5px;
+  position: relative;
+  border-bottom: 1px solid rgba(30,92,58,.12);
+  color: #2a2a2a;
+}
+.practice-steps li:last-child { border-bottom: none; }
+.practice-steps li::before {
+  content: counter(step);
+  position: absolute; left: 0;
+  width: 24px; height: 24px;
+  background: var(--green);
+  color: white; border-radius: 50%;
+  font-size: 12px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  top: 9px;
+}
+
+/* ─── ANIMATIONS ────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE NAV TOGGLE ─────────────────────────────────────────── */
+#nav-toggle {
+  display: none;
+  position: fixed; top: 16px; left: 16px; z-index: 200;
+  background: var(--navy); border: none; border-radius: 4px;
+  padding: 10px 12px; cursor: pointer; color: white; font-size: 18px;
+}
+
+/* ─── FOOTER ────────────────────────────────────────────────────── */
+footer {
+  background: var(--navy); color: rgba(255,255,255,.4);
+  padding: 48px 100px;
+  font-size: 13px; text-align: center;
+  border-top: 1px solid rgba(200,136,26,.2);
+}
+footer strong { color: var(--gold); }
+
+/* ─── RESPONSIVE ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #sidebar { transform: translateX(-270px); }
+  #sidebar.open { transform: translateX(0); box-shadow: 4px 0 40px rgba(0,0,0,.3); }
+  #main { margin-left: 0; }
+  #nav-toggle { display: block; }
+  #cover, .chapter-header, .content-section,
+  .music-divider, footer { padding-left: 28px; padding-right: 28px; }
+  #cover { padding-top: 80px; }
+  .chapter-header { padding: 48px 28px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+
+<!-- ─── SIDEBAR ─────────────────────────────────────────────── -->
+<nav id="sidebar">
+  <div id="sidebar-logo">
+    <span class="brand">Kinexa Formation · Christophe Delong</span>
+    <span class="title">Le Corps en Mouvement</span>
+  </div>
+  <ul id="nav-list">
+    <li><a href="#cover">Couverture</a></li>
+    <li><a href="#preface">Préface</a></li>
+    <li class="sep"></li>
+    <li><a href="#intro">Introduction</a></li>
+    <li class="sep"></li>
+    <li><a href="#ch1"><span class="ch-num">Ch. 1</span>Les Fondements</a></li>
+    <li><a href="#ch2"><span class="ch-num">Ch. 2</span>La Colonne Vertébrale</a></li>
+    <li><a href="#ch3"><span class="ch-num">Ch. 3</span>Les Chaînes Musculaires</a></li>
+    <li><a href="#ch4"><span class="ch-num">Ch. 4</span>Système Nerveux & Rythme</a></li>
+    <li class="sep"></li>
+    <li><a href="#ch5"><span class="ch-num">Ch. 5</span>Salsa & Son Cubain</a></li>
+    <li><a href="#ch6"><span class="ch-num">Ch. 6</span>Tango Argentin</a></li>
+    <li><a href="#ch7"><span class="ch-num">Ch. 7</span>Samba & Bossa Nova</a></li>
+    <li><a href="#ch8"><span class="ch-num">Ch. 8</span>Flamenco</a></li>
+    <li><a href="#ch9"><span class="ch-num">Ch. 9</span>Danses de Salon Classiques</a></li>
+    <li><a href="#ch10"><span class="ch-num">Ch. 10</span>Breakdance & Hip-Hop</a></li>
+    <li><a href="#ch11"><span class="ch-num">Ch. 11</span>Bachata, Rumba & Merengue</a></li>
+    <li class="sep"></li>
+    <li><a href="#ch12"><span class="ch-num">Ch. 12</span>Prévention & Performance</a></li>
+    <li><a href="#conclu">Conclusion</a></li>
+    <li><a href="#glossaire">Annexes & Glossaire</a></li>
+  </ul>
+</nav>
+
+<!-- ─── MAIN ────────────────────────────────────────────────── -->
+<div id="main">
+
+<!-- COVER -->
+<section id="cover">
+  <div class="cover-brand">Kinexa Formation · Christophe Delong</div>
+  <div class="cover-title-1">Le Corps</div>
+  <div class="cover-title-2">en Mouvement</div>
+  <p class="cover-sub">Biomécanique du Sport, de la Danse & de la Musique — de la clave de salsa au bandonéon de Piazzolla, des chaînes musculaires aux neurosciences du rythme.</p>
+  <div class="cover-tags">
+    <span class="cover-tag">Sportifs</span>
+    <span class="cover-tag">Danseurs</span>
+    <span class="cover-tag">Musiciens</span>
+    <span class="cover-tag">Professionnels de santé</span>
+  </div>
+  <span class="cover-scroll-hint">Commencer</span>
+</section>
+
+<!-- PRÉFACE -->
+<section id="preface">
+  <div class="chapter-header" data-num="">
+    <span class="ch-label">Avant-propos</span>
+    <h1 class="ch-title">Préface</h1>
+    <p class="ch-sub">Pourquoi ce livre existe</p>
+  </div>
+  <div class="content-section fade-in">
+    <p>Ce livre est né d'une question simple : qu'est-ce qui se passe vraiment dans le corps quand une clave sonne, quand un bandonéon ouvre sa première note, quand un danseur sent le groove et n'a plus le choix que de bouger ? La réponse se trouve à la croisée de trois disciplines que cet ouvrage réunit : la biomécanique, la neurophysiologie, et la musique.</p>
+    <p>Car la musique n'est pas un décor. Elle ne décore pas le mouvement — elle le génère, le structure, le contraint, le libère. La clave de salsa programme le corps avant même que le danseur ait décidé de bouger. Le crescendo du Boléro de Ravel contraint physiologiquement l'interprète à une montée en tension progressive et irrésistible. Le compás du flamenco est une horloge neurologique que le corps internalise après des années de pratique.</p>
+    <p>Dans la tradition de Kinexa Formation, chaque sujet est abordé avec la même exigence : rigoureusement scientifique dans les fondements, concrètement applicable dans la pratique, et toujours ancré dans la réalité des corps qui dansent, jouent et bougent.</p>
+    <div class="quote-block">
+      <p>Danser, c'est entendre avec son corps. Jouer de la musique, c'est bouger avec ses sons. Les deux sont la même chose, vécue de deux côtés du miroir.</p>
+      <span class="quote-author">— Christophe Delong, Kinexa Formation</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTRODUCTION -->
+<section id="intro">
+  <div class="chapter-header" data-num="→">
+    <span class="ch-label">Introduction</span>
+    <h1 class="ch-title">La Biomécanique et la Musique</h1>
+    <p class="ch-sub">Deux sciences d'un seul corps</p>
+  </div>
+  <div class="content-section fade-in">
+    <p>Il existe une expérience que tout danseur et tout musicien connaît : le moment où le corps cesse de calculer et commence à répondre. Le moment où la clave n'est plus un schéma rythmique qu'on décompte consciemment, mais un battement de cœur supplémentaire. Ce moment porte un nom en neurosciences : l'<strong>automatisation motrice</strong>.</p>
+    <h2>Le rythme : premier organisateur du vivant</h2>
+    <p>Avant même la naissance, le corps humain baigne dans le rythme. Le battement cardiaque de la mère — environ 70 pulsations par minute — est le premier son que le fœtus perçoit, dès la 18e semaine de gestation. Les rythmes circadiens régissent les cycles hormonaux, la température corporelle, la vigilance. Nous sommes, de part en part, des créatures rythmiques.</p>
+    <div class="box box-info fade-in">
+      <div class="box-title">ℹ L'entraînement sensorimoteur (beat induction)</div>
+      <p>Lorsque nous entendons une pulsation régulière, les noyaux gris centraux s'activent spontanément. Le cerveau génère une prédiction motrice sur les temps futurs, préparant le corps à bouger <strong>avant</strong> que le prochain son ne survienne. C'est pourquoi nous bougeons «sur» la musique et non «après» elle — cette capacité est quasi-spécifiquement humaine.</p>
+    </div>
+    <h2>Musique et biomécanique : une relation à double sens</h2>
+    <p>La relation entre musique et corps n'est pas à sens unique. Si la musique pilote le mouvement, le mouvement peut à son tour générer la musique — c'est le principe même du flamenco, où les pieds du danseur dialoguent en temps réel avec le guitariste. Dans la salsa, la clave n'est pas seulement entendue : elle est ressentie proprioceptivement, intégrée dans les gestes, réinventée à chaque performance.</p>
+  </div>
+</section>
+
+<!-- CH 1 — FONDEMENTS -->
+<section id="ch1">
+  <div class="chapter-header" data-num="1">
+    <span class="ch-label">Chapitre 1</span>
+    <h1 class="ch-title">Les Fondements</h1>
+    <p class="ch-sub">Forces, leviers, équilibre et chaînes cinétiques — les lois de la physique appliquées au corps</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La gravité : première contrainte, premier moteur</h2>
+    <p>La gravité est la force fondamentale à laquelle tout corps vivant doit composer en permanence. À 9,81 m/s², elle attire inexorablement chaque kilogramme de matière biologique vers le centre de la Terre. Mais l'évolution a transformé cette contrainte en opportunité : les structures musculo-squelettiques humaines ne se contentent pas de résister à la gravité — elles l'utilisent comme moteur.</p>
+    <p>Un coureur de fond penche légèrement son tronc vers l'avant, se laissant «tomber vers l'avant» — ses jambes n'ont qu'à le rattraper à chaque foulée. Un danseur de tango maintient son centre de masse légèrement en avant de ses métatarses, en déséquilibre instable permanent. La maîtrise du corps commence par la maîtrise de la <strong>chute contrôlée</strong>.</p>
+
+    <h3>Centre de masse et polygone de sustentation</h3>
+    <p>Le centre de masse (CM) se situe à environ 55-57% de la taille en position debout. L'équilibre est maintenu tant que sa projection verticale reste à l'intérieur du polygone de sustentation. Sur une seule pointe de pied, ce polygone se réduit à quelques centimètres carrés — d'où l'extraordinaire concentration neuromusculaire requise par les pirouettes.</p>
+    <div class="box box-info fade-in">
+      <div class="box-title">ℹ Données chiffrées</div>
+      <p>Lors d'une arabesque sur demi-pointe, la surface de contact avec le sol est d'environ 3 à 5 cm². Le système nerveux traite en continu des milliers d'informations proprioceptives pour maintenir l'équilibre sur cette surface, en détectant des inclinaisons du CM inférieures à 0,1 degré.</p>
+    </div>
+
+    <h2>Les leviers biologiques</h2>
+    <table class="data-table">
+      <thead>
+        <tr><th>Type de levier</th><th>Exemple dans le corps</th><th>Avantage mécanique</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1er genre (inter-appui)</td><td>Tête sur l'atlas</td><td>Équilibre</td></tr>
+        <tr><td>2e genre (inter-résistant)</td><td>Montée sur demi-pointe</td><td>Force amplifiée</td></tr>
+        <tr><td>3e genre (inter-moteur)</td><td>Biceps fléchissant l'avant-bras</td><td>Vitesse amplifiée</td></tr>
+      </tbody>
+    </table>
+    <p>La grande majorité des leviers du corps sont du 3e genre : le muscle s'insère très près de l'articulation, développant une force 7 à 10 fois supérieure à la charge déplacée, mais générant en contrepartie une grande vitesse de déplacement. Un lanceur de javelot peut ainsi imprimer des vitesses angulaires de l'épaule supérieures à <strong>7 000 degrés par seconde</strong>.</p>
+
+    <h2>Le Cycle Étirement-Détente (SSC)</h2>
+    <p>Le Stretch-Shortening Cycle est l'un des mécanismes les plus élégants de la biomécanique humaine. Lorsqu'un muscle est étiré rapidement avant de se contracter, ses tendons stockent de l'énergie élastique et la restituent lors de la contraction suivante, amplifiant la puissance de <strong>20 à 50 %</strong>.</p>
+    <p>Le tendon d'Achille stocke et restitue environ 35% de l'énergie mécanique de chaque pas en marche rapide. En danse, le SSC est exploité dans presque tous les styles : le rebond du swing jazz, le bounce de la samba, le tap de la bachata, les frappes du flamenco.</p>
+
+    <div class="box box-gold fade-in">
+      <div class="box-title">◆ 5 principes fondamentaux</div>
+      <ul class="box-list">
+        <li>La gravité est à la fois contrainte et moteur — apprendre à «tomber vers l'avant»</li>
+        <li>L'équilibre est dynamique, jamais statique — un déséquilibre perpétuellement corrigé</li>
+        <li>Les leviers du corps amplifient la vitesse aux dépens de la force — et c'est voulu</li>
+        <li>Les forces se transmettent en chaîne : un maillon faible compromet toute la structure</li>
+        <li>Le SSC multiplie la puissance musculaire de 20-50 % — exploitez l'élasticité tendineuse</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 2 — COLONNE -->
+<section id="ch2">
+  <div class="chapter-header" data-num="2">
+    <span class="ch-label">Chapitre 2</span>
+    <h1 class="ch-title">La Colonne Vertébrale</h1>
+    <p class="ch-sub">L'axe de tous les mouvements et de toutes les expressions</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Architecture : un chef-d'œuvre évolutif</h2>
+    <p>Trente-trois vertèbres, vingt-trois disques intervertébraux, une soixantaine de paires de muscles paravertébraux — la colonne vertébrale est l'une des structures les plus complexes et les plus multifonctionnelles que l'évolution ait produites. Ses courbures physiologiques en S ne sont pas des imperfections : elles fonctionnent comme un ressort hélicoïdal multipliant par dix la capacité d'amortissement par rapport à une colonne rectiligne.</p>
+
+    <h2>La dissociation segmentaire : l'art de bouger en deux</h2>
+    <p>La dissociation segmentaire — bouger le bassin indépendamment du thorax — est la qualité physique la plus importante et la plus difficile à acquérir en danse. Elle est au cœur du Cuban Motion de la salsa, du cadre du tango, du braceo du flamenco, du body roll de la bachata sensuelle.</p>
+    <p>Neurologiquement, elle exige un apprentissage cortical intensif. Le cerveau doit inhiber les schémas de mouvement «en bloc» qui sont notre programme moteur par défaut, et développer des connexions spécifiques permettant l'activation indépendante des chaînes du bassin et du thorax.</p>
+    <div class="box box-warn fade-in">
+      <div class="box-title">⚠ Zones à risque</div>
+      <p>Les niveaux <strong>L4-L5 et L5-S1</strong> concentrent 75% des hernies discales. Chez les danseurs de flamenco, de samba et de breakdance, la surveillance de ces niveaux est prioritaire. Signaux d'alarme : douleur irradiant dans le membre inférieur (sciatique), paresthésies, déficit moteur.</p>
+    </div>
+
+    <h3>Développer la dissociation — progression pédagogique</h3>
+    <ul class="practice-steps">
+      <li>Allongé sur le dos, genoux fléchis — bouger le bassin (antéversion/rétroversion) sans que le thorax ne suive</li>
+      <li>Debout, mains sur les crêtes iliaques — rotation du bassin gauche/droite, épaules fixes</li>
+      <li>En marche lente — bassin immobile, épaules qui oscillent normalement</li>
+      <li>Cuban Motion debout — alterner flexion de genou droit/gauche en maintenant les épaules stables</li>
+      <li>Intégration musicale — pratiquer face à un miroir avec musique à 80 BPM</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CH 3 — CHAÎNES -->
+<section id="ch3">
+  <div class="chapter-header" data-num="3">
+    <span class="ch-label">Chapitre 3</span>
+    <h1 class="ch-title">Les Chaînes Musculaires</h1>
+    <p class="ch-sub">Le corps n'est pas une somme de muscles — c'est un réseau myofascial</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La révolution fasciale</h2>
+    <p>Le fascia est le grand oublié de la physiologie classique. Longtemps considéré comme un simple tissu d'emballage inerte, il est aujourd'hui reconnu comme un tissu actif, riche en récepteurs sensoriels (six fois plus que les muscles), vascularisé, innervé, mécaniquement actif. Une traction sous la plante du pied modifie la tension dans le fascia thoraco-lombaire dans le dos. Une contracture du scalène dans le cou peut créer des symptômes au niveau du genou.</p>
+
+    <h2>Les lignes myofasciales de Thomas Myers</h2>
+    <table class="data-table fade-in">
+      <thead>
+        <tr><th>Ligne myofasciale</th><th>Trajet</th><th>Fonction principale</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Postérieure superficielle</td><td>Plante du pied → crâne</td><td>Extension, propulsion, posture érigée</td></tr>
+        <tr><td>Antérieure superficielle</td><td>Dos du pied → crâne (face)</td><td>Flexion du tronc, protection des organes</td></tr>
+        <tr><td>Spiralée</td><td>Crâne → épaule → thorax → hanche (croisée)</td><td>Rotations, stabilisation oblique</td></tr>
+        <tr><td>Latérale</td><td>Latéral du pied → ilioTibial → thorax</td><td>Stabilisation latérale en appui unipodal</td></tr>
+        <tr><td>Bras postérieure</td><td>Dos → épaule → avant-bras</td><td>Portés, guidage du tango</td></tr>
+        <tr><td>Profondes</td><td>Lignes internes, plancher pelvien</td><td>Gainage profond, proprioception fine</td></tr>
+      </tbody>
+    </table>
+
+    <div class="quote-block fade-in">
+      <p>Le corps n'est pas une machine qu'on programme. C'est un réseau qu'on cultive. Chaque geste répété trace un sillon, et la somme de ces sillons constitue le danseur.</p>
+      <span class="quote-author">— Kinexa Formation</span>
+    </div>
+  </div>
+</section>
+
+<!-- CH 4 — SYSTÈME NERVEUX -->
+<section id="ch4">
+  <div class="chapter-header" data-num="4">
+    <span class="ch-label">Chapitre 4</span>
+    <h1 class="ch-title">Le Système Nerveux, le Rythme et le Mouvement</h1>
+    <p class="ch-sub">Du réflexe médullaire à l'état de flow musical</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La hiérarchie du contrôle moteur</h2>
+    <p>Le contrôle du mouvement humain est organisé en plusieurs niveaux hiérarchiques. La moelle épinière gère les réflexes spinaux (20 à 50 ms). Le cervelet coordonne l'équilibre et les ajustements fins. Les ganglions de la base régulent la fluidité et l'automatisation. Enfin, le cortex moteur planifie et exécute les mouvements volontaires complexes.</p>
+    <p>Cette organisation permet une économie cognitive remarquable : les gestes automatisés migrent progressivement des niveaux supérieurs (cortex préfrontal, énergivore et lent) vers les niveaux inférieurs (cervelet, rapides et économiques) — libérant le danseur expert pour l'expression artistique pure.</p>
+
+    <h2>Le cervelet : ordinateur de bord avec 80 milliards de neurones</h2>
+    <p>Le cervelet contient plus de neurones que le reste du cerveau réunis. Chez le musicien et le danseur expert, il a développé des <strong>modèles internes du corps</strong> — des représentations précises de la dynamique du mouvement qui permettent de prédire les conséquences de chaque action avant même qu'elle ne se produise.</p>
+
+    <div class="box box-info fade-in">
+      <div class="box-title">ℹ Neurologie du groove</div>
+      <p>Le groove — cette qualité rythmique qui «donne envie de bouger» — est associé à l'activation du <strong>nucleus accumbens</strong>, structure centrale du système de récompense dopaminergique. Une musique qui groove produit une légère tension entre la régularité prévisible de la pulsation et les micro-irrégularités qui la perturbent. Le cerveau veut «résoudre» cette tension en bougeant — c'est le fondement neurochimique de la danse.</p>
+    </div>
+
+    <h2>L'état de flow : quand la technique devient liberté</h2>
+    <p>Le flow — l'état d'immersion totale théorisé par Csikszentmihalyi — a une réalité neurologique confirmée : hypoactivation du cortex préfrontal (réduction de l'autocritique) et hyperactivation des circuits moteurs et du système limbique (expression spontanée). En danse et en musique, c'est précisément cet état que des années de pratique rendent possible : le geste technique est si automatisé qu'il libère l'artiste pour l'expression pure.</p>
+  </div>
+</section>
+
+<!-- CH 5 — SALSA -->
+<section id="ch5">
+  <div class="chapter-header" data-num="5">
+    <span class="ch-label">Chapitre 5</span>
+    <h1 class="ch-title">Salsa & Son Cubain</h1>
+    <p class="ch-sub">Clave, Fania et le Cuban Motion — le laboratoire de la dissociation</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Biomécanique du Cuban Motion</h2>
+    <p>Le Cuban Motion n'est pas une rotation volontaire du bassin : c'est la conséquence mécanique de l'alternance de flexion et d'extension des genoux. Lorsque le genou droit se fléchit, la hanche droite s'abaisse et la crête iliaque droite recule légèrement. Lorsque la jambe gauche s'étend, sa hanche monte et avance. Le résultat est cette oscillation caractéristique du bassin dans le plan frontal, couplée à une légère rotation dans le plan horizontal.</p>
+    <div class="box box-green fade-in">
+      <div class="box-title">✔ Développer le Cuban Motion — progression</div>
+      <ul class="practice-steps">
+        <li>Debout, les deux mains sur les hanches — alterner genou droit fléchi / genou gauche fléchi lentement</li>
+        <li>Observer dans un miroir que les hanches descendent et montent avec les genoux</li>
+        <li>Maintenir les épaules parfaitement immobiles pendant que les hanches oscillent</li>
+        <li>Ajouter le déplacement latéral des pieds tout en maintenant la dissociation</li>
+        <li>Intégrer le pas de base complet sur 8 temps avec musique à 80 puis 100 BPM</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="music-divider fade-in">
+    <span class="music-divider-icon">♪</span>
+    <span class="music-divider-label">Dimension Musicale — Salsa & Son Cubain</span>
+  </div>
+
+  <div class="content-section fade-in">
+    <h2>La Clave : métronome spirituel du corps</h2>
+    <p>La clave est l'âme de toute la musique afro-cubaine. Ce motif rythmique asymétrique de 5 frappes sur deux mesures est à la fois la fondation structurelle de la musique et le programme moteur qui pilote le danseur. La clave 3-2 place trois frappes dans la première mesure et deux dans la seconde. Cette asymétrie entre une partie «lourde» (3 frappes) et une partie «légère» (2 frappes) crée un cycle tension-résolution qui structure physiologiquement la réponse motrice.</p>
+    <div class="box box-info fade-in">
+      <div class="box-title">ℹ Décryptage de la clave 3-2</div>
+      <p>Sur 8 temps : frappes sur les temps 1, 2.5, 3, 5 et 7. La pause entre les frappes 3 et 5 est le «soupir» de la clave — un silence chargé d'énergie potentielle qui est peut-être le moment le plus important de toute la musique afro-cubaine.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Beny Moré <span class="portrait-years">(1919–1963)</span></div>
+      <div class="portrait-role">Chanteur · Chef d'orchestre · Compositeur</div>
+      <p>Surnommé «El Bárbaro del Ritmo», Beny Moré est la voix du son cubain à son apogée. Chanteur autodidacte au timbre unique couvrant cinq octaves, arrangeur intuitif de génie, il dirigeait son Big Band Gigante debout, cigarette au bec. Sa maîtrise du temps musical — cette capacité à jouer «derrière» ou «devant» la pulsation sans jamais en sortir — reste inégalée dans la musique cubaine.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Celia Cruz <span class="portrait-years">(1925–2003)</span></div>
+      <div class="portrait-role">Chanteuse · La Reine de la Salsa</div>
+      <p>Son cri de guerre «¡Azúcar!» résonne encore dans toutes les pistes de salsa du monde. Sa voix — d'une puissance et d'une expressivité extraordinaires — était le fruit d'une formation rigoureuse au Conservatoire Nacional de La Havane. Exilée aux États-Unis après la révolution de 1959, elle ne retourna jamais à Cuba. Cette douleur de l'exil, qu'elle transformait en énergie sur scène, donnait à ses performances une intensité émotionnelle incomparable.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Tito Puente <span class="portrait-years">(1923–2000)</span></div>
+      <div class="portrait-role">Percussionniste · Chef d'orchestre · «El Rey del Mambo»</div>
+      <p>Né dans le Harlem hispanique de New York, ancien combattant formé à Juilliard, il révolutionna la façon de jouer les timbales — debout, face au public, avec une énergie incomparable. Son «Oye Como Va», popularisé par Carlos Santana en 1970, est aujourd'hui l'un des standards les plus joués de toute la musique populaire mondiale.</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Salsa & Son Cubain</div>
+      <ul class="disco-list">
+        <li><strong>Buena Vista Social Club</strong> — «Buena Vista Social Club» (1997) : le son cubain redécouvert et sublimé</li>
+        <li><strong>Beny Moré</strong> — «El Bárbarísimo» (1956) : la plus grande voix du son cubain</li>
+        <li><strong>Fania All Stars</strong> — «Live at the Cheetah» (1971) : la salsa new-yorkaise en état de grâce absolu</li>
+        <li><strong>Willie Colón & Rubén Blades</strong> — «Siembra» (1978) : le manifeste politique de la salsa</li>
+        <li><strong>Tito Puente</strong> — «Dance Mania» (1958) : El Rey del Mambo dans sa splendeur</li>
+        <li><strong>Celia Cruz</strong> — «Grandes Exitos» : la salsa cubaine dans sa pureté originelle</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 6 — TANGO -->
+<section id="ch6">
+  <div class="chapter-header" data-num="6">
+    <span class="ch-label">Chapitre 6</span>
+    <h1 class="ch-title">Tango Argentin</h1>
+    <p class="ch-sub">Piazzolla, le bandonéon et la science de l'abrazo</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>L'abrazo : interface biomécanique du couple</h2>
+    <p>L'abrazo du tango est le système de communication physique le plus sophistiqué que l'être humain ait développé dans le domaine de la danse. À travers le contact du buste et des mains, deux systèmes nerveux se connectent en moins de <strong>100 millisecondes</strong> — soit plus vite que le traitement visuel conscient. Le tango est littéralement une conversation plus rapide que la pensée.</p>
+    <p>La tension idéale de l'abrazo ressemble mécaniquement à tenir les deux extrémités d'un ressort de résistance modérée. Trop de rigidité : le guidé réagit après coup. Trop de mollesse : le signal est noyé dans le bruit proprioceptif ambiant.</p>
+  </div>
+
+  <div class="music-divider fade-in">
+    <span class="music-divider-icon">♪</span>
+    <span class="music-divider-label">Dimension Musicale — Tango Argentin</span>
+  </div>
+
+  <div class="content-section fade-in">
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Astor Piazzolla <span class="portrait-years">(1921–1992)</span></div>
+      <div class="portrait-role">Compositeur · Bandonéoniste · Révolutionnaire du Tango Nuevo</div>
+      <p>Né à Mar del Plata, élevé à New York, formé à Paris auprès de Nadia Boulanger (qui lui dit : «Votre jazz, c'est Piazzolla. Ne l'abandonnez jamais»), il créa le tango nuevo en intégrant contrepoint baroque, harmonie jazz et forme sonate. Ses tango-suites — Libertango, Adiós Nonino, Oblivion — ne sont pas des musiques à danser mais des œuvres de concert qui parlent de Buenos Aires, de l'exil et de la mort avec la profondeur d'un compositeur classique.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Carlos Gardel <span class="portrait-years">(1890–1935)</span></div>
+      <div class="portrait-role">Chanteur · Compositeur · Mythe fondateur</div>
+      <p>Sa voix de baryton — d'une chaleur et d'une légèreté inimitables — a défini les standards de l'interprétation du tango-chanson pour toutes les générations suivantes. Sa mort en 1935 dans un accident d'avion à Medellín, à 45 ans, a créé un mythe immortel. Les Argentins disent encore de lui qu'il «chante de mieux en mieux».</p>
+    </div>
+
+    <h2>Le bandonéon : 71 boutons, deux sons chacun</h2>
+    <p>Le bandonéon est l'âme sonore du tango. Cet instrument possède 71 boutons dont la disposition ne suit aucune logique intuitive, et dont les notes changent selon qu'on pousse ou tire le soufflet — soit 142 positions de doigts à mémoriser. Les avant-bras, mains et doigts d'un bandonéoniste professionnel présentent une spécialisation neuromusculaire comparable à celle d'un pianiste de concert.</p>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Tango Argentin</div>
+      <ul class="disco-list">
+        <li><strong>Astor Piazzolla</strong> — «Adiós Nonino» (1959) : peut-être le plus beau tango jamais écrit</li>
+        <li><strong>Astor Piazzolla</strong> — «Libertango» (1974) : la révolution du tango nuevo</li>
+        <li><strong>Carlos Gardel</strong> — «Sus Grandes Éxitos» : la voix fondatrice</li>
+        <li><strong>Juan D'Arienzo</strong> — compilations 1935-1950 : le tango pour danser</li>
+        <li><strong>Osvaldo Pugliese</strong> — «La Yumba» : la pulsation hypnotique du tango milonguero</li>
+        <li><strong>Aníbal Troilo</strong> — «Sur» (1948) : le lyrisme de Pichuco au sommet</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 7 — SAMBA -->
+<section id="ch7">
+  <div class="chapter-header" data-num="7">
+    <span class="ch-label">Chapitre 7</span>
+    <h1 class="ch-title">Samba & Bossa Nova</h1>
+    <p class="ch-sub">Du sambodrome à João Gilberto — l'ADN rythmique du Brésil</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La ginga et le rebolado : 130 BPM pendant 70 minutes</h2>
+    <p>La samba brésilienne est l'une des disciplines physiques les plus intensives de la danse. La ginga repose sur une triple flexion synchronisée (cheville, genou, hanche) suivie d'une triple extension explosive. Le tendon d'Achille joue le rôle d'un ressort biomécanique via le SSC. Une passista peut danser pendant <strong>70 minutes</strong> consécutives à 120-130 BPM sur 700 mètres de sambodrome — l'équivalent cardiovasculaire d'une course de 10 km.</p>
+  </div>
+
+  <div class="music-divider fade-in">
+    <span class="music-divider-icon">♪</span>
+    <span class="music-divider-label">Dimension Musicale — Samba & Bossa Nova</span>
+  </div>
+
+  <div class="content-section fade-in">
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">João Gilberto <span class="portrait-years">(1931–2019)</span></div>
+      <div class="portrait-role">Guitariste · Chanteur · Inventeur de la Bossa Nova</div>
+      <p>Sa façon de jouer la guitare est une révolution : la main droite brise la pulsation de la samba en patterns asymétriques imperceptiblement décalés, créant un balanço interne d'une subtilité hypnotique. Sa voix murmure plutôt qu'elle ne chante. Perfectionniste jusqu'à l'obsession, il pouvait passer des semaines à affiner une seule mesure, un seul phrasé.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Tom Jobim <span class="portrait-years">(1927–1994)</span></div>
+      <div class="portrait-role">Compositeur · Pianiste · Plus grand mélodiste brésilien</div>
+      <p>Formé à la musique classique — il admirait Debussy, Ravel et Villa-Lobos — il créa une synthèse unique avec le balanço de la samba. Garota de Ipanema est l'une des chansons les plus enregistrées de l'histoire. «Debussy en avait deux notes de plus», disait-il en référence à ses propres demi-tons.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Cartola <span class="portrait-years">(1908–1980)</span></div>
+      <div class="portrait-role">Compositeur · Chanteur · Gardien de l'âme de la samba</div>
+      <p>Co-fondateur de l'école de samba Mangueira, il a composé certaines des plus belles sambas jamais entendues avec une économie de moyens et une profondeur poétique remarquables. L'industrie musicale l'ignora pendant des décennies — il travailla comme laveur de voitures — avant qu'il ne s'impose à 66 ans avec un album éponymie devenu classique.</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Samba & Bossa Nova</div>
+      <ul class="disco-list">
+        <li><strong>João Gilberto</strong> — «Chega de Saudade» (1959) : l'album fondateur de la bossa nova</li>
+        <li><strong>Stan Getz & João Gilberto</strong> — «Getz/Gilberto» (1964) : la rencontre historique jazz/bossa</li>
+        <li><strong>Tom Jobim</strong> — «Wave» (1967) : la bossa nova dans sa plénitude harmonique</li>
+        <li><strong>Cartola</strong> — «Cartola» (1974) : les sambas les plus belles du Brésil</li>
+        <li><strong>Clara Nunes</strong> — «Canto das Três Raças» (1976) : la grande dame de la samba carioca</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 8 — FLAMENCO -->
+<section id="ch8">
+  <div class="chapter-header" data-num="8">
+    <span class="ch-label">Chapitre 8</span>
+    <h1 class="ch-title">Flamenco</h1>
+    <p class="ch-sub">Paco de Lucía, le duende et le compás de 12 temps</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Le zapateado : 10 impacts par seconde</h2>
+    <p>Lors des escobillas de haute intensité, le danseur produit 8 à 10 impacts par seconde — chacun générant une force de 2 à 3 fois le poids corporel. La co-contraction isométrique de la sangle abdominale est indispensable pour transmettre ces forces sans léser les disques intervertébraux. Les études EMG sur des danseurs de flamenco de haut niveau montrent une activation abdominale supérieure à celle de beaucoup de disciplines sportives réputées intenses.</p>
+    <p>Le défi suprême : cet effort maximal doit rester totalement invisible dans le buste et le visage — c'est le paradoxe biomécanique du flamenco.</p>
+  </div>
+
+  <div class="music-divider fade-in">
+    <span class="music-divider-icon">♪</span>
+    <span class="music-divider-label">Dimension Musicale — Flamenco</span>
+  </div>
+
+  <div class="content-section fade-in">
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Paco de Lucía <span class="portrait-years">(1947–2014)</span></div>
+      <div class="portrait-role">Guitariste · Compositeur · Plus grand guitariste de flamenco de l'histoire</div>
+      <p>Né à Algésiras dans une famille de musiciens gitans, il commença la guitare à 5 ans. Son picado ultra-rapide, son rasgueado percutant, son trémolo quasi-liquide ont repoussé les limites de ce que la guitare flamenca pouvait faire. Il ouvrit le flamenco au jazz (Guitar Trio avec McLaughlin et Di Meola), aux percussions afro-cubaines (introduction du cajón dans le flamenco) et aux harmonies modales. Sa mort en 2014 sur une plage mexicaine, d'une crise cardiaque, laissa le monde du flamenco en deuil profond.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Camarón de la Isla <span class="portrait-years">(1950–1992)</span></div>
+      <div class="portrait-role">Chanteur · La voix du flamenco du XXe siècle</div>
+      <p>Sa voix rauque, brisée, capable des mélismes les plus déchirants, incarne physiquement le concept de duende — «ce qui monte du sol jusqu'aux racines des cheveux» (García Lorca). Sa collaboration avec Paco de Lucía (douze albums entre 1969 et 1977) est l'un des partenariats artistiques les plus fertiles de l'histoire de la musique. Sa mort à 41 ans des suites d'un cancer laissa le flamenco inconsolable.</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Flamenco</div>
+      <ul class="disco-list">
+        <li><strong>Camarón & Paco de Lucía</strong> — «La Leyenda del Tiempo» (1979) : la révolution du flamenco moderne</li>
+        <li><strong>Paco de Lucía</strong> — «Fuente y Caudal» (1973) : «Entre dos Aguas», chef-d'œuvre populaire</li>
+        <li><strong>Paco de Lucía, McLaughlin, Di Meola</strong> — «Guitar Trio» (1981) : flamenco & jazz fusion</li>
+        <li><strong>Rosalía</strong> — «El Mal Querer» (2018) : le flamenco réinventé pour le XXIe siècle</li>
+        <li><strong>Diego El Cigala & Bebo Valdés</strong> — «Lágrimas Negras» (2003) : flamenco et bolero cubain</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 9 — DANSES CLASSIQUES -->
+<section id="ch9">
+  <div class="chapter-header" data-num="9">
+    <span class="ch-label">Chapitre 9</span>
+    <h1 class="ch-title">Danses de Salon Classiques</h1>
+    <p class="ch-sub">Strauss, Ravel, Chopin — quand la grande musique fait danser les corps</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La valse viennoise : 60 rotations par minute</h2>
+    <p>La valse viennoise constitue l'un des défis vestibulaires les plus intenses de la danse sociale. Les canaux semi-circulaires de l'oreille interne détectent les accélérations angulaires de chaque rotation et déclenchent le réflexe vestibulo-oculaire (stabilisation du regard) et vestibulo-spinal (contrôle postural continu). Les danseurs expérimentés ne sont pas pris de vertiges non parce qu'ils ne tournent pas — mais parce que leur système vestibulaire s'est adapté.</p>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Johann Strauss fils <span class="portrait-years">(1825–1899)</span></div>
+      <div class="portrait-role">Compositeur · Chef d'orchestre · «Le Roi de la Valse»</div>
+      <p>Élevé par une mère qui voulait l'éloigner de la musique, il apprit le violon en secret et débuta en rivalisant directement avec son propre père. Son Beau Danube Bleu (1866), commandé comme chant patriotique après la défaite autrichienne, est devenu le symbole musical de Vienne. Brahms, peu prodigue en compliments, avait inscrit ses premières mesures dans un carnet en ajoutant : «Hélas, pas de moi. — J. Brahms.»</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Maurice Ravel <span class="portrait-years">(1875–1937)</span></div>
+      <div class="portrait-role">Compositeur · Maître de l'orchestration</div>
+      <p>Sa maîtrise de l'orchestration est considérée comme inégalée dans l'histoire de la musique. Son Boléro (1928) — un ostinato immuable de caisse claire sur lequel deux thèmes se répètent pendant 15 minutes dans un crescendo orchestral progressif — est devenu l'une des pièces musicales les plus connues au monde. Ravel lui-même le considérait comme «une expérience» : «Je n'ai produit qu'une chose de maîtrise dans ma vie. Le Boléro. Malheureusement, il ne contient pas de musique.»</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Valse & Musique Classique</div>
+      <ul class="disco-list">
+        <li><strong>J. Strauss fils</strong> — «Concert du Nouvel An 1987» (Karajan/Wiener) : la référence absolue</li>
+        <li><strong>Maurice Ravel</strong> — «Boléro» (Monteux/Boston, 1961) : la version historique</li>
+        <li><strong>Frédéric Chopin</strong> — Mazurkas op. 59 (Zimerman) : la danse polonaise sublimée</li>
+        <li><strong>Lehar</strong> — «La Veuve Joyeuse» (Karajan, 1972) : la valse d'opérette à son sommet</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 10 — BREAKDANCE -->
+<section id="ch10">
+  <div class="chapter-header" data-num="10">
+    <span class="ch-label">Chapitre 10</span>
+    <h1 class="ch-title">Breakdance & Hip-Hop</h1>
+    <p class="ch-sub">James Brown, Afrika Bambaataa et la culture du Bronx</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Naissance d'une culture : South Bronx, 1973</h2>
+    <p>La culture hip-hop est née dans le South Bronx de New York au début des années 1970, dans un contexte de désinvestissement économique massif. DJ Kool Herc, lors d'une fête dans un gymnase du 1520 Sedgwick Avenue le <strong>11 août 1973</strong>, inventa le breakbeat — et avec lui, toute la culture hip-hop.</p>
+  </div>
+
+  <div class="music-divider fade-in">
+    <span class="music-divider-icon">♪</span>
+    <span class="music-divider-label">Dimension Musicale — Hip-Hop & Funk</span>
+  </div>
+
+  <div class="content-section fade-in">
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">James Brown <span class="portrait-years">(1933–2006)</span></div>
+      <div class="portrait-role">Chanteur · Musicien · «Le Parrain du Soul»</div>
+      <p>James Brown a transformé chaque instrument de son orchestre en instrument de percussion, créant une polyrythmie dense où la mélodie est subordonnée au groove. Sa batterie de Clyde Stubblefield sur «Funky Drummer» (1970) est peut-être le break le plus samplé de l'histoire de la musique populaire. Sa danse — robotique, précise, explosive — a directement inspiré Michael Jackson, Prince, et toute une génération de performers.</p>
+    </div>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Afrika Bambaataa <span class="portrait-years">(né en 1957)</span></div>
+      <div class="portrait-role">DJ · Producteur · Fondateur de la Zulu Nation</div>
+      <p>Sa découverte, en 1982, des synthétiseurs de Kraftwerk — une musique blanche allemande produite à Düsseldorf, aussi éloignée que possible du Bronx noir — et son utilisation de ces sons dans «Planet Rock» a ouvert le hip-hop à la musique électronique et créé l'electro, genre fondateur de la house, la techno et toute la musique de danse électronique contemporaine.</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Hip-Hop & Funk</div>
+      <ul class="disco-list">
+        <li><strong>James Brown</strong> — «Live at the Apollo» (1963) : le groove à l'état brut</li>
+        <li><strong>James Brown</strong> — «Funky Drummer» (1970) : le break le plus samplé de l'histoire</li>
+        <li><strong>Afrika Bambaataa</strong> — «Planet Rock» (1982) : la naissance de l'electro</li>
+        <li><strong>Grandmaster Flash</strong> — «The Message» (1982) : le premier rap engagé</li>
+        <li><strong>A Tribe Called Quest</strong> — «Midnight Marauders» (1993) : hip-hop jazz fusion</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 11 — BACHATA / RUMBA -->
+<section id="ch11">
+  <div class="chapter-header" data-num="11">
+    <span class="ch-label">Chapitre 11</span>
+    <h1 class="ch-title">Bachata, Rumba & Merengue</h1>
+    <p class="ch-sub">Caraïbes, marginalité sublimée, patrimoine universel</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>La Bachata : du «tap» à l'UNESCO</h2>
+    <p>La bachata possède une signature biomécanique absolument unique : le <strong>tap sur le 4e temps</strong>. Cette légère pointe de pied sans transfert de poids, accompagnée d'une élévation de la hanche correspondante, est l'élément qui différencie la bachata de toute autre danse. Sa trajectoire culturelle est l'une des plus remarquables du XXe siècle : de la censure radio sous Trujillo à l'inscription au Patrimoine Culturel Immatériel de l'UNESCO en 2019.</p>
+
+    <div class="portrait-card fade-in">
+      <div class="portrait-name">Juan Luis Guerra <span class="portrait-years">(né en 1957)</span></div>
+      <div class="portrait-role">Compositeur · Chanteur · Révolutionnaire de la bachata</div>
+      <p>Formé à Berklee College of Music à Boston, il fusionna la bachata, le merengue et le zouk avec une maîtrise harmonique jazz. Son album Bachata Rosa (1990) brisa définitivement le stigmate social de la bachata — pour la première fois, ce genre longtemps méprisé était joué à la radio nationale et acheté par toutes les classes sociales dominicaines.</p>
+    </div>
+
+    <div class="disco-card fade-in">
+      <div class="disco-title">♪ Discographie essentielle — Bachata, Rumba & Merengue</div>
+      <ul class="disco-list">
+        <li><strong>Juan Luis Guerra</strong> — «Bachata Rosa» (1990) : la révolution qui légitima la bachata</li>
+        <li><strong>Los Muñequitos de Matanzas</strong> — «Vacunao» (1995) : la rumba authentique de référence</li>
+        <li><strong>Romeo Santos</strong> — «Formula Vol. 1» (2011) : la bachata urbaine au sommet</li>
+        <li><strong>Elvis Crespo</strong> — «Suavemente» (1998) : le merengue pop mondial</li>
+        <li><strong>Aventura</strong> — «God's Project» (2005) : la bachata qui conquit les États-Unis</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CH 12 — PRÉVENTION -->
+<section id="ch12">
+  <div class="chapter-header" data-num="12">
+    <span class="ch-label">Chapitre 12</span>
+    <h1 class="ch-title">Prévention & Performance</h1>
+    <p class="ch-sub">Protéger le corps pour qu'il puisse exprimer la musique</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Comprendre la douleur pour mieux l'éviter</h2>
+    <p>La douleur d'effort — musculaire, temporaire, symétrique, disparaissant en 24-48h — est physiologique et témoigne d'une sollicitation adaptative. La douleur de blessure — articulaire, persistante, asymétrique, liée à un mécanisme précis — est un signal d'alarme qui exige une attention immédiate.</p>
+
+    <div class="box box-warn fade-in">
+      <div class="box-title">⚠ 5 signaux d'alarme à ne jamais ignorer</div>
+      <ul class="box-list">
+        <li>Douleur qui réveille la nuit</li>
+        <li>Douleur irradiant dans un membre (nerf pincé)</li>
+        <li>Gonflement articulaire</li>
+        <li>Instabilité — sensation que l'articulation «lâche»</li>
+        <li>Déficit fonctionnel — ne plus pouvoir faire un mouvement habituellement facile</li>
+      </ul>
+    </div>
+
+    <h2>Le protocole RAMP</h2>
+    <p>Le protocole RAMP remplace avantageusement l'étirement statique pré-effort, qui peut être contre-productif pour la performance neuromusculaire immédiate.</p>
+    <ul class="practice-steps">
+      <li><strong>R</strong>aise — augmenter la température corporelle par une activité cardio légère (5-8 min)</li>
+      <li><strong>A</strong>ctivate — activer les muscles stabilisateurs spécifiques à la discipline (3-5 min)</li>
+      <li><strong>M</strong>obilise — mobiliser les articulations concernées avec des mouvements dynamiques (4-6 min)</li>
+      <li><strong>P</strong>otentiate — préparer le système neuromusculaire avec des gestes proches de la pratique (3-5 min)</li>
+    </ul>
+
+    <div class="box box-gold fade-in">
+      <div class="box-title">◆ 10 règles d'or pour danseurs & musiciens</div>
+      <ul class="box-list">
+        <li>Protocole RAMP avant chaque session — jamais d'étirements statiques à froid</li>
+        <li>Règle des 10 % — ne jamais augmenter le volume de plus de 10 % par semaine</li>
+        <li>Renforcement stabilisateur régulier (moyen fessier, rotateurs de hanche, fixateurs d'omoplate)</li>
+        <li>Entraînement proprioceptif : équilibre unipodal, yeux fermés, surfaces instables</li>
+        <li>7 à 9 heures de sommeil — la mémoire motrice se consolide la nuit</li>
+        <li>Hydratation continue : 500 mL avant + 150 mL toutes les 20 minutes d'effort</li>
+        <li>Cohérence cardiaque (5 min, 5 respirations/min) avant une performance stressante</li>
+        <li>Visualisation mentale : renforcer les connexions neurales sans solliciter les tissus</li>
+        <li>Chaussures adaptées : semelles de daim/buffle pour pivoter sans bloquer le genou</li>
+        <li>Consulter un kinésithérapeute spécialisé danse dès les premiers signes persistants</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclu">
+  <div class="chapter-header" data-num="✦">
+    <span class="ch-label">Fin</span>
+    <h1 class="ch-title">Conclusion</h1>
+    <p class="ch-sub">Le corps, la musique, une seule symphonie</p>
+  </div>
+  <div class="content-section fade-in">
+    <p>Au terme de ce voyage — des fondements de la physique jusqu'aux rues du Bronx, de la Havane de Beny Moré à l'appartement de João Gilberto à Ipanema, des pierres d'Andalousie sous les pieds de Camarón aux salons viennois où les Strauss faisaient danser l'aristocratie européenne — une conviction s'impose.</p>
+    <p>Le corps et la musique ne sont pas deux réalités qui se rencontrent dans la danse ou le concert. Ils sont deux expressions d'un seul et même phénomène : la mise en forme du temps. La musique organise le temps en sons, silences, rythmes et harmonies. Le corps organise le temps en mouvements, poses, accélérations et pauses.</p>
+    <p>Comprendre pourquoi le corps bouge comme il bouge ne diminue pas la magie du mouvement juste ou de la note parfaite. Cela l'approfondit. Cela permet de pratiquer avec plus de conscience, d'enseigner avec plus de précision, de soigner avec plus d'efficacité, et d'apprécier avec l'émerveillement particulier de celui qui sait ce qui se passe dans le corps — et n'en est que plus touché.</p>
+    <div class="quote-block fade-in">
+      <p>Le corps est une symphonie. La musique en est la partition. Apprenez à lire l'une et à jouer l'autre, et le monde entier deviendra une piste de danse.</p>
+      <span class="quote-author">— Christophe Delong, Kinexa Formation</span>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSAIRE -->
+<section id="glossaire">
+  <div class="chapter-header" data-num="∞">
+    <span class="ch-label">Annexes</span>
+    <h1 class="ch-title">Glossaire & Discographies</h1>
+    <p class="ch-sub">Références musicales et biomécaniques</p>
+  </div>
+  <div class="content-section fade-in">
+    <h2>Glossaire musical</h2>
+    <table class="data-table fade-in">
+      <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bandonéon</strong></td><td>Instrument à soufflet et 71 boutons, âme sonore du tango argentin</td></tr>
+        <tr><td><strong>Clave</strong></td><td>Motif rythmique asymétrique de 5 frappes, fondement de la musique afro-cubaine</td></tr>
+        <tr><td><strong>Compás</strong></td><td>Structure rythmique cyclique propre à chaque palo de flamenco</td></tr>
+        <tr><td><strong>Duende</strong></td><td>État de grâce ou transe émotionnelle du flamenco (García Lorca)</td></tr>
+        <tr><td><strong>Groove</strong></td><td>Qualité rythmique déclenchant une réponse motrice quasi-involontaire</td></tr>
+        <tr><td><strong>Ginga</strong></td><td>Mouvement oscillatoire fondamental de la samba</td></tr>
+        <tr><td><strong>Montuno</strong></td><td>Pattern pianistique répétitif et syncopé du son cubain</td></tr>
+        <tr><td><strong>Saudade</strong></td><td>Terme brésilien — mélancolie joyeuse, nostalgie d'une chose encore présente</td></tr>
+        <tr><td><strong>Tanda</strong></td><td>Série de 3-4 tangos du même orchestre en milonga</td></tr>
+        <tr><td><strong>Tumbao</strong></td><td>Ligne de basse répétitive et syncopée, moteur de la salsa</td></tr>
+        <tr><td><strong>Zapateado</strong></td><td>Technique de percussion des pieds en flamenco</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Glossaire biomécanique</h2>
+    <table class="data-table fade-in">
+      <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>APA</strong></td><td>Ajustements Posturaux Anticipatoires — contractions cérébelleux avant le mouvement</td></tr>
+        <tr><td><strong>Centre de masse</strong></td><td>Point autour duquel la masse totale du corps est équilibrée</td></tr>
+        <tr><td><strong>Dissociation segmentaire</strong></td><td>Capacité à mouvoir le bassin indépendamment du thorax</td></tr>
+        <tr><td><strong>Entraînement sensorimoteur</strong></td><td>Synchronisation spontanée du système moteur sur une pulsation externe</td></tr>
+        <tr><td><strong>État de flow</strong></td><td>Immersion totale — hypoactivation préfrontale, hyperactivation motrice</td></tr>
+        <tr><td><strong>Fascia</strong></td><td>Tissu conjonctif continu transmettant les tensions myofasciales à distance</td></tr>
+        <tr><td><strong>Mémoire procédurale</strong></td><td>Mémoire des automatismes moteurs, dans les ganglions de la base et le cervelet</td></tr>
+        <tr><td><strong>Proprioception</strong></td><td>Sens de la position du corps dans l'espace</td></tr>
+        <tr><td><strong>SSC</strong></td><td>Stretch-Shortening Cycle — amplification de 20-50 % via l'élasticité tendineuse</td></tr>
+        <tr><td><strong>Tendinopathie</strong></td><td>Pathologie dégénérative du tendon par surcharge répétitive</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Kinexa Formation · Christophe Delong</strong><br>
+  Le Corps en Mouvement — Biomécanique du Sport, de la Danse & de la Musique<br><br>
+  Tous droits réservés · kinexaformation.com
+</footer>
+
+</div><!-- /main -->
+
+<script>
+// ─── PROGRESS BAR ─────────────────────────────────────
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  bar.style.width = pct + '%';
+});
+
+// ─── SIDEBAR ACTIVE NAV ───────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#nav-list a');
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`#nav-list a[href="#${e.target.id}"]`);
+      if (link) {
+        link.classList.add('active');
+        link.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  });
+}, { threshold: 0.2, rootMargin: '-10% 0px -70% 0px' });
+
+sections.forEach(s => obs.observe(s));
+
+// ─── FADE IN ON SCROLL ────────────────────────────────
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+fadeEls.forEach(el => fadeObs.observe(el));
+
+// ─── MOBILE NAV ───────────────────────────────────────
+function toggleNav() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Close sidebar on link click (mobile)
+navLinks.forEach(l => l.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+}));
+
+// Close on outside click
+document.getElementById('main').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+});
+</script>
+</body>
+</html>

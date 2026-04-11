@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLUTTER — L'Art de Désencombrer l'Esprit des Leaders</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --dark: #111111;
+    --card: #161616;
+    --border: #222222;
+    --gold: #C9A255;
+    --gold-light: #E5CC8A;
+    --gold-dim: #7A6030;
+    --cream: #F2EBD9;
+    --muted: #8A8070;
+    --white: #FDFAF5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.85;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; letter-spacing: 0.3em;
+    color: var(--gold); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ─── COVER ─── */
+  .cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 48px 80px;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,162,85,0.07) 0%, transparent 70%),
+      linear-gradient(180deg, transparent 60%, var(--black) 100%);
+  }
+  .cover-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 48px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .cover-ornament::before, .cover-ornament::after {
+    content: ''; display: block; width: 60px; height: 1px; background: var(--gold-dim);
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 12vw, 140px);
+    font-weight: 900; letter-spacing: -0.02em; line-height: 0.9;
+    color: var(--white);
+    position: relative; z-index: 1;
+    margin-bottom: 12px;
+  }
+  .cover-title span { color: var(--gold); }
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 26px);
+    font-weight: 300; font-style: italic;
+    color: var(--muted); margin: 28px 0 48px;
+    max-width: 600px; line-height: 1.5;
+    position: relative; z-index: 1;
+  }
+  .cover-tags {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1;
+  }
+  .tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid var(--gold-dim);
+    padding: 8px 20px; border-radius: 0;
+  }
+  .cover-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .cover-scroll::after {
+    content: ''; display: block; width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--gold-dim), transparent);
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 0; }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 48px; }
+  .container-wide { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+  .section-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background: var(--border); }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px); font-weight: 600;
+    line-height: 1.15; color: var(--white); margin-bottom: 32px;
+  }
+  h2 em { color: var(--gold); font-style: italic; }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 400; font-style: italic;
+    color: var(--gold-light); margin-bottom: 16px;
+  }
+  p { margin-bottom: 20px; color: var(--cream); }
+  p:last-child { margin-bottom: 0; }
+
+  .lead {
+    font-size: 21px; line-height: 1.7; font-style: italic;
+    color: var(--white); margin-bottom: 40px;
+    border-left: 2px solid var(--gold); padding-left: 28px;
+  }
+
+  /* ─── MANIFESTE ─── */
+  .manifeste-bg { background: var(--dark); }
+  .manifeste-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .manifeste-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 200px; font-weight: 900; line-height: 1;
+    color: rgba(201,162,85,0.07); user-select: none;
+    position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+  }
+  .stat-box {
+    border: 1px solid var(--border); padding: 32px; position: relative;
+    margin-bottom: 24px;
+  }
+  .stat-box::before {
+    content: ''; position: absolute; top: -1px; left: 0; width: 40px; height: 2px;
+    background: var(--gold);
+  }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px; font-weight: 700; color: var(--gold);
+    display: block; line-height: 1;
+  }
+  .stat-label { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--muted); }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 64px; }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-dot {
+    position: absolute; left: -44px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--black);
+    box-shadow: 0 0 0 4px rgba(201,162,85,0.15);
+  }
+  .timeline-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 8px;
+  }
+  .timeline-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 4px;
+  }
+  .timeline-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-style: italic; color: var(--muted); margin-bottom: 12px;
+  }
+  .timeline-quote {
+    font-style: italic; color: var(--cream);
+    border-left: 1px solid var(--gold-dim); padding-left: 20px;
+    font-size: 15px; margin-bottom: 8px;
+  }
+  .timeline-body { font-size: 15px; color: var(--muted); }
+
+  /* ─── BEAUTÉ ─── */
+  .beaute-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+    margin: 48px 0;
+  }
+  .beaute-card {
+    background: var(--card); padding: 40px 32px;
+    border-top: 2px solid var(--border); transition: border-color 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .beaute-card:hover { border-top-color: var(--gold); }
+  .beaute-card::after {
+    content: attr(data-num);
+    position: absolute; right: 24px; bottom: 24px;
+    font-family: 'Playfair Display', serif; font-size: 60px; font-weight: 900;
+    color: rgba(255,255,255,0.03); line-height: 1;
+  }
+  .beaute-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+  .beaute-card h3 { font-size: 20px; margin-bottom: 12px; }
+  .beaute-card p { font-size: 14px; color: var(--muted); }
+
+  /* ─── BIBLIOTHÈQUE ─── */
+  .library-bg { background: var(--dark); }
+  .books-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+  .book-card {
+    background: var(--black); border: 1px solid var(--border);
+    padding: 28px 28px 28px 24px; display: flex; gap: 20px;
+    transition: border-color 0.3s; text-decoration: none;
+    border-left: 3px solid var(--border); position: relative;
+  }
+  .book-card:hover { border-left-color: var(--gold); border-color: var(--gold-dim); }
+  .book-card:hover .book-link { color: var(--gold); }
+  .book-spine {
+    width: 6px; min-width: 6px; border-radius: 1px;
+    align-self: stretch;
+  }
+  .book-meta { flex: 1; }
+  .book-theme {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .book-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 600; color: var(--white);
+    margin-bottom: 3px; line-height: 1.3;
+  }
+  .book-author {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-style: italic; color: var(--muted); margin-bottom: 10px;
+  }
+  .book-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 12px; }
+  .book-link {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold-dim); text-decoration: none; transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .book-link::after { content: '→'; }
+
+  .books-theme-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); padding: 20px 0 8px;
+    border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    grid-column: 1 / -1;
+  }
+
+  /* ─── CERCLE ─── */
+  .cercle-hero {
+    text-align: center; max-width: 680px; margin: 0 auto 80px;
+  }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 32px; margin-bottom: 64px;
+  }
+  .step {
+    border: 1px solid var(--border); padding: 36px 32px;
+    position: relative;
+  }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px; letter-spacing: 0.4em; font-weight: 400;
+    color: var(--gold); margin-bottom: 20px; display: block;
+  }
+  .step h3 { font-style: normal; color: var(--white); font-size: 19px; margin-bottom: 10px; }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  .format-box {
+    background: var(--card); border-left: 2px solid var(--gold);
+    padding: 40px 48px; margin: 48px 0;
+  }
+  .format-box h3 { font-size: 22px; margin-bottom: 24px; color: var(--white); font-style: normal; }
+  .format-list { list-style: none; }
+  .format-list li {
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+    display: flex; gap: 20px; align-items: baseline;
+    font-size: 15px; color: var(--cream);
+  }
+  .format-list li:last-child { border-bottom: none; }
+  .format-list .time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; color: var(--gold); white-space: nowrap;
+    min-width: 80px; letter-spacing: 0.05em;
+  }
+
+  .questions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 48px; }
+  .question-card {
+    background: var(--card); padding: 24px; font-style: italic;
+    font-size: 15px; color: var(--cream); border-top: 1px solid var(--border);
+    line-height: 1.6;
+  }
+  .question-card::before { content: '«'; color: var(--gold); font-size: 24px; display: block; margin-bottom: 8px; line-height: 1; }
+
+  /* ─── BACK COVER ─── */
+  .back-cover {
+    min-height: 100vh; background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 48px;
+    border-top: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .back-cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,162,85,0.04) 0%, transparent 70%);
+  }
+  .back-cover-inner { position: relative; z-index: 1; max-width: 700px; }
+  .back-cta {
+    display: inline-block; margin-top: 48px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 18px 48px; text-decoration: none; transition: background 0.2s;
+  }
+  .back-cta:hover { background: var(--gold-light); }
+  .back-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; font-weight: 900; color: var(--white);
+    letter-spacing: -0.02em; margin-bottom: 8px;
+  }
+  .back-logo span { color: var(--gold); }
+  .back-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic; color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    display: flex; align-items: center; gap: 24px;
+    margin: 64px 0; color: var(--gold-dim);
+    font-family: 'Cormorant Garamond', serif; font-size: 18px;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ─── PULL QUOTE ─── */
+  .pull-quote {
+    text-align: center; padding: 80px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 64px 0;
+  }
+  .pull-quote blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px); font-style: italic;
+    font-weight: 400; line-height: 1.5; color: var(--white);
+    max-width: 700px; margin: 0 auto 24px;
+  }
+  .pull-quote cite {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 48px; text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; color: var(--muted); letter-spacing: 0.1em;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .container, .container-wide { padding: 0 24px; }
+    .manifeste-grid, .books-grid, .steps-grid, .questions-grid { grid-template-columns: 1fr; }
+    .beaute-grid { grid-template-columns: 1fr; }
+    section { padding: 72px 0; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">KLUTTER</a>
+  <div class="nav-links">
+    <a href="#manifeste">Manifeste</a>
+    <a href="#histoire">Histoire</a>
+    <a href="#beaute">Le Beau</a>
+    <a href="#bibliotheque">Bibliothèque</a>
+    <a href="#cercle">Cercle</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-ornament">Un Manifeste pour les Leaders</div>
+  <h1 class="cover-title">KLUT<span>T</span>ER</h1>
+  <p class="cover-subtitle">L'art de désencombrer l'esprit des cadres supérieurs par le fil de l'histoire, le beau et la lecture</p>
+  <div class="cover-tags">
+    <span class="tag">Fatigue Cognitive</span>
+    <span class="tag">Leadership</span>
+    <span class="tag">Cercle de Lecture</span>
+  </div>
+  <div class="cover-scroll">Découvrir</div>
+</div>
+
+<!-- MANIFESTE -->
+<section id="manifeste" class="manifeste-bg">
+  <div class="container">
+    <div class="section-label">01 — Manifeste</div>
+    <p class="lead fade-in">
+      Votre esprit traite 74 gigaoctets d'information par jour. Vos décisions sont prises dans un brouillard de notifications, de réunions empilées, de Slack qui pulse et d'urgences fabriquées. Ce n'est pas de la fatigue. C'est du <em style="color:var(--gold)">klutter</em>.
+    </p>
+    <div class="manifeste-grid fade-in">
+      <div>
+        <h2>Le mal du <em>siècle</em> des leaders</h2>
+        <p>Le cerveau humain n'a pas été conçu pour le flux continu d'informations qui définit aujourd'hui la vie d'un cadre supérieur. Emails avant le réveil, dashboards en temps réel, prise de décision permanente : nous avons créé des environnements qui épuisent systématiquement le cortex préfrontal — le siège du jugement, de la créativité et de la vision long terme.</p>
+        <p>Le résultat ? Des leaders brillants qui réagissent au lieu d'anticiper. Qui exécutent au lieu d'inspirer. Qui survivent au lieu de décider.</p>
+        <p>Klutter n'est pas un outil de productivité de plus. C'est un retour à l'essentiel : <strong style="color:var(--gold-light); font-weight:500">l'histoire, le beau et la lecture</strong> comme antidotes à la surcharge cognitive.</p>
+      </div>
+      <div>
+        <div class="stat-box">
+          <span class="stat-number">74 Go</span>
+          <span class="stat-label">d'information traitée par un cadre chaque jour (UC San Diego, 2023)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">47 %</span>
+          <span class="stat-label">du temps, notre esprit vagabonde sans rapport avec la tâche en cours (Harvard, 2022)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">11 min</span>
+          <span class="stat-label">durée moyenne avant interruption sur une tâche complexe en open space</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
+<div class="container">
+  <div class="pull-quote fade-in">
+    <blockquote>« Vous n'avez pas un problème de temps. Vous avez un problème d'attention. Et l'attention, contrairement au temps, se cultive. »</blockquote>
+    <cite>— Principe fondateur Klutter</cite>
+  </div>
+</div>
+
+<!-- HISTOIRE -->
+<section id="histoire">
+  <div class="container">
+    <div class="section-label">02 — Le Fil Historique</div>
+    <h2>Les grands esprits <em>ont toujours su</em> s'arrêter</h2>
+    <p style="color:var(--muted); margin-bottom:60px;">Avant les burn-outs, avant les applications de méditation, avant le coaching de pleine conscience — les leaders qui ont changé l'histoire avaient trouvé leurs propres protocoles anti-klutter. Ce fil historique est la colonne vertébrale de notre approche.</p>
+
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">121 — 180 apr. J.-C.</div>
+        <div class="timeline-name">Marc Aurèle</div>
+        <div class="timeline-role">Empereur de Rome · Philosophe stoïcien</div>
+        <p class="timeline-quote">« Ne perds pas le reste de ta vie à méditer sur autrui. »</p>
+        <p class="timeline-body">À la tête de l'empire le plus puissant du monde, Marc Aurèle gouvernait par jour des millions d'âmes tout en gérant guerres, épidémies et crises de succession. Son antidote : tenir un journal philosophique au bord du camp militaire. Les <em>Pensées pour moi-même</em>, jamais destinées à être publiées, sont le premier protocole anti-klutter de l'histoire. Écrire pour penser, non pour communiquer.</p>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1452 — 1519</div>
+        <div class="timeline-name">Léonard de Vinci</div>
+        <div class="timeline-role">Ingénieur, peintre, architecte, anatomiste · Milan & Florence</div>
+        <p class="timeline-quote">« Apprendre à voir. Réalise que tout se connecte à tout le reste. »</p>
+        <p class="timeline-body">Vinci gérait simultanément des commandes de mécènes, des projets d'ingénierie militaire et des recherches anatomiques sur des cadavres volés. Il ne combattait pas la surcharge par la discipline — il la combattait par la curiosité. Ses carnets (plus de 13 000 pages) sont un chaos organisé de dessins, d'observations et de listes. La beauté comme outil cognitif : dessiner ce qu'on ne comprend pas encore.</p>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1809 — 1865</div>
+        <div class="timeline-name">Abraham Lincoln</div>
+        <div class="timeline-role">16e Président des États-Unis · Guerre de Sécession</div>
+        <p class="timeline-quote">« Je lis Shakespeare quand la guerre m'envahit trop. »</p>
+        <p class="timeline-body">Pendant les années les plus sombres de la Guerre de Sécession, Lincoln récitait Shakespeare de mémoire — des heures de théâtre dans sa tête pendant les convois à cheval. La lecture n'était pas un loisir : c'était un outil de régulation émotionnelle et de perspective historique. Il lisait <em>Macbeth</em> et <em>Hamlet</em> pour comprendre le pouvoir, la culpabilité, la mort.</p>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1874 — 1965</div>
+        <div class="timeline-name">Winston Churchill</div>
+        <div class="timeline-role">Premier ministre britannique · Seconde Guerre mondiale</div>
+        <p class="timeline-quote">« La peinture est mon refuge contre les tyrannies de l'esprit actif. »</p>
+        <p class="timeline-body">Pendant le Blitz, Churchill peignait. Pas métaphoriquement — littéralement, il posait des toiles sur un chevalet et peignait des paysages. Il bricolait aussi des murs en brique. Ces activités à haute concentration manuelle et faible enjeu permettaient ce qu'il appelait la « décharge du cerveau » — ce que les neurosciences nomment aujourd'hui la <em>default mode network activation</em> : le mode repos créateur du cerveau.</p>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1930 — aujourd'hui</div>
+        <div class="timeline-name">Warren Buffett</div>
+        <div class="timeline-role">Investisseur · PDG de Berkshire Hathaway</div>
+        <p class="timeline-quote">« Je passe 80 % de ma journée de travail à lire et à réfléchir. »</p>
+        <p class="timeline-body">Buffett lit entre 500 et 1000 pages par jour — bilans annuels, rapports d'industrie, biographies, journaux. Son agenda, contrairement à celui de la plupart des PDG, est quasi vide de réunions. Sa thèse : la qualité d'une décision est proportionnelle à la qualité de l'information absorbée lentement. « Lire, c'est penser lentement dans un monde qui pense vite. »</p>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1955 — aujourd'hui</div>
+        <div class="timeline-name">Bill Gates</div>
+        <div class="timeline-role">Co-fondateur de Microsoft · Philanthrope</div>
+        <p class="timeline-quote">« Deux semaines par an sans téléphone, sans réunion. Juste des livres. »</p>
+        <p class="timeline-body">Les <em>Think Weeks</em> de Gates sont légendaires dans le monde des affaires. Deux fois par an, il s'isole dans un chalet avec une pile de livres et des notes. C'est lors d'une Think Week qu'il identifie l'importance d'Internet pour Microsoft en 1995, réorientant toute la stratégie de l'entreprise. La solitude intellectuelle n'est pas du luxe : c'est de la gouvernance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 2 -->
+<div class="container">
+  <div class="pull-quote fade-in">
+    <blockquote>« L'histoire ne nous dit pas comment les grands leaders ont réussi. Elle nous dit comment ils ont survécu à leur propre esprit. »</blockquote>
+    <cite>— Klutter, Fil Historique</cite>
+  </div>
+</div>
+
+<!-- BEAUTÉ -->
+<section id="beaute" style="background: var(--dark);">
+  <div class="container-wide">
+    <div class="section-label" style="padding: 0 48px;">03 — Le Beau comme Antidote</div>
+    <div class="container" style="padding:0;">
+      <h2>Pourquoi le <em>beau</em> soigne le cerveau surchargé</h2>
+      <p style="color:var(--muted);">La neuroscience de l'esthétique a confirmé ce que les philosophes savaient depuis l'Antiquité : l'exposition au beau active le circuit de la récompense, réduit le cortisol et restaure la capacité d'attention soutenue. Voici les six piliers du beau selon Klutter.</p>
+    </div>
+
+    <div class="beaute-grid fade-in">
+      <div class="beaute-card" data-num="01">
+        <span class="beaute-icon">🖼</span>
+        <h3>L'art visuel</h3>
+        <p>Contempler une œuvre — un tableau, une sculpture — force le regard à ralentir. C'est un entraînement à l'attention soutenue que les écrans n'offrent jamais. 20 minutes devant un Rothko réduisent le cortisol de 30 % (étude Drexel University).</p>
+      </div>
+      <div class="beaute-card" data-num="02">
+        <span class="beaute-icon">🏛</span>
+        <h3>L'architecture</h3>
+        <p>Les espaces à haute qualité architecturale — une cathédrale gothique, un musée moderniste, un jardin à la française — produisent un état d'awe (émerveillement) qui élargit la perspective temporelle et réduit l'anxiété décisionnelle.</p>
+      </div>
+      <div class="beaute-card" data-num="03">
+        <span class="beaute-icon">🎵</span>
+        <h3>La musique classique</h3>
+        <p>La musique sans paroles — Bach, Debussy, Satie — permet au cerveau de traiter l'information émotionnelle sans charge sémantique. Elle est le seul stimulus auditif qui active simultanément les deux hémisphères cérébraux.</p>
+      </div>
+      <div class="beaute-card" data-num="04">
+        <span class="beaute-icon">📖</span>
+        <h3>La littérature lente</h3>
+        <p>Lire Proust, Dostoïevski ou Pérec entraîne la mémoire de travail à maintenir des fils narratifs complexes. C'est du musculation cognitive qui améliore directement la capacité à gérer l'ambiguïté et l'incertitude stratégique.</p>
+      </div>
+      <div class="beaute-card" data-num="05">
+        <span class="beaute-icon">🌿</span>
+        <h3>La nature & le jardin</h3>
+        <p>L'Attention Restoration Theory (Kaplan, 1989) : les environnements naturels restaurent les ressources attentionnelles épuisées par la concentration volontaire. 20 minutes dans un parc suffisent à restaurer le niveau d'attention initial.</p>
+      </div>
+      <div class="beaute-card" data-num="06">
+        <span class="beaute-icon">✍️</span>
+        <h3>L'écriture longue</h3>
+        <p>Écrire sans objectif de communication — un journal, des notes libres — active le réseau neuronal du mode par défaut, associé à la créativité, l'insight et la consolidation mémorielle. C'était le secret de Marc Aurèle et de Montaigne.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIBLIOTHÈQUE -->
+<section id="bibliotheque" class="library-bg">
+  <div class="container">
+    <div class="section-label">04 — La Bibliothèque Klutter</div>
+    <h2>Douze livres qui <em>réparent</em> l'esprit des leaders</h2>
+    <p style="color:var(--muted);">Une sélection rigoureuse — ni développement personnel générique, ni manuel de management. Des livres qui creusent, qui dérangent, qui élargissent. Chaque lien renvoie vers la fiche Goodreads ou la présentation officielle.</p>
+
+    <div class="books-grid fade-in">
+
+      <!-- STOÏCISME & PHILOSOPHIE -->
+      <div class="books-theme-title">Stoïcisme & Philosophie de l'action</div>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/30659.Meditations" target="_blank">
+        <div class="book-spine" style="background:#8B6914;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Philosophie</div>
+          <div class="book-title">Pensées pour moi-même</div>
+          <div class="book-author">Marc Aurèle · IIe siècle</div>
+          <p class="book-desc">Le journal privé d'un emperor. Jamais destiné à être lu. La plus puissante démonstration que l'intériorité est le premier outil de gouvernance.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/97411.Letters_from_a_Stoic" target="_blank">
+        <div class="book-spine" style="background:#5C4A1A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Philosophie</div>
+          <div class="book-title">Lettres à Lucilius</div>
+          <div class="book-author">Sénèque · 65 apr. J.-C.</div>
+          <p class="book-desc">124 lettres sur le temps, la mort, la fortune et la vieillesse. Sénèque était conseiller de Néron — le premier « chief of staff » à avoir écrit sur l'épuisement du pouvoir.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <!-- NEUROSCIENCES & COGNITION -->
+      <div class="books-theme-title">Neurosciences & Cognition</div>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/11468377-thinking-fast-and-slow" target="_blank">
+        <div class="book-spine" style="background:#1A4A6E;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Neurosciences</div>
+          <div class="book-title">Système 1 / Système 2</div>
+          <div class="book-author">Daniel Kahneman · 2011</div>
+          <p class="book-desc">Prix Nobel d'économie. La cartographie scientifique de nos deux modes de pensée. Indispensable pour comprendre pourquoi la surcharge cognitive détruit la qualité décisionnelle.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/57933306-stolen-focus" target="_blank">
+        <div class="book-spine" style="background:#2C4A1E;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Attention</div>
+          <div class="book-title">Stolen Focus</div>
+          <div class="book-author">Johann Hari · 2022</div>
+          <p class="book-desc">L'enquête journalistique la plus rigoureuse sur la crise de l'attention. Hari interroge des neuroscientifiques, des philosophes et des PDG de Silicon Valley sur ce qu'ils nous ont volé.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/25744928-deep-work" target="_blank">
+        <div class="book-spine" style="background:#3D1E4A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Concentration</div>
+          <div class="book-title">Deep Work</div>
+          <div class="book-author">Cal Newport · 2016</div>
+          <p class="book-desc">La thèse est simple et révolutionnaire : la capacité à se concentrer profondément est la compétence rare du XXIe siècle. Newport décrit comment la cultiver dans un monde qui y résiste.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/66354.Flow" target="_blank">
+        <div class="book-spine" style="background:#4A1E2C;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Psychologie positive</div>
+          <div class="book-title">Flow : l'état optimal de l'expérience</div>
+          <div class="book-author">Mihaly Csikszentmihalyi · 1990</div>
+          <p class="book-desc">Le psychologue qui a nommé le flux : cet état de concentration totale où le temps s'efface. Comment le retrouver délibérément ? La réponse change la façon de designer sa journée de travail.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <!-- GRANDE HISTOIRE -->
+      <div class="books-theme-title">Grande Histoire & Perspectives Longues</div>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/23692271-sapiens" target="_blank">
+        <div class="book-spine" style="background:#4A3A1E;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Histoire globale</div>
+          <div class="book-title">Sapiens</div>
+          <div class="book-author">Yuval Noah Harari · 2011</div>
+          <p class="book-desc">70 000 ans d'histoire humaine en 500 pages. L'antidote absolu à la tyrannie de l'urgent : rien ne redonne mieux le sens des proportions que de placer nos urgences dans l'échelle de l'espèce.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/9778945-the-shallows" target="_blank">
+        <div class="book-spine" style="background:#1E3A4A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Technologie & cerveau</div>
+          <div class="book-title">Internet rend-il bête ?</div>
+          <div class="book-author">Nicholas Carr · 2010</div>
+          <p class="book-desc">Pulitzer finalist. Comment les outils numériques reconfigurent littéralement notre cerveau — et comment la lecture linéaire longue reste l'outil de résistance le plus puissant dont nous disposons.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <!-- BEAUTÉ & ESTHÉTIQUE -->
+      <div class="books-theme-title">Beauté, Esthétique & Contemplation</div>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/18050143-the-art-of-noticing" target="_blank">
+        <div class="book-spine" style="background:#1E4A3A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Esthétique</div>
+          <div class="book-title">The Art of Noticing</div>
+          <div class="book-author">Rob Walker · 2019</div>
+          <p class="book-desc">131 exercices pour réapprendre à voir ce qu'on regarde. Le livre de chevet des designers, des artistes et des leaders qui ont compris que l'attention au beau nourrit la qualité de la pensée stratégique.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/35215.On_Beauty_and_Being_Just" target="_blank">
+        <div class="book-spine" style="background:#4A1E3A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Philosophie de l'art</div>
+          <div class="book-title">On Beauty and Being Just</div>
+          <div class="book-author">Elaine Scarry · 1999</div>
+          <p class="book-desc">Pourquoi le beau nous rend meilleurs et plus justes. Scarry, philosophe à Harvard, propose une théorie radicale : la beauté génère de l'équité — elle nous oblige à prendre en compte ce qui nous dépasse.</p>
+          <span class="book-link">Voir sur Goodreads</span>
+        </div>
+      </a>
+
+      <a class="book-card" href="https://www.goodreads.com/book/show/54898389-the-almanack-of-naval-ravikant" target="_blank">
+        <div class="book-spine" style="background:#2A2A2A;"></div>
+        <div class="book-meta">
+          <div class="book-theme">Sagesse contemporaine</div>
+          <div class="book-title">The Almanack of Naval Ravikant</div>
+          <div class="book-author">Eric Jorgenson · 2020</div>
+          <p class="book-desc">La pensée condensée d'un entrepreneur-philosophe sur la richesse, la bonheur et la clarté mentale. Gratuit en ligne. Des aphorismes qui tiennent dans l'espace mental disponible d'un dirigeant.</p>
+          <span class="book-link">Lire gratuitement</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERCLE DE LECTURE -->
+<section id="cercle">
+  <div class="container">
+    <div class="section-label">05 — Le Cercle de Lecture Klutter</div>
+
+    <div class="cercle-hero fade-in">
+      <h2>Créer votre <em>cercle de lecture</em></h2>
+      <p style="color:var(--muted); font-size:18px;">Un cercle de lecture n'est pas un club. C'est un protocole de pensée collective — un espace où des leaders se donnent permission de réfléchir lentement ensemble, sans agenda de résultats.</p>
+    </div>
+
+    <div class="steps-grid fade-in">
+      <div class="step">
+        <span class="step-num">Étape 01</span>
+        <h3>Choisir les membres</h3>
+        <p>4 à 8 personnes. Différentes fonctions, différents secteurs si possible. Un seul critère : la curiosité intellectuelle. Éviter les hiérarchies existantes — le cercle est un espace sans organigramme. La mixité de profils (RH, finance, opérations, créatifs) génère les tensions cognitives les plus fertiles.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">Étape 02</span>
+        <h3>Choisir le livre</h3>
+        <p>Un livre par session. Vote à la majorité. Règle Klutter : alterner un livre « difficile » (philosophie, histoire dense, littérature exigeante) et un livre « accessible » (essai contemporain, biographie, enquête journalistique). La difficulté calibrée est un entraînement, pas une punition.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">Étape 03</span>
+        <h3>Le protocole de lecture</h3>
+        <p>Lire avec un crayon. Souligner non ce qu'on trouve intéressant, mais ce qui provoque une résistance. Ce qui gêne, dérange, contredit. C'est là que la pensée commence. Noter dans la marge une question — pas un commentaire. Une seule question par passage marqué.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">Étape 04</span>
+        <h3>Choisir le lieu</h3>
+        <p>Pas une salle de réunion. Un espace beau et neutre : une bibliothèque, un musée, un restaurant avec caractère, une galerie d'art. L'environnement conditionne la qualité de la pensée. Le cerveau associe les espaces à des modes cognitifs — un beau lieu déclenche une belle pensée.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">Étape 05</span>
+        <h3>La fréquence</h3>
+        <p>Une fois par mois. Pas plus, pas moins. Assez rare pour être un événement. Assez régulier pour créer un fil conducteur. Durée : 2h30 maximum. Dîner optionnel après — c'est souvent là que se tiennent les conversations les plus importantes.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">Étape 06</span>
+        <h3>L'animateur tournant</h3>
+        <p>Chaque membre anime une session. L'animateur prépare trois questions ouvertes et un extrait à lire à voix haute (5 minutes). La rotation empêche la domination d'une voix. Elle oblige chacun à habiter le livre différemment — préparer une question est un acte de lecture supérieur.</p>
+      </div>
+    </div>
+
+    <div class="format-box fade-in">
+      <h3>Format type d'une session Klutter</h3>
+      <ul class="format-list">
+        <li><span class="time">18h00</span>Accueil sans téléphone — une règle non-négociable. Les appareils restent dans les sacs.</li>
+        <li><span class="time">18h10</span>Tour de table : chacun dit le passage qui l'a le plus dérangé. Pas le plus intéressant — le plus résistant. (20 min)</li>
+        <li><span class="time">18h30</span>Lecture à voix haute d'un extrait par l'animateur. Silence. Puis première question ouverte.</li>
+        <li><span class="time">18h50</span>Discussion libre — l'animateur guide sans diriger. Il relance avec les deux questions restantes si nécessaire.</li>
+        <li><span class="time">19h50</span>Tour de clôture : chacun formule en une phrase ce qu'il emporte de la session.</li>
+        <li><span class="time">20h00</span>Vote pour le prochain livre. Le dîner peut commencer.</li>
+      </ul>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <h3 style="font-style:normal; color:var(--white); font-size:26px; margin-bottom:24px;">12 questions pour animer votre premier cercle</h3>
+    <p style="color:var(--muted); margin-bottom:0;">Ces questions sont conçues pour déplacer la conversation du « que dit le livre ? » vers « que fait le livre à notre façon de penser ? »</p>
+
+    <div class="questions-grid fade-in">
+      <div class="question-card">Quel passage vous a donné envie de fermer le livre ? Pourquoi n'avez-vous pas cédé ?</div>
+      <div class="question-card">Si l'auteur était dans cette pièce, quelle serait votre première question pour lui ?</div>
+      <div class="question-card">Quelle idée de ce livre contredit quelque chose que vous croyez fermement dans votre pratique professionnelle ?</div>
+      <div class="question-card">Qu'est-ce que ce livre dit sur le pouvoir — et en quoi cela concerne-t-il votre propre exercice de l'autorité ?</div>
+      <div class="question-card">Y a-t-il un personnage — historique ou fictif — qui ressemble à quelqu'un que vous connaissez ? Que vous ressemble ?</div>
+      <div class="question-card">Qu'est-ce que vous n'avez pas compris dans ce livre — et que vous n'avez pas voulu admettre pendant la lecture ?</div>
+      <div class="question-card">Si vous deviez offrir ce livre à une seule personne de votre organisation, qui ce serait ? Et pourquoi pas à vous-même ?</div>
+      <div class="question-card">Quelle décision récente dans votre vie professionnelle aurait été différente si vous aviez lu ce livre avant ?</div>
+    </div>
+  </div>
+</section>
+
+<!-- BACK COVER -->
+<div class="back-cover">
+  <div class="back-cover-inner">
+    <div class="back-logo">KLUT<span>T</span>ER</div>
+    <p class="back-tagline">Moins de bruit. Plus de pensée.</p>
+    <p style="color:var(--muted); max-width:500px; margin:0 auto 40px; font-size:16px; line-height:1.8;">
+      Le klutter n'est pas votre ennemi. C'est un signal. Il vous dit que votre esprit mérite mieux que ce que vous lui donnez. L'histoire, le beau et la lecture ne sont pas des luxes de dirigeants — ce sont les conditions minimales d'une pensée à la hauteur des défis que vous affrontez.
+    </p>
+    <a href="mailto:cercle@klutter.co" class="back-cta">Rejoindre le Cercle Klutter →</a>
+    <p style="margin-top:40px; font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--border); letter-spacing:0.2em;">
+      KLUTTER · Un mouvement pour les esprits qui méritent mieux
+    </p>
+  </div>
+</div>
+
+<footer>
+  © 2025 Klutter — Tous droits réservés · <em>Pour les cadres supérieurs, les DRH et les managers qui refusent de penser vite.</em>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

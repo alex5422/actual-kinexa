@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Esprit en Entreprise — Dr Christophe Delong · Kinexa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f3d; --navy-mid:#1b3460;
+  --blue:#2563eb; --blue-light:#dbeafe; --blue-xlight:#eff6ff;
+  --teal:#0d9488; --teal-light:#ccfbf1; --teal-xlight:#f0fdfa;
+  --gold:#b45309; --gold-light:#fef3c7; --gold-xlight:#fffbeb;
+  --red:#dc2626; --red-light:#fee2e2;
+  --violet:#7c3aed; --violet-light:#ede9fe;
+  --cream:#faf8f3; --cream-dark:#f0ece1; --border:#e2e8f0;
+  --text:#1a1a2e; --text-mid:#334155; --text-light:#64748b;
+  --white:#ffffff; --sidebar-w:300px;
+  --f:Arial,Helvetica,sans-serif;
+  --serif:'Playfair Display',Georgia,serif;
+  --fs:15px; --lh:1.9;
+  --tr:.3s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:var(--f);font-size:var(--fs);line-height:var(--lh);overflow-x:hidden}
+
+/* ── SIDEBAR ── */
+#sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:var(--navy);overflow-y:auto;z-index:100;display:flex;flex-direction:column;transition:transform var(--tr);scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+#sidebar::-webkit-scrollbar{width:3px}
+#sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.sb-logo{padding:1.4rem 1.3rem 1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-nav-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:.85rem 1.3rem .25rem}
+.sb-a{display:block;padding:.48rem 1.3rem;text-decoration:none;font-size:.82rem;color:rgba(255,255,255,.58);border-left:2px solid transparent;transition:all .18s;line-height:1.3}
+.sb-a:hover{color:var(--white);background:rgba(255,255,255,.05);border-left-color:rgba(255,255,255,.18)}
+.sb-a.active{color:var(--white);background:rgba(37,99,235,.2);border-left-color:var(--blue)}
+.sb-a.sub{padding-left:2rem;font-size:.76rem;color:rgba(255,255,255,.38)}
+.sb-a.sub:hover,.sb-a.sub.active{color:rgba(255,255,255,.82)}
+.sb-a.sub.active{border-left-color:var(--teal);background:rgba(13,148,136,.1)}
+.sb-kin{color:rgba(255,180,50,.75)!important}
+.sb-kin:hover,.sb-kin.active{color:#fbbf24!important;background:rgba(180,83,9,.12)!important;border-left-color:#f59e0b!important}
+.sb-kb{display:inline-block;background:var(--gold);color:#fff;font-size:.58rem;padding:.07rem .3rem;border-radius:.18rem;margin-left:.3rem;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle}
+.sb-footer{margin-top:auto;padding:1rem 1.3rem;border-top:1px solid rgba(255,255,255,.07);font-size:.68rem;color:rgba(255,255,255,.22);line-height:1.6}
+
+/* ── BURGER ── */
+#burger{display:none;position:fixed;top:1rem;left:1rem;z-index:200;background:var(--navy);border:none;width:42px;height:42px;border-radius:.5rem;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-shadow:0 2px 12px rgba(0,0,0,.35)}
+#burger span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sidebar-w);min-height:100vh}
+
+/* ── HERO ── */
+#hero{background:var(--navy);position:relative;overflow:hidden;padding:7rem 5rem 5rem;min-height:90vh;display:flex;flex-direction:column;justify-content:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 72% 38%, rgba(37,99,235,.14) 0%,transparent 65%),radial-gradient(ellipse 45% 65% at 12% 72%, rgba(13,148,136,.1) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:52px 52px;pointer-events:none}
+.hero-tag{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:1.2rem;position:relative}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.3rem,4.5vw,4rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:.6rem;position:relative}
+.hero-h1 em{font-style:italic;font-weight:400;color:rgba(255,255,255,.5);font-size:clamp(1.15rem,2.3vw,1.85rem);display:block;margin-top:.35rem}
+.hero-desc{font-size:1rem;color:rgba(255,255,255,.48);max-width:500px;line-height:1.8;margin-top:1.5rem;position:relative}
+.hero-author{margin-top:2.5rem;display:flex;align-items:center;gap:.9rem;position:relative}
+.hero-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.05rem;font-weight:700;color:#fff;flex-shrink:0}
+.hero-aname{font-size:.92rem;font-weight:700;color:#fff}
+.hero-arole{font-size:.74rem;color:rgba(255,255,255,.36);line-height:1.45}
+.hero-notice{margin-top:2.8rem;position:relative;display:inline-block;background:rgba(180,83,9,.15);border:1px solid rgba(180,83,9,.35);border-radius:.5rem;padding:.85rem 1.2rem;font-size:.82rem;color:rgba(255,200,70,.88);line-height:1.7;max-width:530px}
+.hero-notice strong{color:#fbbf24}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(255,255,255,.18);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;animation:fl 2.8s ease-in-out infinite}
+.hero-scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.22),transparent)}
+@keyframes fl{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── TOC ── */
+#toc-s{background:var(--navy-mid);padding:4rem 5rem;max-width:none}
+.toc-h{font-family:var(--serif);font-size:1.7rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+.toc-sub{font-size:.78rem;color:rgba(255,255,255,.32);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2.2rem}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.9rem}
+.toc-c{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:.6rem;padding:1.1rem 1.3rem;text-decoration:none;display:block;transition:all .2s;border-left:3px solid transparent}
+.toc-c:hover{background:rgba(255,255,255,.09);border-left-color:var(--blue);transform:translateX(3px)}
+.toc-c.kk{border-left-color:rgba(180,83,9,.28)}
+.toc-c.kk:hover{border-left-color:var(--gold);background:rgba(180,83,9,.09)}
+.toc-n{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.22rem}
+.toc-t{font-size:.9rem;font-weight:700;color:rgba(255,255,255,.82);line-height:1.3;margin-bottom:.28rem}
+.toc-d{font-size:.75rem;color:rgba(255,255,255,.36);line-height:1.5}
+.toc-badge{display:inline-block;background:var(--gold);color:#fff;font-size:.6rem;padding:.07rem .3rem;border-radius:.18rem;margin-left:.35rem;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle}
+
+/* ── SECTIONS ── */
+.sec{padding:5rem 5rem 4rem;max-width:900px;opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.sec.vis{opacity:1;transform:translateY(0)}
+.sec.alt{background:rgba(255,255,255,.55)}
+.sec.kin{background:linear-gradient(135deg,rgba(255,251,235,.8) 0%,rgba(255,255,255,.5) 100%);border-left:4px solid var(--gold)}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--cream-dark),transparent)}
+
+.chapnum{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.chapnum::before{content:'';display:block;width:20px;height:1px;background:var(--blue)}
+.chapnum.kk{color:var(--gold)}
+.chapnum.kk::before{background:var(--gold)}
+.chaptitle{font-family:var(--serif);font-size:clamp(1.65rem,2.8vw,2.35rem);font-weight:700;color:var(--navy);line-height:1.15;margin-bottom:1.2rem}
+.chaplead{font-size:1rem;color:var(--text-mid);line-height:1.9;margin-bottom:1.8rem;font-style:italic;padding-left:1.1rem;border-left:3px solid var(--blue-light)}
+.chaplead.kk{border-left-color:var(--gold-light)}
+
+.h2{font-family:var(--serif);font-size:1.2rem;font-weight:600;color:var(--navy-mid);margin:2.6rem 0 .75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.h3{font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);margin:1.8rem 0 .55rem}
+.bp{font-size:var(--fs);color:var(--text);line-height:var(--lh);margin-bottom:1.15rem}
+.bp strong{color:var(--navy-mid)}
+.bp em{color:var(--text-mid)}
+
+/* bullets */
+.bl{list-style:none;margin:.6rem 0 1.3rem}
+.bl li{display:flex;align-items:flex-start;gap:.75rem;padding:.5rem 0;font-size:var(--fs);color:var(--text);line-height:1.75;border-bottom:1px solid rgba(0,0,0,.04)}
+.bl li:last-child{border-bottom:none}
+.bl li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:.6rem}
+.bl.t li::before{background:var(--teal)}
+.bl.g li::before{background:var(--gold)}
+.bl.r li::before{background:var(--red)}
+
+/* callouts */
+.box{border-radius:.6rem;padding:1.3rem 1.6rem;margin:1.6rem 0}
+.box-blue{background:var(--blue-xlight);border-left:4px solid var(--blue)}
+.box-teal{background:var(--teal-xlight);border-left:4px solid var(--teal)}
+.box-gold{background:var(--gold-xlight);border-left:4px solid var(--gold)}
+.box-red{background:var(--red-light);border-left:4px solid var(--red)}
+.box-vio{background:var(--violet-light);border-left:4px solid var(--violet)}
+.box-dark{background:rgba(15,31,61,.06);border-left:4px solid var(--navy)}
+.box-lbl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.55rem}
+.box-blue .box-lbl{color:var(--blue)}.box-teal .box-lbl{color:var(--teal)}.box-gold .box-lbl{color:var(--gold)}.box-red .box-lbl{color:var(--red)}.box-vio .box-lbl{color:var(--violet)}.box-dark .box-lbl{color:var(--navy)}
+.box p{font-size:var(--fs);color:var(--text);line-height:var(--lh);margin-bottom:.4rem}
+.box p:last-child{margin:0}
+
+/* tables */
+.tw{overflow-x:auto;margin:1.3rem 0;border-radius:.6rem;box-shadow:0 1px 10px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:var(--fs)}
+thead th{background:var(--navy);color:#fff;padding:.75rem 1rem;text-align:left;font-weight:700;letter-spacing:.025em}
+tbody tr:nth-child(odd){background:rgba(255,255,255,.88)}
+tbody tr:nth-child(even){background:rgba(240,236,225,.45)}
+tbody td{padding:.7rem 1rem;color:var(--text);border-bottom:1px solid rgba(0,0,0,.04);line-height:1.55;vertical-align:top}
+
+/* blockquote */
+.bq{background:var(--navy);border-radius:.65rem;padding:2rem 2.3rem;margin:2.2rem 0;position:relative}
+.bq::before{content:'\201C';font-family:var(--serif);font-size:5rem;color:rgba(255,255,255,.05);position:absolute;top:-.3rem;left:1.4rem;line-height:1;pointer-events:none}
+.bq p{font-family:var(--serif);font-size:1.08rem;font-style:italic;color:rgba(255,255,255,.88);line-height:1.78;position:relative}
+.bq-auth{font-size:.75rem;color:rgba(255,255,255,.32);margin-top:.65rem;position:relative}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.1rem;margin:1.3rem 0}
+.card{background:#fff;border-radius:.65rem;padding:1.3rem;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:3px solid var(--blue);transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.card.t{border-top-color:var(--teal)}.card.g{border-top-color:var(--gold)}.card.v{border-top-color:var(--violet)}.card.r{border-top-color:var(--red)}
+.card-icon{font-size:1.6rem;margin-bottom:.6rem}
+.card-title{font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.card p{font-size:.82rem;color:var(--text-light);line-height:1.6}
+
+/* timeline */
+.tl{position:relative;padding-left:1.9rem;margin:1.3rem 0}
+.tl::before{content:'';position:absolute;left:.45rem;top:.6rem;bottom:.6rem;width:2px;background:linear-gradient(to bottom,var(--blue),var(--teal))}
+.tl-i{position:relative;padding:.5rem 0 .5rem 1.1rem;margin-bottom:.3rem}
+.tl-i::before{content:'';position:absolute;left:-1.47rem;top:.82rem;width:10px;height:10px;border-radius:50%;background:var(--blue);border:2px solid var(--cream)}
+.tl-i:nth-child(3n+2)::before{background:var(--teal)}
+.tl-i:nth-child(3n)::before{background:var(--gold)}
+.tl-lbl{font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:.15rem}
+.tl-txt{font-size:var(--fs);color:var(--text-mid);line-height:1.7}
+
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.1rem 0}
+.pill{display:inline-flex;align-items:center;gap:.4rem;background:#fff;border:1.5px solid var(--border);border-radius:2rem;padding:.38rem .9rem;font-size:.8rem;color:var(--text-mid);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.pdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* steps */
+.steps{counter-reset:st;margin:1.2rem 0}
+.step{counter-increment:st;display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step::before{content:counter(st);width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.05rem}
+.step-ttl{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem}
+.step p{font-size:var(--fs);color:var(--text-mid);line-height:1.7}
+
+/* diagram */
+.dw{margin:2.2rem 0;text-align:center;cursor:zoom-in;position:relative}
+.dw svg{max-width:100%;height:auto;border-radius:.6rem}
+.dcap{font-size:.76rem;color:var(--text-light);text-align:center;margin-top:.6rem;font-style:italic}
+.modal-z{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.84);align-items:center;justify-content:center;cursor:zoom-out;padding:2rem}
+.modal-z.open{display:flex}
+.modal-z svg{max-width:88vw;max-height:84vh;border-radius:.6rem}
+.mclose{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;opacity:.6;transition:opacity .15s}
+.mclose:hover{opacity:1}
+
+/* kinexa banner */
+.kin-intro{background:linear-gradient(135deg,rgba(15,31,61,.96),rgba(27,52,96,.94));border-radius:.75rem;padding:2.2rem 2.4rem;margin:2.5rem 0;border:1px solid rgba(180,83,9,.28);position:relative;overflow:hidden}
+.kin-intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 92% 50%,rgba(180,83,9,.07) 0%,transparent 70%);pointer-events:none}
+.kin-badge{display:inline-flex;align-items:center;gap:.45rem;background:var(--gold);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.32rem .75rem;border-radius:2rem;margin-bottom:.8rem}
+.kin-ttl{font-family:var(--serif);font-size:1.15rem;color:#fff;margin-bottom:.55rem;position:relative}
+.kin-txt{font-size:var(--fs);color:rgba(255,255,255,.58);line-height:1.8;position:relative}
+.kin-txt em{color:rgba(255,200,70,.75);font-style:normal}
+
+/* conclusion dark */
+#conclusion{background:var(--navy);max-width:none;padding:5rem}
+#conclusion .chaptitle,#conclusion .h2{color:#fff}
+#conclusion .chaplead{color:rgba(255,255,255,.52);border-left-color:rgba(255,255,255,.1)}
+#conclusion .bp{color:rgba(255,255,255,.65)}
+#conclusion .h2{border-color:rgba(255,255,255,.1)}
+.biblio{list-style:none;counter-reset:ref}
+.biblio li{counter-increment:ref;padding:.55rem 0 .55rem 1.9rem;position:relative;font-size:var(--fs);color:rgba(255,255,255,.48);line-height:1.6;border-bottom:1px solid rgba(255,255,255,.05)}
+.biblio li::before{content:counter(ref);position:absolute;left:0;font-weight:700;color:var(--teal);font-size:.75rem}
+
+/* copyright bar */
+#cpbar{background:#070f1e;padding:1.2rem 5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.cp-txt{font-size:.72rem;color:rgba(255,255,255,.28);line-height:1.6}
+
+/* responsive */
+@media(max-width:960px){
+  :root{--sidebar-w:0px}
+  #sidebar{transform:translateX(-300px);width:300px}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  #burger{display:flex}
+  #overlay.vis{display:block}
+  .sec{padding:3rem 1.8rem}
+  #hero{padding:5rem 1.8rem 4rem;min-height:auto}
+  #toc-s{padding:3rem 1.8rem}
+  #conclusion{padding:3.5rem 1.8rem}
+  #cpbar{padding:1.2rem 1.8rem}
+}
+@media(max-width:600px){
+  .sec{padding:2.3rem 1.1rem}
+  #hero{padding:4.5rem 1.1rem 2.5rem}
+  #toc-s{padding:2.5rem 1.1rem}
+  #conclusion{padding:2.5rem 1.1rem}
+  #cpbar{padding:1rem 1.1rem}
+  .toc-grid,.cards{grid-template-columns:1fr}
+}
+@media print{#sidebar,#burger{display:none}#main{margin-left:0}.sec{opacity:1;transform:none}.dw{cursor:default}}
+
+/* ── EXCEL-STYLE VERTICAL TABS (right edge) ── */
+
+#rtabs{
+  position:fixed;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:401;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  /* No gap — tabs touch like Excel sheets */
+}
+
+.rtab{
+  /* Each tab is a folder tab shape */
+  position:relative;
+  width:36px;
+  min-height:100px;
+  background:#2d3748;
+  border:none;
+  border-right:none;
+  border-top:1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  border-left:1px solid rgba(255,255,255,.12);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.75rem .4rem;
+  transition:background .18s, width .18s, border-left-color .18s;
+  box-shadow:-2px 0 6px rgba(0,0,0,.25);
+}
+.rtab:first-child{
+  border-radius:.45rem 0 0 0;
+  border-top:1px solid rgba(255,255,255,.15);
+}
+.rtab:last-child{
+  border-radius:0 0 0 .45rem;
+}
+
+/* The text — rotated vertically */
+.rtab-lbl{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  transform:rotate(180deg);
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+  white-space:nowrap;
+  line-height:1;
+  transition:color .18s;
+}
+.rtab-icon{
+  font-size:.9rem;
+  line-height:1;
+  transition:transform .18s;
+}
+
+.rtab:hover{
+  background:#3d4f68;
+  width:42px;
+}
+.rtab:hover .rtab-lbl{color:rgba(255,255,255,.8)}
+.rtab:hover .rtab-icon{transform:scale(1.15)}
+
+/* Active tab — "selected sheet" look */
+.rtab.active{
+  background:#111827;
+  border-left:3px solid #f59e0b;
+  width:44px;
+  /* Active tab appears to be in front — remove right border visually */
+  box-shadow:-3px 0 12px rgba(0,0,0,.4), 1px 0 0 #111827;
+  z-index:2;
+}
+.rtab.active .rtab-lbl{color:#f59e0b}
+.rtab.active .rtab-icon{transform:scale(1.1)}
+
+/* Subtle separator between inactive tabs */
+.rtab + .rtab:not(.active){
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* The sliding panel that slides in from the right */
+#rpanel{
+  position:fixed;
+  right:-410px;
+  top:50%;
+  transform:translateY(-50%);
+  width:400px;
+  max-height:85vh;
+  background:#111827;
+  /* Flat left edge — connects to the active tab */
+  border-radius:.65rem 0 0 .65rem;
+  border-top:1px solid rgba(255,255,255,.1);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  border-left:1px solid rgba(255,255,255,.1);
+  box-shadow:-6px 0 32px rgba(0,0,0,.5);
+  z-index:400;
+  overflow:hidden;
+  transition:right .28s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  font-family:Arial,Helvetica,sans-serif;
+}
+#rpanel.open{right:44px} /* sits right against the tab strip */
+
+.rp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem 1.1rem;
+  background:#1a2335;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  flex-shrink:0;
+}
+.rp-title{font-size:.78rem;font-weight:700;color:#f59e0b;letter-spacing:.06em;text-transform:uppercase}
+.rp-close{
+  background:none;border:none;color:rgba(255,255,255,.38);
+  font-size:1.1rem;cursor:pointer;padding:.2rem .4rem;
+  border-radius:.3rem;transition:all .15s;line-height:1;
+}
+.rp-close:hover{background:rgba(255,255,255,.1);color:#fff}
+
+.rp-body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+.rp-body::-webkit-scrollbar{width:3px}
+.rp-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+.rp-pane{display:none}
+.rp-pane.active{display:block}
+
+/* Image pane */
+.rp-img-wrap{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:#0d1117;cursor:zoom-in;overflow:hidden;
+}
+.rp-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.rp-img-wrap svg{width:100%;height:100%;display:block}
+.rp-fullbtn{
+  position:absolute;bottom:.5rem;right:.5rem;
+  background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:.7rem;padding:.32rem .65rem;border-radius:.3rem;
+  cursor:pointer;transition:background .15s;font-family:Arial,sans-serif;
+}
+.rp-fullbtn:hover{background:rgba(0,0,0,.9)}
+.rp-caption{
+  padding:.55rem 1rem;font-size:.72rem;
+  color:rgba(255,255,255,.38);font-style:italic;
+  border-top:1px solid rgba(255,255,255,.06);line-height:1.5;
+}
+
+/* Insert guide */
+.insert-guide{
+  margin:.8rem 1rem;
+  background:rgba(245,158,11,.08);
+  border:1px dashed rgba(245,158,11,.28);
+  border-radius:.5rem;
+  padding:.75rem 1rem;
+  font-size:.72rem;color:rgba(255,200,80,.78);line-height:1.7;
+}
+.insert-guide strong{color:#f59e0b}
+.insert-guide code{
+  display:block;background:rgba(0,0,0,.35);border-radius:.25rem;
+  padding:.35rem .6rem;margin-top:.4rem;
+  font-family:'Courier New',monospace;font-size:.68rem;
+  color:#86efac;word-break:break-all;
+}
+
+/* Video pane */
+.rp-video-wrap{width:100%;aspect-ratio:16/9;background:#000}
+.rp-video-wrap iframe{width:100%;height:100%;display:block;border:none}
+.rp-vctrl{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.55rem 1rem;background:#161d2b;
+  border-top:1px solid rgba(255,255,255,.06);
+  flex-wrap:wrap;gap:.4rem;
+}
+.spd-lbl{font-size:.67rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em}
+.spds{display:flex;gap:.22rem;flex-wrap:wrap}
+.spd{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.48);font-size:.7rem;padding:.2rem .42rem;
+  border-radius:.28rem;cursor:pointer;transition:all .15s;font-family:Arial,sans-serif;
+}
+.spd:hover{background:rgba(255,255,255,.14);color:#fff}
+.spd.on{background:#f59e0b;color:#fff;border-color:#f59e0b}
+.rp-vfull{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.48);font-size:.7rem;padding:.2rem .52rem;
+  border-radius:.28rem;cursor:pointer;transition:all .15s;font-family:Arial,sans-serif;
+}
+.rp-vfull:hover{background:rgba(255,255,255,.14);color:#fff}
+
+/* Image fullscreen modal */
+#imgfull{
+  display:none;position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.95);
+  align-items:center;justify-content:center;cursor:zoom-out;
+}
+#imgfull.open{display:flex}
+#imgfull-content img,#imgfull-content svg{max-width:90vw;max-height:88vh;border-radius:.5rem;display:block}
+#imgfull-close{
+  position:absolute;top:1.2rem;right:1.5rem;
+  background:rgba(255,255,255,.08);border:none;color:#fff;
+  font-size:1.4rem;cursor:pointer;padding:.3rem .7rem;
+  border-radius:.4rem;opacity:.7;transition:opacity .15s;
+}
+#imgfull-close:hover{opacity:1}
+
+
+</style>
+</head>
+<body>
+
+<!-- MODAL ZOOM -->
+<div class="modal-z" id="mz"><button class="mclose" id="mzclose">✕</button><div id="mzcontent"></div></div>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABjAWcDASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAUHBggJBAIDAf/EAEsQAAAFAgICDAoHBgUFAAAAAAABAgMEBQYHERIhCBMXGDFBVleVpdLTFDY3UWFxdHWxshUiMjhSgZEWI0J2gqEkM7O00UNyosTx/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAIEBQED/8QAJhEBAAEEAQIGAwEAAAAAAAAAAAECAwQREgUhIjFBUZHwMoHB0f/aAAwDAQACEQMRAD8A0yAAAAAAGaYGUOl3Li/a1ArcXwqmz6k0xJZ2xSNNBnrLSSZKL1kZGN/t65gTyG62m98NEtjN5f7I98M/EdUwFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAUzvXMCeQ3W03vg3rmBPIbrab3wuYAFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAUzvXMCeQ3W03vg3rmBPIbrab3wuYAFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAUzvXMCeQ3W03vg3rmBPIbrab3wuYAFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAUzvXMCeQ3W03vg3rmBPIbrab3wuYAFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAUzvXMCeQ3W03vg3rmBPIbrab3wuYAFM71zAnkN1tN74N65gTyG62m98LmABTO9cwJ5DdbTe+DeuYE8hutpvfC5gAcda+w1FrtQjMI0GmZTjaE5meSSUZEWZ+geESV1eM9V9te+cxGgAAAAAAAAAAAAACxdjN5f7I98M/EdUxys2M3l/sj3wz8R1TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYxiBfFHsuLEVUUSZUye6bMGFFRpvSFkWZ6JGZEREWs1GZEQ/ll3rBuV92CcKZTKky2Tq4ksk6RtmeWmhSTNKk56jyPUfCRZkITcpirjvv7JcatctdmUAACaIAAA483V4z1X2175zEaJK6vGeq+2vfOYjQAAAAAAAAAAAAABYuxm8v9ke+GfiOqY5WbGby/2R74Z+I6pgAAAAA19xGvS5KXsrrWtxivSItAfiJdlxNIiaVqdNSlavMkv0ERhNed7XxOxKvpVenM25AiymqPEIyJtLmgakqLVrNKUpP1rAbMgNO2MSb9XsSXLoO6ah9N/tGUUpuadsJrRI9Dgyy1jILjxWuSq2/gzVqRW5ENVYqKYlYQ0ZZPLQ40hxKtXGekf9QDaQBqtU6riPd2ycuOwqNiHUrfgx0KfZ2tpLqWyShr6pJPLhNZnnmJTGCrX9hRUMOJs29qhV6ccs4tacWhLaJX73TI1J15fu1GWo/wCDMBsqA192Od4XNfmKl9V2TXZb1qwXlM0+KoyJpOks9FRas9SEZ/1irLFxfv6ZjZSJU+5Jq7ZqdwvQ0RVGnaiQatEkcHAW2N5awG6oDzVZxbVLlutqNK0MLUky4jJJ5GNTsAEYs4q0mp1Pdeq1KKnzExzb8FS7tmaSVnnmnLhyAbdAKPuTH9MC46/RbesqqXG3bTZrq0xuQhlDRI1LURGRmoiMj/Q+Isx6K9siLXplh2zeTdKnyafXJLkdSSUlK4im/t6Ra9LLXwcIC6AFHVbZDxaZaLt1TLFuCLTDqDUSGuUSWVS0LSpW3JI/4S0eDXwkPy3xkdu8f2clYfXKy9KY26lJ0Em9OzIzbya4UkvI8jzPLjyAXsApuxcfqLX7buyq1WhT6I/a6NOdEcWTizLNSSJJ5F9bSSaTI8sjyERTdkb/AIq23q9YVSpFHuR3Qp1QOa27pFpEnSUgiIyIjMs9eeWsswF9j4J5k3zYJ1BuknSNGkWkRefLzDWiuYwX2xskXaHAtuty6fDiLb+gW1NE5JURGZSCUeokmRkZa+AZDRLis1OykrRu0SrQ7iboaVzJbs0lRkNJZacUnai4FESiIz4PqnkWsBfIDXpeydjHS3rlZw/rTtpszShKq3hDZHpnrL93w8GR5Z8ZcYym8cc6TQLxpFtxbeqtZdrFLRUIC4WiantsJRttkg9eZ6PDwER58QC3AFY4JYuxcSZlapjtBmUKq0dZJkxJDhLMiMzTwkRZGRpMjIyFnAAAPh9vbWlN6RpJRZGZcOQDErlq1XmqcjUKLIcZbM0uPNJ+2fGRH5vUMH+lKvTJ2ajfjPpPM0rNRH+ZHwi2KnUYFFhJU7khBFottILWfoIhhtauSn1ZvaZ9HJbX8K9tycT6SPLUMzqGNl3aeWPd4zHpqNfufP75LmLesUTq7RtgOJ8O4rxqFv3XasVibXKCTzcmlOPE34Uw6RaSmlHqJRGngP8A+5Bg/QLxl3ad2XXRyoDEaGuLCgqfS684pxSTW44adSSLQIiTw8Jj9m7WkTmjlW7UVL0T1fX2p9k+I8+DP08Bj1QXcb2MoZR7VnNlqTMmm4y5l51IbM0qP1aOfmIU+n3LtVe8yiYuR6xEzEx315dtxuflYyqKIp1YqiaZ9O24+e60AENbFMqcJg365VfpOpO/5jiGtqZbL8DaMzyL0mZmfGYmRvUzMxuWZMaAAB1xx5urxnqvtr3zmI0SV1eM9V9te+cxGgAAAAAAAAAAAAACxdjN5f7I98M/EdUxys2M3l/sj3wz8R1TAAAAGpGyLo79wbKWiUKNJXGfn0Y2G3UHkaVKQ9lr9J6j9BiY2Mlcjv7Ha8bUcjNxanQ2ZqZLZFkpZLbWZKP0kZKT/SQt24sKqXWsXqRiQ9VJjU2ltJbbjISnalkWlwmZZ/xn+gjqdgrR6bfNz3PT6zUI5XJFfjzISUo2ottLWpOrPMlZqL1mA1gZM07B15RcJXWR/wDgkearU2XaeL1rWTrOls16FVacZ56kSNp0iL805etJ+cbKFse6AWDy8Nfp+p+ArqX0h4Voo23SyItHLLLLUJq+cGqDddx2pXpE+ZFmW4TSWlNEnKQltaVpSvMvOk+D8RgKBn2m/emzEuuiR7iqdvuG2t7wynr0Xcktslo55lqPPX6iGXbL5pNCwetCwjlv1ipPzWm2ZUk9J93ak5Gsz/Eo1pL8zGa3TgBBrOINTvaFetxUSpVBWazgLS2aC0UpNJKLXkeiQ9MnAqBPrVpVOtXbXKu5bJkbJS1JWck9tN3NxR6z15F6kkAqnYx3G3bOCWJdOlMJjVOhqffdI9SzUpo0JI/Utsy/MUw7VKNAwfs5cOotHX6fX5E2SwSVaaGz0NBRnll/0iPUfGNuKvgDRZtYvKexcNUhou1GhNYbQg0IzcS4ZpzLh0knw/iMftWsBLZqmElJw8XUJjUemyNvROQ2jb3FZrz0tWWR6f8AYgFlyZTc61XJrX+XIgm6j1KRmXxGn+xEw9l3bFnVti8q7REUurNGuHBdNLUrRJK/3hZ68/s+obe0KiIpdoQ7d8LekoiwkwyfcItNZJRo6R5as8himCeFlMwspVSp9MqcyeifJKQtUlKSNJkkk5FolwagGvdiHnc2yHPLLODOPLzfXeFf1siPY3YdkZEZHcs0jI+P6xDZ27sAIFVuiu1uiXhWrdK4EGirRYqULbkEr7RfWLMiPhMvSfnyH73HsfrWqtjW1aMepVGBCoEhUhpxGipx9xWtRrMyy1nr1ZAMW2eCUpwlo6UkSUlVmyIiLURbWsY7c33s8Mfc0b/TdF5Yz4aU7E+2YtCqVRlwGo8pMlLkckmozJJlkelxax4KhhFSZmJlvX0urTky6HEbjMxySna3CQlREatWef1j4AGu9kVWlUSpY81Ot0duswGnjJyC4rJL5qluJSlR8RaRkZ+ghBYhMVp6mYUV2pyoTMOoPkdMo8CPtcanME62ZJSZmalqPPWZnxEQ2OYwCtxDV8NPVepPN3eelJLJBeDqJ1TqTRq4lHx8RCEY2M1JOLQmp97XDOVRXiXEJ00bW22SiUTaUZZJLMteWs/yAQUP7/Mn3X/6xCFqX3wL+/lqT/s2RbeIuCNLuu+272gXLXLcrZMky5IpzpJNaSLRIyzLNJ6J5HlqMuIe6mYQUiHitMxBdqs6XLmQCgvRniSba07Uhs1GeWZmZN5n6TMBqpTfuPVH+akfK2M1L7xeCv8AK9P/ANB4WC5sYqOcR2htXtcLVrOzfDF0YtrNGn/35Z8GrPL++sZrVMIKHMxOty+Wp8uK7QIjcSLCbJJtG2glkkjM9fAv+xAKu2L33hsWfa1/7lwbNCvsO8K6ZZd83NdkOpzJUi4HTceZdSkkNGbil5JyLPhVlrFggAj67Vo1Jhm++eks9TbZHrWf/HpH1WKk1TmCUpKnXnD0WWUa1OK8xf8AIiIFAemzPpOvqJ14/sRyP6jZcRH5/UOiBjUur3NKVPkLJlpWpK1keRF5kl5h7X8PYzrZn9KSNty1GaC0f0GbJIkkRERERaiIuIRF2ya/Forq7ZpkaoVNRaLLcmRtLST/ABLPIzyLzEWZ+gVcrEtZVPG7G49tz/HtZv3LE7onUqxpEyRbt1uMNvJcXGkFHkpQepRHkeX6KIyFyinMH8Mrnpj86sX7VIk2qz6iuc+mMZqQajyJKSMyLIiIi1EXERC4xn9IwrmHN2iZ8G/Dv2+/6tZ+RRf4VR+Wu4AANlngAADjzdXjPVfbXvnMRokrq8Z6r7a985iNAAAAAAAAAAAAAAFi7Gby/wBke+GfiOqY5WbGby/2R74Z+I6pgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD5cNRIPQIjVxEZ6h9AA8kWC20+qU6e3Sllkbii4C/CkuIh6wAAAAAAAAAAAAAAAcebq8Z6r7a985iNEldXjPVfbXvnMRoAAAAAAAAAAAAAAsXYzeX+yPfDPxHVMcrNjN5f7I98M/EdUwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcebq8Z6r7a985iNEldXjPVfbXvnMRoAAAAAAAAAAAAAA9NMnzqXUGKjTJsmDMjrJxmRHdU242ouBSVJMjI/SQyrdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wAA3WMU+cu8+nZPbDdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wAA3WMU+cu8+nZPbDdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wAA3WMU+cu8+nZPbDdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wAA3WMU+cu8+nZPbDdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wAA3WMU+cu8+nZPbDdYxT5y7z6dk9sAAN1jFPnLvPp2T2w3WMU+cu8+nZPbAADdYxT5y7z6dk9sN1jFPnLvPp2T2wABhzrjjrq3XVqccWo1KUo8zUZ8JmfGY+QAAAAAAAAH/9k=" alt="Kinexa Formation" style="width:150px;display:block;margin-bottom:.6rem;background:rgba(255,255,255,.92);border-radius:.4rem;padding:.3rem .5rem">
+    <div style="font-family:'Playfair Display',Georgia,serif;font-size:.9rem;font-weight:600;color:rgba(255,255,255,.8);line-height:1.25">L'Esprit en Entreprise</div>
+    <div style="font-size:.68rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem">Dr Christophe Delong</div>
+  </div>
+
+  <div class="sb-nav-label">Navigation</div>
+  <a href="#hero" class="sb-a">Couverture</a>
+  <a href="#toc-s" class="sb-a">Table des matières</a>
+
+  <div class="sb-nav-label">Prérequis — 15 min</div>
+  <a href="#c1" class="sb-a">I · Motivation &amp; Décision</a>
+  <a href="#c1-eq" class="sb-a sub">↳ L'équation neurobiologique</a>
+  <a href="#c1-bl" class="sb-a sub">↳ Boucle préfronto-striatale</a>
+  <a href="#c1-am" class="sb-a sub">↳ Amygdale &amp; stress</a>
+  <a href="#c2" class="sb-a">II · Logique Somatique</a>
+  <a href="#c2-ms" class="sb-a sub">↳ Marqueurs somatiques</a>
+  <a href="#c2-vg" class="sb-a sub">↳ Nerf vague &amp; polyvagal</a>
+  <a href="#c2-it" class="sb-a sub">↳ Interoception</a>
+  <a href="#c3" class="sb-a">III · Symphonie Biochimique</a>
+  <a href="#c3-dp" class="sb-a sub">↳ Dopamine</a>
+  <a href="#c3-ot" class="sb-a sub">↳ Sérotonine · Ach · Cortisol</a>
+  <a href="#c3-ho" class="sb-a sub">↳ Hormones</a>
+  <a href="#c4" class="sb-a">IV · IA &amp; Hippocampe</a>
+  <a href="#c4-ex" class="sb-a sub">↳ Externalisation cognitive</a>
+  <a href="#c4-hi" class="sb-a sub">↳ L'hippocampe réel</a>
+  <a href="#c5" class="sb-a">V · Mouvement &amp; Cognition</a>
+  <a href="#c5-cv" class="sb-a sub">↳ Cervelet</a>
+  <a href="#c5-im" class="sb-a sub">↳ Immobilité : le poison</a>
+  <a href="#c6" class="sb-a">VI · Respiration &amp; Régulation</a>
+  <a href="#c6-oc" class="sb-a sub">↳ Oculomotricité</a>
+  <a href="#c6-re" class="sb-a sub">↳ Techniques respiratoires</a>
+  <a href="#c6-pr" class="sb-a sub">↳ Protocole quotidien</a>
+
+  <div class="sb-nav-label">Approche Kinexa</div>
+  <a href="#c7" class="sb-a sb-kin">VII · Culture &amp; Plasticité</a>
+  <a href="#c7-mu" class="sb-a sub sb-kin">↳ Musique &amp; cerveau</a>
+  <a href="#c7-fi" class="sb-a sub sb-kin">↳ Fiction &amp; empathie</a>
+  <a href="#c7-fa" class="sb-a sub sb-kin">↳ Fantaisie &amp; innovation</a>
+  <a href="#c8" class="sb-a sb-kin">VIII · Modèle Intégré Kinexa</a>
+  <a href="#c9" class="sb-a sb-kin">IX · Protocoles de Terrain</a>
+  <a href="#c10" class="sb-a sb-kin">X · Mesurer le Capital Humain</a>
+
+  <div class="sb-nav-label">Fin</div>
+  <a href="#conclusion" class="sb-a">Références &amp; Bibliographie</a>
+
+  <div class="sb-footer">© 2024 Kinexa · Dr Christophe Delong<br>Tous droits réservés.</div>
+</nav>
+
+<button id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+<div id="overlay"></div>
+
+<main id="main">
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-tag">Prérequis · Neurosciences &amp; Performance · 15 minutes</div>
+  <h1 class="hero-h1">L'Esprit en Entreprise<em>Neurophysiologie, Motricité et Culture<br>au Service de la Performance Humaine</em></h1>
+  <p class="hero-desc">Dix chapitres. Les mécanismes biologiques d'abord. Puis ce qui les transforme en performance réelle — l'approche Kinexa, née du terrain, de l'expérience et de la réflexion.</p>
+  <div class="hero-author">
+    <div class="hero-av">CD</div>
+    <div>
+      <div class="hero-aname">Dr Christophe Delong</div>
+      <div class="hero-arole">Ancien Chef de Service APHP · MPR &amp; Traumatologie du Sport<br>Chefs d'orchestre, artistes, sportifs de haut niveau, dirigeants</div>
+    </div>
+  </div>
+  <div class="hero-notice"><strong>Note :</strong> Les chapitres I à VI posent les prérequis neurophysiologiques — ce que l'on sait, ce qui gouverne tout. Les chapitres VII à X présentent l'<strong>approche Kinexa</strong> : une démarche non médicale, fruit de réflexions et d'expériences de terrain, pour transformer ces connaissances en élévation humaine concrète.</div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Défiler</div>
+</section>
+
+<!-- ══ TABLE DES MATIÈRES ══ -->
+<section id="toc-s">
+  <div class="toc-h">Table des matières</div>
+  <div class="toc-sub">Cliquer pour naviguer · Schémas zoomables</div>
+  <div class="toc-grid">
+    <a href="#c1" class="toc-c"><div class="toc-n">Chapitre I — Prérequis</div><div class="toc-t">La Neuro-Architecture de la Motivation</div><div class="toc-d">Équation neurobiologique · Striatum · Amygdale · Kahneman revisité</div></a>
+    <a href="#c2" class="toc-c"><div class="toc-n">Chapitre II — Prérequis</div><div class="toc-t">L'Erreur de Descartes : la Logique Somatique</div><div class="toc-d">Marqueurs somatiques · Nerf vague · Théorie polyvagale · Interoception</div></a>
+    <a href="#c3" class="toc-c"><div class="toc-n">Chapitre III — Prérequis</div><div class="toc-t">La Symphonie Biochimique de la Performance</div><div class="toc-d">Dopamine · Sérotonine · Acétylcholine · Cortisol · Hormones</div></a>
+    <a href="#c4" class="toc-c"><div class="toc-n">Chapitre IV — Prérequis</div><div class="toc-t">IA et Sous-Utilisation de l'Hippocampe</div><div class="toc-d">Externalisation cognitive · Hippocampe &amp; scénarios · Hygiène cognitive</div></a>
+    <a href="#c5" class="toc-c"><div class="toc-n">Chapitre V — Prérequis</div><div class="toc-t">Le Langage du Mouvement</div><div class="toc-d">Cervelet · Immobilité · BDNF · Dopamine motrice · Extrapyramidal</div></a>
+    <a href="#c6" class="toc-c"><div class="toc-n">Chapitre VI — Prérequis</div><div class="toc-t">Respiration &amp; Régulation Neurophysiologique</div><div class="toc-d">Oculomotricité · 5 techniques respiratoires · Protocole quotidien</div></a>
+    <a href="#c7" class="toc-c kk"><div class="toc-n">Chapitre VII <span class="toc-badge">Kinexa</span></div><div class="toc-t">Culture, Art et Fantaisie</div><div class="toc-d">Plasticité neuronale · Musique · Fiction · Fantaisie &amp; innovation</div></a>
+    <a href="#c8" class="toc-c kk"><div class="toc-n">Chapitre VIII <span class="toc-badge">Kinexa</span></div><div class="toc-t">Le Modèle Intégré Kinexa</div><div class="toc-d">Cinq piliers · Changement de paradigme · Ce que Kinexa propose</div></a>
+    <a href="#c9" class="toc-c kk"><div class="toc-n">Chapitre IX <span class="toc-badge">Kinexa</span></div><div class="toc-t">Les Protocoles de Terrain</div><div class="toc-d">Individu · Équipe · Organisation · Expérience de terrain</div></a>
+    <a href="#c10" class="toc-c kk"><div class="toc-n">Chapitre X <span class="toc-badge">Kinexa</span></div><div class="toc-t">Mesurer le Capital Humain</div><div class="toc-d">Indicateurs · VFC · Sécurité psychologique · Ce qu'on peut vraiment mesurer</div></a>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════
+     CHAPITRE I
+══════════════════════════════════════ -->
+<section class="sec" id="c1">
+  <div class="chapnum">Chapitre I · Prérequis</div>
+  <h2 class="chaptitle">La Neuro-Architecture de la Motivation et de la Décision</h2>
+  <p class="chaplead">La motivation n'est pas un état psychologique que l'on peut décréter. C'est un calcul neurobiologique dynamique, précis, continu — que l'environnement organisationnel perturbe ou soutient à chaque instant, souvent à l'insu de tous.</p>
+
+  <p class="bp">Chaque fois qu'un collaborateur se prépare à entreprendre une tâche — rédiger un rapport, animer une réunion, décider d'une stratégie — son cerveau effectue en quelques dizaines de millisecondes un calcul d'une complexité remarquable. Ce calcul est invisible, automatique, et prend systématiquement le dessus sur la volonté consciente.</p>
+
+  <div id="c1-eq" class="h2">1.1 L'équation neurobiologique : cinq dimensions simultanées</div>
+  <p class="bp">Le cerveau intègre en parallèle cinq types de coût avant tout engagement. Comprendre cette équation explique pourquoi les injonctions au « dépassement de soi » échouent si souvent, et pourquoi certains environnements de travail paralysent structurellement l'initiative.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 700 360" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="700" height="360" fill="#faf8f3" rx="14"/>
+      <text x="350" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d" letter-spacing=".04em">ÉQUATION NEUROBIOLOGIQUE DE LA MOTIVATION</text>
+      <ellipse cx="350" cy="190" rx="68" ry="52" fill="#0f1f3d"/>
+      <text x="350" y="184" text-anchor="middle" font-size="12" font-weight="700" fill="white">Cortex</text>
+      <text x="350" y="200" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.7)">Préfrontal</text>
+      <text x="350" y="215" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.45)">Calcul temps réel</text>
+      <!-- Left inputs -->
+      <rect x="22" y="56" width="158" height="56" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="1.3"/>
+      <text x="101" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">① Coût énergétique</text>
+      <text x="101" y="95" text-anchor="middle" font-size="10.5" fill="#334155">Glucose · fatigue préfrontale</text>
+      <text x="101" y="109" text-anchor="middle" font-size="9.5" fill="#64748b">20% de l'énergie corporelle</text>
+      <path d="M180,84 L280,163" stroke="#2563eb" stroke-width="1.3" stroke-dasharray="5,3" opacity=".5"/>
+      <rect x="22" y="140" width="158" height="56" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="1.3"/>
+      <text x="101" y="162" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">② Coût émotionnel</text>
+      <text x="101" y="179" text-anchor="middle" font-size="10.5" fill="#334155">Peur de l'échec · anticipation</text>
+      <text x="101" y="193" text-anchor="middle" font-size="9.5" fill="#64748b">Stress perçu</text>
+      <path d="M180,168 L282,183" stroke="#2563eb" stroke-width="1.3" stroke-dasharray="5,3" opacity=".5"/>
+      <rect x="22" y="224" width="158" height="56" rx="9" fill="#dbeafe" stroke="#2563eb" stroke-width="1.3"/>
+      <text x="101" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">③ Coût social</text>
+      <text x="101" y="263" text-anchor="middle" font-size="10.5" fill="#334155">Statut · rejet · jugement</text>
+      <text x="101" y="277" text-anchor="middle" font-size="9.5" fill="#64748b">L'exclusion = douleur physique</text>
+      <path d="M180,252 L282,213" stroke="#2563eb" stroke-width="1.3" stroke-dasharray="5,3" opacity=".5"/>
+      <!-- Right inputs -->
+      <rect x="520" y="56" width="158" height="56" rx="9" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.3"/>
+      <text x="599" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">④ Incertitude</text>
+      <text x="599" y="95" text-anchor="middle" font-size="10.5" fill="#334155">Flou des objectifs</text>
+      <text x="599" y="109" text-anchor="middle" font-size="9.5" fill="#64748b">Probabilité de réussite</text>
+      <path d="M520,84 L420,163" stroke="#0d9488" stroke-width="1.3" stroke-dasharray="5,3" opacity=".5"/>
+      <rect x="520" y="224" width="158" height="56" rx="9" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.3"/>
+      <text x="599" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">⑤ Temporalité</text>
+      <text x="599" y="263" text-anchor="middle" font-size="10.5" fill="#334155">Délai avant récompense</text>
+      <text x="599" y="277" text-anchor="middle" font-size="9.5" fill="#64748b">Discounting temporel</text>
+      <path d="M520,252 L420,213" stroke="#0d9488" stroke-width="1.3" stroke-dasharray="5,3" opacity=".5"/>
+      <!-- Output -->
+      <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1b3460"/></marker></defs>
+      <rect x="272" y="272" width="156" height="46" rx="9" fill="#1b3460"/>
+      <text x="350" y="291" text-anchor="middle" font-size="11" font-weight="700" fill="white">DÉCISION / ENGAGEMENT</text>
+      <text x="350" y="308" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.5)">Récompense la + certaine, la - coûteuse</text>
+      <path d="M350,242 L350,272" stroke="#1b3460" stroke-width="2" marker-end="url(#a1)"/>
+      <text x="682" y="350" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 cliquer pour zoomer</text>
+    </svg>
+    <p class="dcap">Le cerveau calcule simultanément cinq dimensions — et minimise l'incertitude plutôt que de maximiser le gain</p>
+  </div>
+
+  <div class="box box-gold"><div class="box-lbl">⚡ Principe fondateur</div><p>Le cerveau ne cherche pas la récompense maximale. Il cherche la récompense <strong>la plus certaine et la moins coûteuse perçue</strong>. C'est pourquoi les environnements ambigus produisent de la démotivation biologique — indépendamment du salaire et de la mission.</p></div>
+
+  <div id="c1-bl" class="h2">1.2 La boucle préfronto-striatale : l'axe décisionnel</div>
+  <p class="bp">Le tandem cortex préfrontal / striatum est la colonne vertébrale de toute décision volontaire. Ces structures dialoguent via des circuits dopaminergiques précis. Comprendre leurs déséquilibres permet d'agir sur l'architecture même du travail.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Structure</th><th>Rôle fonctionnel</th><th>Déséquilibre typique</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Préfrontal dorsolatéral</strong></td><td>Planification, inhibition, arbitrage, mémoire de travail</td><td>Surcharge → fatigue exécutive, rigidité, erreurs de jugement</td></tr>
+      <tr><td><strong>Préfrontal ventromédian</strong></td><td>Valeur subjective, intuition, intégration émotion-raison</td><td>Inhibition chronique → perte d'intuition, décisions froides</td></tr>
+      <tr><td><strong>Striatum ventral</strong> (N. accumbens)</td><td>Anticipation et encodage de la récompense</td><td>Routine sans surprise → anédonie, désengagement progressif</td></tr>
+      <tr><td><strong>Striatum dorsal</strong> (putamen)</td><td>Automatisation des habitudes comportementales</td><td>Sur-habitude → inertie, résistance au changement</td></tr>
+      <tr><td><strong>Cortex cingulaire antérieur</strong></td><td>Détection d'erreur, gestion du conflit cognitif</td><td>Stress chronique → hypersensibilité aux erreurs, paralysie</td></tr>
+    </tbody>
+  </table></div>
+
+  <div id="c1-am" class="h2">1.3 L'amygdale : bien plus qu'un détecteur de danger</div>
+  <p class="bp">L'amygdale détecte avant tout la <strong>saillance</strong> — tout ce qui sort de l'ordinaire. Sous stress chronique, elle développe un biais net vers le négatif et court-circuite le préfrontal. Elle ne fait pas que déclencher la peur : elle biaise toute l'architecture décisionnelle.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="680" height="250" fill="#faf8f3" rx="14"/>
+      <text x="340" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d">STRESS AIGU vs STRESS CHRONIQUE</text>
+      <rect x="20" y="50" width="300" height="178" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+      <text x="170" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">STRESS AIGU (adaptatif)</text>
+      <text x="50" y="98" font-size="11" fill="#15803d">✓ Attention sélective accrue</text>
+      <text x="50" y="118" font-size="11" fill="#15803d">✓ Mémorisation des moments clés</text>
+      <text x="50" y="138" font-size="11" fill="#15803d">✓ Mobilisation énergétique rapide</text>
+      <text x="50" y="158" font-size="11" fill="#15803d">✓ Décision d'urgence efficace</text>
+      <text x="170" y="192" text-anchor="middle" font-size="10.5" fill="#166534" font-weight="700">Préfrontal ACTIF</text>
+      <text x="170" y="212" text-anchor="middle" font-size="10" fill="#166534" font-style="italic">Cortisol utile · réponse adaptative</text>
+      <text x="340" y="142" text-anchor="middle" font-size="24" fill="#cbd5e1">→</text>
+      <text x="340" y="160" text-anchor="middle" font-size="10" fill="#94a3b8">durée</text>
+      <rect x="360" y="50" width="300" height="178" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="1.3"/>
+      <text x="510" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">STRESS CHRONIQUE (délétère)</text>
+      <text x="378" y="98" font-size="11" fill="#b91c1c">✕ Amplification des signaux négatifs</text>
+      <text x="378" y="118" font-size="11" fill="#b91c1c">✕ Rigidité cognitive croissante</text>
+      <text x="378" y="138" font-size="11" fill="#b91c1c">✕ Décisions impulsives ou paralysie</text>
+      <text x="378" y="158" font-size="11" fill="#b91c1c">✕ Biais pessimistes durables</text>
+      <text x="510" y="192" text-anchor="middle" font-size="10.5" fill="#991b1b" font-weight="700">Préfrontal COURT-CIRCUITÉ</text>
+      <text x="510" y="212" text-anchor="middle" font-size="10" fill="#991b1b" font-style="italic">Amygdale hypertrophiée · hippocampe atrophié</text>
+      <text x="662" y="242" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 zoomer</text>
+    </svg>
+    <p class="dcap">L'amygdale sous stress chronique court-circuite le préfrontal — le siège du jugement, de la planification et de la régulation émotionnelle</p>
+  </div>
+
+  <ul class="bl t">
+    <li><strong>Réduire l'incertitude inutile</strong> dans les communications — chaque ambiguïté non levée est un coût cognitif permanent sur toute l'équipe</li>
+    <li><strong>Clarifier et rendre visible la récompense</strong> — le feedback rapide après une réussite active le striatum ventral et maintient la boucle motivationnelle</li>
+    <li><strong>Segmenter les objectifs ambitieux</strong> en jalons clairs et atteignables — le cerveau maximise l'engagement sur les horizons courts et lisibles</li>
+    <li><strong>Protéger le préfrontal</strong> : pauses actives, rythmes de travail alternés, absence de surveillance permanente qui maintient l'amygdale en alerte</li>
+    <li><strong>Décisions stratégiques le matin</strong> — exploiter le pic cortisol matinal adaptatif ; après 90 min d'effort intense, la qualité décisionnelle chute mesurablementé</li>
+  </ul>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE II ══════════════════ -->
+<section class="sec alt" id="c2">
+  <div class="chapnum">Chapitre II · Prérequis</div>
+  <h2 class="chaptitle">L'Erreur de Descartes : la Logique Somatique</h2>
+  <p class="chaplead">« Je pense donc je suis. » Cette maxime cartésienne a profondément marqué notre conception du leadership. Elle nous a conduits à valoriser la pensée froide et à méfier des émotions. Antonio Damasio a démontré que c'était une erreur — et une erreur coûteuse.</p>
+
+  <div id="c2-ms" class="h2">2.1 Les marqueurs somatiques : le fondement corporel de la décision</div>
+  <p class="bp">Damasio a étudié des patients avec lésions du cortex préfrontal ventromédian. Leur intelligence classique était intacte — QI normal, mémoire préservée, raisonnement logique intact. Pourtant, ils ne pouvaient plus prendre de bonnes décisions dans leur vie. La raison : ils ne ressentaient plus les <strong>marqueurs somatiques</strong>.</p>
+  <p class="bp">Les marqueurs somatiques sont des états corporels rapides et subtils qui précèdent et orientent la décision consciente : micro-variations cardiaques, variations du tonus musculaire, signaux viscéraux (le fameux « gut feeling »), modifications respiratoires imperceptibles, micro-expressions inconscientes.</p>
+
+  <div class="box box-blue"><div class="box-lbl">🧠 Mécanisme fondateur — à retenir</div><p>La décision n'est pas « prise » par le raisonnement puis validée par l'émotion. Elle est d'abord <strong>ressentie en quelques millisecondes</strong> (état somatique pré-décisionnel), puis le raisonnement conscient lui construit une justification. La rationalité est une mise en récit a posteriori d'un état corporel.</p><p>Un collaborateur épuisé physiquement, tendu ou inconfortable prend structurellement de moins bonnes décisions — indépendamment de son intelligence ou de son expérience.</p></div>
+
+  <div id="c2-vg" class="h2">2.2 Le nerf vague et la théorie polyvagale</div>
+  <p class="bp">Le nerf vague (10e paire crânienne) est l'autoroute principale entre cerveau et corps. Un chiffre essentiel : <strong>80% de ses fibres sont afférentes</strong> — elles transmettent du corps vers le cerveau, pas l'inverse. Ce que le corps vit modifie directement ce que le cerveau peut produire.</p>
+  <p class="bp">Porges a identifié trois états physiologiques qui régulent tous nos comportements sociaux — et donc professionnels. Ces états ne sont pas des choix conscients : ils sont déclenchés par l'environnement sensoriel, social et émotionnel perçu par le système nerveux.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="700" height="300" fill="#faf8f3" rx="14"/>
+      <text x="350" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d">THÉORIE POLYVAGALE — États physiologiques &amp; comportements professionnels</text>
+      <!-- State 1 -->
+      <rect x="18" y="50" width="210" height="230" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+      <rect x="18" y="50" width="210" height="38" rx="10" fill="#0d9488"/>
+      <rect x="18" y="74" width="210" height="14" fill="#0d9488"/>
+      <text x="123" y="73" text-anchor="middle" font-size="12" font-weight="700" fill="white">VAGAL VENTRAL</text>
+      <text x="123" y="95" text-anchor="middle" font-size="11" fill="#0f766e" font-weight="700">Sécurité · Connexion</text>
+      <text x="32" y="117" font-size="11" fill="#134e4a">✓ Collaboration authentique</text>
+      <text x="32" y="137" font-size="11" fill="#134e4a">✓ Créativité et innovation</text>
+      <text x="32" y="157" font-size="11" fill="#134e4a">✓ Écoute profonde, empathie</text>
+      <text x="32" y="177" font-size="11" fill="#134e4a">✓ Prise de risque mesurée</text>
+      <text x="32" y="197" font-size="11" fill="#134e4a">✓ Apprentissage complexe</text>
+      <text x="123" y="228" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">Zone de performance durable</text>
+      <text x="123" y="246" text-anchor="middle" font-size="10" fill="#0d9488" font-style="italic">Sécurité psychologique = prérequis</text>
+      <text x="123" y="266" text-anchor="middle" font-size="9.5" fill="#134e4a">VFC haute · préfrontal actif</text>
+      <!-- State 2 -->
+      <rect x="246" y="50" width="210" height="230" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="1.5"/>
+      <rect x="246" y="50" width="210" height="38" rx="10" fill="#b45309"/>
+      <rect x="246" y="74" width="210" height="14" fill="#b45309"/>
+      <text x="351" y="73" text-anchor="middle" font-size="12" font-weight="700" fill="white">SYMPATHIQUE</text>
+      <text x="351" y="95" text-anchor="middle" font-size="11" fill="#92400e" font-weight="700">Mobilisation · Survie</text>
+      <text x="260" y="117" font-size="11" fill="#78350f">⚡ Compétition, tension</text>
+      <text x="260" y="137" font-size="11" fill="#78350f">⚡ Hypervigilance</text>
+      <text x="260" y="157" font-size="11" fill="#78350f">⚡ Performance à court terme</text>
+      <text x="260" y="177" font-size="11" fill="#78350f">⚡ Écoute et créativité réduites</text>
+      <text x="260" y="197" font-size="11" fill="#78350f">⚡ Conflit possible</text>
+      <text x="351" y="228" text-anchor="middle" font-size="10.5" fill="#b45309" font-weight="700">Utile en urgence · épuisant si chronique</text>
+      <text x="351" y="246" text-anchor="middle" font-size="10" fill="#b45309" font-style="italic">Cortisol élevé · amygdale en alerte</text>
+      <!-- State 3 -->
+      <rect x="474" y="50" width="210" height="230" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+      <rect x="474" y="50" width="210" height="38" rx="10" fill="#dc2626"/>
+      <rect x="474" y="74" width="210" height="14" fill="#dc2626"/>
+      <text x="579" y="73" text-anchor="middle" font-size="12" font-weight="700" fill="white">VAGAL DORSAL</text>
+      <text x="579" y="95" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="700">Shutdown · Effondrement</text>
+      <text x="488" y="117" font-size="11" fill="#7f1d1d">✕ Retrait social, mutisme</text>
+      <text x="488" y="137" font-size="11" fill="#7f1d1d">✕ Démotivation profonde</text>
+      <text x="488" y="157" font-size="11" fill="#7f1d1d">✕ Burn-out, absentéisme</text>
+      <text x="488" y="177" font-size="11" fill="#7f1d1d">✕ Résignation apprise</text>
+      <text x="488" y="197" font-size="11" fill="#7f1d1d">✕ Présentéisme non productif</text>
+      <text x="579" y="228" text-anchor="middle" font-size="10.5" fill="#dc2626" font-weight="700">Signal d'alarme organisationnel</text>
+      <text x="579" y="246" text-anchor="middle" font-size="10" fill="#dc2626" font-style="italic">Danger si non détecté rapidement</text>
+      <text x="682" y="292" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 zoomer</text>
+    </svg>
+    <p class="dcap">Les trois états polyvagaux — seul le vagal ventral permet performance durable, apprentissage complexe et vraie collaboration</p>
+  </div>
+
+  <div class="box box-teal"><div class="box-lbl">🎯 Implication directe</div><p>La sécurité psychologique n'est pas un luxe RH. C'est la <strong>condition neurophysiologique sine qua non</strong> de la performance durable. Un environnement d'évaluation permanente, de menace implicite ou de pression excessive maintient les équipes en état sympathique — incompatible avec la créativité, l'innovation et l'apprentissage.</p></div>
+
+  <div id="c2-it" class="h2">2.3 L'interoception : l'intelligence invisible du leadership</div>
+  <p class="bp">L'interoception désigne la capacité à percevoir et interpréter finement les signaux internes du corps. C'est une compétence cognitive mesurable et entraînable — rarement évoquée en entreprise, et pourtant fondamentale pour la prise de décision sous pression.</p>
+  <ul class="bl t">
+    <li>Meilleures décisions sous pression car les états internes sont lus comme des données, pas subis comme du bruit</li>
+    <li>Détection précoce de la propre montée de stress — avant qu'elle ne court-circuite le préfrontal</li>
+    <li>Lecture plus fine des états non-verbaux des interlocuteurs (empathie somatique)</li>
+    <li>Variabilité de fréquence cardiaque (VFC) plus élevée — prédicteur biologique direct de santé mentale et de résilience</li>
+    <li>Se développe par le mouvement conscient, certaines pratiques culturelles, et la pleine conscience corporelle</li>
+  </ul>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE III ══════════════════ -->
+<section class="sec" id="c3">
+  <div class="chapnum">Chapitre III · Prérequis</div>
+  <h2 class="chaptitle">La Symphonie Biochimique de la Performance</h2>
+  <p class="chaplead">La performance n'est pas un état stable maintenu par la volonté. C'est une oscillation permanente entre plusieurs systèmes neurochimiques interdépendants. Comprendre leur dynamique change radicalement la façon de gérer des humains.</p>
+
+  <div class="pills">
+    <div class="pill"><div class="pdot" style="background:#2563eb"></div>Dopamine</div>
+    <div class="pill"><div class="pdot" style="background:#0d9488"></div>Sérotonine</div>
+    <div class="pill"><div class="pdot" style="background:#7c3aed"></div>Acétylcholine</div>
+    <div class="pill"><div class="pdot" style="background:#dc2626"></div>Cortisol</div>
+    <div class="pill"><div class="pdot" style="background:#b45309"></div>Testostérone</div>
+    <div class="pill"><div class="pdot" style="background:#db2777"></div>Œstrogènes</div>
+    <div class="pill"><div class="pdot" style="background:#16a34a"></div>Progestérone</div>
+    <div class="pill"><div class="pdot" style="background:#0ea5e9"></div>Ocytocine</div>
+  </div>
+
+  <div id="c3-dp" class="h2">3.1 Dopamine : l'erreur de prédiction, moteur de l'apprentissage</div>
+  <p class="bp">La dopamine ne code pas le plaisir. Elle code <strong>l'écart entre ce qui est attendu et ce qui est obtenu</strong>. Les neurones dopaminergiques de la voie mésolimbique produisent un signal proportionnel à la <em>surprise</em> — pas à la récompense elle-même.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Situation</th><th>Signal dopaminergique</th><th>Conséquence</th></tr></thead>
+    <tbody>
+      <tr><td>Récompense attendue, obtenue</td><td>Neutre — aucun pic</td><td>Satisfaction neutre, aucun renforcement</td></tr>
+      <tr><td><strong>Récompense inattendue</strong></td><td><strong>Pic fort</strong></td><td><strong>Apprentissage maximal, mémorisation puissante</strong></td></tr>
+      <tr><td>Récompense attendue, non obtenue</td><td>Chute sous la baseline</td><td>Déception, démotivation, évitement</td></tr>
+      <tr><td>Routine sans variation</td><td>Déclin progressif</td><td>Désengagement, ennui chronique, perte de sens</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-gold"><div class="box-lbl">💡 Implication directe</div><p>Les systèmes de récompense prévisibles — primes annuelles fixes, bonus automatiques — <strong>n'activent pas la dopamine</strong>. La surprise positive, la reconnaissance inattendue, le nouveau défi : voilà ce qui crée l'engagement biologique. La variété des missions n'est pas un confort — c'est une nécessité neurobiologique.</p></div>
+
+  <div id="c3-ot" class="h2">3.2 Sérotonine, Acétylcholine et Cortisol</div>
+  <div class="h3">Sérotonine — statut social et stabilité</div>
+  <p class="bp">La sérotonine régule la <strong>perception du statut social</strong> et le sentiment d'appartenance. Des niveaux élevés correspondent à une confiance calme et une tolérance à la frustration accrue. La dévalorisation publique, même ponctuelle, peut provoquer une chute durable de la sérotonine et altérer la confiance d'un collaborateur pour plusieurs semaines. Elle se reconstruit lentement.</p>
+
+  <div class="h3">Acétylcholine — le neurotransmetteur du focus profond</div>
+  <p class="bp">L'acétylcholine est sécrétée lors de l'<strong>attention focalisée intense</strong>. Elle est la clé de l'encodage mémoriel précis et de l'apprentissage exigeant. <strong>Le multitâche chronique détruit ce système.</strong> Le coût cognitif d'une interruption n'est pas l'interruption elle-même, mais le temps de retour à la concentration : en moyenne <strong>23 minutes</strong> (Gloria Mark, UC Irvine). Une journée avec des interruptions toutes les 20 minutes ne produit jamais de concentration profonde.</p>
+
+  <div class="h3">Cortisol — le double tranchant</div>
+  <div class="tw"><table>
+    <thead><tr><th>Durée</th><th>Effets biologiques</th><th>Conséquences professionnelles</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Court terme</strong></td><td>Mobilisation glucose, attention aiguisée, mémorisation des événements importants</td><td>Utile en situation d'urgence ou d'échéance importante</td></tr>
+      <tr><td><strong>Chronique</strong></td><td>Atrophie hippocampique, hypertrophie amygdalienne, immunodépression, altération préfrontale</td><td>Burn-out, biais négatifs, perte de mémoire, irritabilité, absentéisme</td></tr>
+    </tbody>
+  </table></div>
+
+  <div id="c3-ho" class="h2">3.3 Hormones sexuelles et ocytocine : les grandes oubliées</div>
+  <p class="bp">Ce sont des neuromodulateurs puissants qui influencent directement les fonctions cognitives — et qui varient en fonction du cycle, de l'âge, du stress et du sommeil. Les ignorer revient à piloter sans tableau de bord.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Hormone</th><th>Effets cognitifs et comportementaux</th><th>Variation notable</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Testostérone</strong></td><td>Prise de risque, assertivité, confiance en soi, résistance au stress aigu</td><td>Pic matinal · chute avec manque de sommeil · baisse avec stress chronique</td></tr>
+      <tr><td><strong>Œstrogènes</strong></td><td>Cognition sociale, flexibilité mentale, mémoire épisodique, empathie</td><td>Cycle menstruel · chute à la ménopause</td></tr>
+      <tr><td><strong>Progestérone</strong></td><td>Régulation émotionnelle, calme, attention soutenue</td><td>Anxiété marquée en déficit</td></tr>
+      <tr><td><strong>Ocytocine</strong></td><td>Lien social, confiance, coopération, réduction de l'anxiété sociale</td><td>Produite par le contact, l'empathie, les rituels collectifs</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE IV ══════════════════ -->
+<section class="sec alt" id="c4">
+  <div class="chapnum">Chapitre IV · Prérequis</div>
+  <h2 class="chaptitle">IA et Sous-Utilisation de l'Hippocampe : le Risque Cognitif Majeur</h2>
+  <p class="chaplead">Pour la première fois dans l'histoire humaine, nous déléguons massivement à une machine non seulement des tâches physiques, mais des tâches cognitives fondamentales. Les bénéfices sont réels. Les risques pour la santé cognitive sont largement sous-estimés.</p>
+
+  <div id="c4-ex" class="h2">4.1 L'externalisation cognitive : un phénomène sans précédent</div>
+  <p class="bp">Nous déléguons aux LLM des fonctions qui, jusqu'à récemment, étaient exercées exclusivement par le cerveau : mémorisation et rappel, structuration de la pensée, synthèse, raisonnement par analogie, formulation d'idées. Chacune de ces délégations réduit l'exercice des circuits neuronaux correspondants. Le cerveau obéit au principe <em>use it or lose it</em> — ce qui n'est pas exercé s'atrophie fonctionnellement.</p>
+
+  <div class="box box-red"><div class="box-lbl">⚠️ Nuance importante</div><p>Il ne s'agit pas de rejeter l'IA. L'enjeu est de développer une <strong>hygiène cognitive délibérée</strong> : utiliser l'IA comme amplificateur de la pensée, non comme substitut. Toujours partir d'une réflexion propre avant de consulter l'IA. Préserver des zones de réflexion non assistée pour les problèmes stratégiques.</p></div>
+
+  <div id="c4-hi" class="h2">4.2 L'hippocampe : bien plus qu'un disque dur</div>
+  <p class="bp">L'hippocampe est un organe de <strong>navigation spatiotemporelle et de simulation mentale</strong>. Il permet de se projeter dans le temps, de construire des scénarios, de créer des associations inédites entre concepts disparates. C'est le moteur de la créativité associative et de la pensée stratégique.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 660 330" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="660" height="330" fill="#faf8f3" rx="14"/>
+      <text x="330" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d">HIPPOCAMPE — Fonctions réelles vs "disque dur"</text>
+      <ellipse cx="330" cy="175" rx="72" ry="56" fill="#1b3460" opacity=".92"/>
+      <text x="330" y="168" text-anchor="middle" font-size="12" font-weight="700" fill="white">HIPPOCAMPE</text>
+      <text x="330" y="184" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.55)">Bien plus que</text>
+      <text x="330" y="198" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.55)">la mémoire</text>
+      <!-- 6 functions -->
+      <rect x="20" y="44" width="148" height="54" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+      <text x="94" y="64" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Navigation spatiale</text>
+      <text x="94" y="82" text-anchor="middle" font-size="10.5" fill="#334155">GPS biologique</text>
+      <text x="94" y="95" text-anchor="middle" font-size="9.5" fill="#64748b">carte mentale de l'espace</text>
+      <path d="M168,71 L256,148" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <rect x="20" y="143" width="148" height="54" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+      <text x="94" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Voyage mental</text>
+      <text x="94" y="181" text-anchor="middle" font-size="10.5" fill="#334155">Passé et futur</text>
+      <text x="94" y="194" text-anchor="middle" font-size="9.5" fill="#64748b">projection temporelle</text>
+      <path d="M168,170 L258,175" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <rect x="20" y="242" width="148" height="54" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+      <text x="94" y="262" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Création de sens</text>
+      <text x="94" y="280" text-anchor="middle" font-size="10.5" fill="#334155">Contextualiser</text>
+      <text x="94" y="293" text-anchor="middle" font-size="9.5" fill="#64748b">les expériences vécues</text>
+      <path d="M168,269 L256,202" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <rect x="492" y="44" width="148" height="54" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.2"/>
+      <text x="566" y="64" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">Simulation prospective</text>
+      <text x="566" y="82" text-anchor="middle" font-size="10.5" fill="#334155">Imaginer des futurs</text>
+      <text x="566" y="95" text-anchor="middle" font-size="9.5" fill="#64748b">scénarios · stratégie</text>
+      <path d="M492,71 L404,148" stroke="#0d9488" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <rect x="492" y="143" width="148" height="54" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.2"/>
+      <text x="566" y="163" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">Créativité associative</text>
+      <text x="566" y="181" text-anchor="middle" font-size="10.5" fill="#334155">Liens inédits</text>
+      <text x="566" y="194" text-anchor="middle" font-size="9.5" fill="#64748b">entre concepts disparates</text>
+      <path d="M492,170 L402,175" stroke="#0d9488" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <rect x="492" y="242" width="148" height="54" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.2"/>
+      <text x="566" y="262" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">Mémoire contextuelle</text>
+      <text x="566" y="280" text-anchor="middle" font-size="10.5" fill="#334155">Qui · quand · où</text>
+      <text x="566" y="293" text-anchor="middle" font-size="9.5" fill="#64748b">de chaque souvenir</text>
+      <path d="M492,269 L404,202" stroke="#0d9488" stroke-width="1.2" stroke-dasharray="4,3" opacity=".45"/>
+      <text x="642" y="322" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 zoomer</text>
+    </svg>
+    <p class="dcap">L'hippocampe est un organe de navigation et de simulation — pas un simple entrepôt. Moins on mémorise, moins on imagine, moins on innove.</p>
+  </div>
+
+  <div class="box box-dark"><div class="box-lbl">⚡ L'équation cognitive critique</div><p><strong>Moins on mémorise → moins on structure mentalement → moins on imagine → moins on innove.</strong></p><p>La dépendance à l'IA pour la mémoire et la structuration est une réduction progressive et silencieuse de la capacité créative. L'IA devient prothèse cognitive permanente au lieu d'être amplificateur.</p></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE V ══════════════════ -->
+<section class="sec" id="c5">
+  <div class="chapnum">Chapitre V · Prérequis</div>
+  <h2 class="chaptitle">Le Langage du Mouvement : Motricité et Cognition</h2>
+  <p class="chaplead">Nous avons longtemps cru que le cerveau commandait le corps. La neuroscience contemporaine révèle une vérité plus profonde : le cerveau est fondamentalement un organe moteur. La pensée abstraite est une extension évolutive du mouvement — pas l'inverse.</p>
+
+  <p class="bp">Évolutivement, le cerveau n'a pas d'abord été un organe de pensée abstraite. Il a évolué pour permettre le mouvement adaptatif dans un environnement complexe et imprévisible. Chaque pensée abstraite s'appuie sur des micro-simulations motrices — une réalité que l'imagerie cérébrale fonctionnelle confirme de façon spectaculaire. Les mains et le visage occupent plus de la moitié du cortex sensorimoteur — une allocation massive de ressources neuronales qui signale l'importance capitale de la manipulation fine et de la communication non-verbale dans l'intelligence humaine.</p>
+
+  <div id="c5-cv" class="h2">5.1 Le cervelet : l'organe de la fluidité cognitive</div>
+  <p class="bp">Le cervelet représente plus de <strong>50% des neurones du cerveau</strong> pour seulement 10% du volume. Longtemps réduit à l'équilibre et à la coordination motrice, il joue un rôle bien plus vaste dans la cognition avancée.</p>
+  <div class="cards">
+    <div class="card t"><div class="card-icon">⏱</div><div class="card-title">Prédiction temporelle</div><p>Anticipe les conséquences des actions avant qu'elles ne se produisent — en motricité comme en pensée. Le cervelet pré-calcule.</p></div>
+    <div class="card"><div class="card-icon">🎯</div><div class="card-title">Correction d'erreur</div><p>Compare intention et exécution, et ajuste en temps réel. Ce mécanisme s'applique aux actions physiques ET aux raisonnements complexes.</p></div>
+    <div class="card v"><div class="card-icon">🌊</div><div class="card-title">Fluidité cognitive</div><p>Des lésions cérébelleuses altèrent la fluidité verbale, la pensée spatiale et la créativité — pas seulement les fonctions motrices.</p></div>
+    <div class="card g"><div class="card-icon">🔗</div><div class="card-title">Automatisation</div><p>Libère le cortex préfrontal en automatisant les séquences motrices et cognitives répétées — indispensable pour le focus exigeant.</p></div>
+  </div>
+  <div class="box box-teal"><div class="box-lbl">🎼 Métaphore opérationnelle</div><p>Le cervelet est la « machine à anticiper » du cerveau. Un cervelet bien entraîné — par le sport, la danse, la musique, les activités manuelles complexes — produit une pensée <strong>plus fluide, plus prévisive et plus adaptable</strong>. Les imageries fonctionnelles le confirment.</p></div>
+
+  <div id="c5-im" class="h2">5.2 L'immobilité : un poison cognitif documenté</div>
+  <p class="bp">Au-delà des risques cardiovasculaires bien connus, l'immobilité prolongée produit des effets cognitifs directs, rapides et mesurables.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Durée de sédentarité</th><th>Effets cognitifs documentés</th></tr></thead>
+    <tbody>
+      <tr><td><strong>30 minutes</strong></td><td>Début de la baisse d'attention soutenue</td></tr>
+      <tr><td><strong>60 minutes</strong></td><td>Réduction mesurable de la fluidité verbale et de la créativité</td></tr>
+      <tr><td><strong>90 minutes</strong></td><td>Chute significative de la mémoire de travail. Augmentation de l'anxiété basale.</td></tr>
+      <tr><td><strong>2 heures et plus</strong></td><td>Rigidité mentale, chute du BDNF, dégradation de l'humeur, accumulation de tension musculaire</td></tr>
+    </tbody>
+  </table></div>
+  <p class="bp">Le <strong>BDNF</strong> (Brain-Derived Neurotrophic Factor) — la principale molécule de plasticité neuronale, que Ratey nomme « engrais pour le cerveau » — est produit en grande quantité lors de l'activité physique. Sa production chute rapidement avec l'immobilité.</p>
+  <div class="box box-gold"><div class="box-lbl">💊 Le mouvement nourrit la dopamine</div><p>Le système extrapyramidal est intimement lié au système dopaminergique. La maladie de Parkinson illustre ce lien tragiquement : la destruction des neurones dopaminergiques produit une rigidité motrice ET une rigidité cognitive simultanées. <strong>Les organisations qui maintiennent leurs équipes immobiles sabotent leur propre système de motivation biologique.</strong></p></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE VI ══════════════════ -->
+<section class="sec alt" id="c6">
+  <div class="chapnum">Chapitre VI · Prérequis</div>
+  <h2 class="chaptitle">Oculomotricité, Respiration et Régulation Neurophysiologique</h2>
+  <p class="chaplead">Des leviers directs, simples et immédiatement accessibles pour modifier l'état neurophysiologique — et donc la qualité du travail cognitif. Les techniques respiratoires et le contrôle oculomoteur sont les plus puissants et les moins exploités en entreprise.</p>
+
+  <div id="c6-oc" class="h2">6.1 L'oculomotricité : la base anatomique de l'attention</div>
+  <p class="bp">Le contrôle oculomoteur mobilise des structures allant du tronc cérébral au cortex pariétal et frontal. Les mouvements des yeux ne sont pas séparables de l'attention : ils en sont l'expression anatomique directe. Le travail sur écran à faible distance fixe perturbe les mécanismes naturels de variation oculomotrice. La fatigue oculaire chronique réduit measurablement la capacité d'attention et génère une anxiété de fond.</p>
+  <div class="box box-blue"><div class="box-lbl">👁 Règle des 20-20-20</div><p>Toutes les 20 minutes d'écran : regarder un objet à <strong>6m pendant 20 secondes</strong>. Force les saccades exploratoires, relâche l'accommodation — réduisant significativement la fatigue oculomotrice et la charge cognitive associée.</p></div>
+
+  <div id="c6-re" class="h2">6.2 La respiration : accéder directement au cerveau</div>
+  <p class="bp">La respiration est le seul système autonome que nous pouvons contrôler volontairement. La voie est directe : <strong>diaphragme → nerf vague → tronc cérébral → cortex</strong>. Le CO₂ (et non l'O₂) régule principalement la vigilance et le flux sanguin cérébral. L'hyperventilation — fréquente en situation de stress — provoque une vasoconstriction cérébrale et aggrave paradoxalement l'anxiété.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="680" height="300" fill="#faf8f3" rx="14"/>
+      <text x="340" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d">RESPIRATION → CERVEAU : La voie neurophysiologique directe</text>
+      <defs><marker id="av" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#0d9488"/></marker></defs>
+      <rect x="20" y="55" width="130" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
+      <text x="85" y="78" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">DIAPHRAGME</text>
+      <text x="85" y="94" text-anchor="middle" font-size="10" fill="#334155">Respiration abdominale</text>
+      <path d="M85,105 L85,128" stroke="#0d9488" stroke-width="1.8" marker-end="url(#av)"/>
+      <rect x="20" y="128" width="130" height="50" rx="8" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.2"/>
+      <text x="85" y="151" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">NERF VAGUE</text>
+      <text x="85" y="167" text-anchor="middle" font-size="10" fill="#134e4a">Activation parasympathique</text>
+      <path d="M85,178 L85,201" stroke="#0d9488" stroke-width="1.8" marker-end="url(#av)"/>
+      <rect x="20" y="201" width="130" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+      <text x="85" y="224" text-anchor="middle" font-size="11" font-weight="700" fill="#166534">TRONC CÉRÉBRAL</text>
+      <text x="85" y="240" text-anchor="middle" font-size="10" fill="#15803d">Formation réticulée</text>
+      <path d="M85,251 L85,268" stroke="#0d9488" stroke-width="1.8" marker-end="url(#av)"/>
+      <rect x="20" y="268" width="130" height="24" rx="8" fill="#0f1f3d"/>
+      <text x="85" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="white">CORTEX</text>
+      <!-- Effects -->
+      <rect x="210" y="55" width="450" height="68" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+      <text x="225" y="77" font-size="11" font-weight="700" fill="#1d4ed8">Activation vagale ventrale</text>
+      <text x="225" y="95" font-size="10.5" fill="#334155">↑ VFC · Sécurité · Écoute · Créativité · Cohésion sociale</text>
+      <text x="225" y="112" font-size="10" fill="#64748b">Désactivation amygdalienne → préfrontal libéré</text>
+      <rect x="210" y="135" width="450" height="68" rx="8" fill="#f0fdfa" stroke="#5eead4" stroke-width="1"/>
+      <text x="225" y="157" font-size="11" font-weight="700" fill="#0f766e">Régulation du CO₂</text>
+      <text x="225" y="175" font-size="10.5" fill="#334155">Vasodilatation cérébrale → clarté mentale · vigilance calme</text>
+      <text x="225" y="192" font-size="10" fill="#64748b">Évite la vasoconstriction de l'hyperventilation anxieuse</text>
+      <rect x="210" y="215" width="450" height="68" rx="8" fill="#fffbeb" stroke="#fde047" stroke-width="1"/>
+      <text x="225" y="237" font-size="11" font-weight="700" fill="#854d0e">Réduction du cortisol</text>
+      <text x="225" y="255" font-size="10.5" fill="#334155">↓ Réactivité amygdalienne · ↑ plasticité hippocampique</text>
+      <text x="225" y="272" font-size="10" fill="#64748b">Récupération rapide · protection anti-burn-out</text>
+      <text x="662" y="292" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 zoomer</text>
+    </svg>
+    <p class="dcap">Le raccourci neurophysiologique le plus accessible — modifier l'état cérébral en quelques minutes via la respiration</p>
+  </div>
+
+  <div id="c6-re" class="h2">6.3 Cinq techniques respiratoires</div>
+  <div class="tw"><table>
+    <thead><tr><th>Technique</th><th>Rythme</th><th>Mécanisme</th><th>Effet</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Respiration carrée</strong></td><td>4-4-4-4</td><td>Équilibrage sympa/parasympa</td><td>Calme ET focus simultanés</td><td>Avant décision ou réunion importante</td></tr>
+      <tr><td><strong>Cohérence cardiaque</strong></td><td>5 in / 5 out</td><td>Optimisation VFC à 0,1 Hz</td><td>Régulation émotionnelle durable (3-4h)</td><td>3×/jour, 5 min — matin/midi/soir</td></tr>
+      <tr><td><strong>4-7-8</strong></td><td>4 in / 7 hold / 8 out</td><td>Activation parasympathique dominante</td><td>Déactivation rapide du stress aigu</td><td>Avant de dormir, pic d'anxiété</td></tr>
+      <tr><td><strong>Expiration prolongée</strong></td><td>4 in / 8 out</td><td>L'expiration longue active le parasympathique</td><td>Retour au calme rapide</td><td>Pause active entre tâches</td></tr>
+      <tr><td><strong>Wim Hof modifié</strong></td><td>30 cycles + rétention</td><td>Hypocapnie temporaire contrôlée</td><td>Activation, alerte, anti-fatigue</td><td>Matin uniquement — jamais en conduisant</td></tr>
+    </tbody>
+  </table></div>
+
+  <div id="c6-pr" class="h2">6.4 Protocole quotidien minimal — dès demain</div>
+  <div class="steps">
+    <div class="step"><div class="step-content"><div class="step-ttl">Matin : activation et ancrage (15-20 min)</div><p>Exposition lumineuse naturelle 5 min (sérotonine, rythme circadien) · Mouvement global léger 5 min (BDNF, dopamine motrice) · Respiration carrée 5 min · Intention de journée sans écran 5 min</p></div></div>
+    <div class="step"><div class="step-content"><div class="step-ttl">Journée : règle des 90 minutes</div><p>Tâches exigeantes en blocs de 90 min max · Pause active 10-15 min obligatoire (marche, regard au loin, respiration) · Décisions stratégiques en matinée uniquement</p></div></div>
+    <div class="step"><div class="step-content"><div class="step-ttl">Oculomotricité : règle des 20-20-20</div><p>Toutes les 20 min d'écran → 20 secondes à 6m de distance. Associer à une expiration longue. Casser le cycle de fixation chronique.</p></div></div>
+    <div class="step"><div class="step-content"><div class="step-ttl">Cohérence cardiaque : 3 fois/jour, 5 min</div><p>Inspiration 5s / expiration 5s. Matin avant le travail · midi avant de reprendre · soir pour déconnecter. Effet régulateur sur le cortisol documenté sur 4-6 heures.</p></div></div>
+    <div class="step"><div class="step-content"><div class="step-ttl">Mouvement : maximum 50 min assis</div><p>Lever, étirer, marcher 2-3 minutes. Non par discipline — par nécessité biologique. Préférer les entretiens en marchant. Le BDNF ne se produit pas assis.</p></div></div>
+    <div class="step"><div class="step-content"><div class="step-ttl">Soir : décompression neurophysiologique</div><p>Lecture longue non numérique 20 min minimum · Technique 4-7-8 avant de dormir · Obscurité complète · Pas d'écran 45 min avant le coucher (mélatonine)</p></div></div>
+  </div>
+
+  <div class="box box-dark"><div class="box-lbl">🔑 À retenir de ces six chapitres</div><p>Ces six chapitres posent un constat fondamental : <strong>la performance humaine est une architecture biologique, motrice, émotionnelle et cognitive intégrée</strong>. Elle ne se décrète pas. Elle se préserve, se cultive, se régule. Ignorer ces mécanismes, c'est gérer des humains comme des logiciels — et s'étonner qu'ils « plantent ».</p><p>Ce socle est le prérequis. Ce qui vient ensuite n'est pas une méthode médicale supplémentaire. C'est une démarche née du terrain.</p></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════
+     CHAPITRE VII — KINEXA
+══════════════════════════════════════ -->
+<section class="sec kin" id="c7">
+  <div class="kin-intro">
+    <div class="kin-badge">
+      <svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.4"/><path d="M4.5 7l2 2 3-3" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Approche Kinexa — Ce qui change tout
+    </div>
+    <div class="kin-ttl">Vous avez les prérequis. Maintenant, on entre dans le vif.</div>
+    <div class="kin-txt">Ce qui suit n'est pas de la médecine. Ce n'est pas non plus du développement personnel générique. C'est une démarche née de <em>l'expérience directe</em> — auprès de chefs d'orchestre, d'artistes solos, de sportifs de haut niveau, de dirigeants sous pression. Une démarche qui utilise les mécanismes des six chapitres précédents pour produire quelque chose que les méthodes habituelles ne produisent pas : de l'<em>élévation</em>.</div>
+  </div>
+
+  <div class="chapnum kk">Chapitre VII · Kinexa</div>
+  <h2 class="chaptitle">Culture, Art et Fantaisie : les Moteurs de la Plasticité</h2>
+  <p class="chaplead kk">L'art n'est pas un supplément d'âme. La musique n'est pas une récompense en fin de séminaire. La fantaisie n'est pas une perte de temps. Ce sont des outils neurocognitifs de première importance — et Kinexa les place au cœur de son approche.</p>
+
+  <p class="bp">Tout au long des six premiers chapitres, nous avons parlé de mécanismes biologiques. Voici maintenant ce qui les active le plus profondément, de façon durable, en créant de nouvelles connexions neuronales et en réveillant des circuits que le travail quotidien laisse en jachère.</p>
+
+  <div id="c7-mu" class="h2">7.1 La musique : entraînement total du cerveau</div>
+  <p class="bp">La musique est la seule activité connue qui active simultanément les deux hémisphères cérébraux, le système limbique, le cervelet, le cortex moteur et le cortex préfrontal. Sa densité d'activation neuronale est sans équivalent. Ce n'est pas une métaphore — les imageries fonctionnelles le montrent avec une clarté spectaculaire.</p>
+  <ul class="bl t">
+    <li><strong>Mémoire de travail augmentée</strong> : la pratique musicale — même courte — augmente la capacité de la mémoire de travail, directement transférable aux fonctions exécutives professionnelles</li>
+    <li><strong>Attention divisée</strong> : les musiciens montrent une supériorité marquée dans les tâches d'attention sélective et divisée — capacité centrale en management</li>
+    <li><strong>Régulation émotionnelle</strong> : l'écoute musicale active le système de récompense dopaminergique et module directement l'amygdale</li>
+    <li><strong>Synchronisation de groupe</strong> : la pratique musicale collective synchronise les cerveaux via les neurones miroirs et le système limbique partagé — cohésion d'équipe biologique</li>
+    <li><strong>Cervelet stimulé</strong> : jouer de la musique est l'un des entraînements cérébelleux les plus puissants — avec tous les bénéfices sur la fluidité cognitive décrits au chapitre V</li>
+  </ul>
+
+  <p class="bp">Dans l'approche Kinexa, la musique n'est pas un fond sonore. C'est un instrument de travail collectif — écouter une œuvre ensemble, l'analyser, la ressentir, parfois la pratiquer, crée une expérience partagée qui active des circuits que les réunions de travail ne touchent jamais.</p>
+
+  <div id="c7-fi" class="h2">7.2 La lecture de fiction : entraînement à l'empathie et à la complexité</div>
+  <p class="bp">La lecture de fiction narrative active les mêmes circuits cérébraux que ceux impliqués dans les interactions sociales réelles. Elle constitue un simulateur d'expériences humaines — sans les risques du monde réel. Les études longitudinales sont convergentes :</p>
+  <ul class="bl g">
+    <li>Meilleure <strong>théorie de l'esprit</strong> — capacité à se représenter les états mentaux d'autrui : qualité centrale du leadership et de la négociation</li>
+    <li><strong>Flexibilité cognitive accrue</strong> — la fiction confronte à des points de vue multiples, des cultures différentes, des logiques étrangères à la nôtre</li>
+    <li><strong>Tolérance à l'ambiguïté</strong> — la grande fiction ne donne pas de réponses simples ; elle entraîne à naviguer dans le flou, compétence stratégique de premier plan</li>
+    <li>Capacité accrue à <strong>naviguer dans la complexité organisationnelle</strong></li>
+  </ul>
+
+  <div id="c7-fa" class="h2">7.3 La fantaisie et le réseau en mode par défaut</div>
+  <p class="bp">La pensée divergente — la capacité à générer de nombreuses solutions à un problème non structuré — est l'un des prédicteurs les plus robustes de l'innovation. Elle repose sur l'activation du <strong>réseau en mode par défaut</strong> (Default Mode Network) — un ensemble de structures cérébrales actives précisément quand le cerveau <em>n'est pas</em> engagé dans une tâche focalisée.</p>
+  <p class="bp">Le paradoxe est saisissant et contre-intuitif : les organisations qui maintiennent leurs collaborateurs en état de concentration forcée et de productivité maximale permanente <strong>inhibent précisément le réseau neuronal qui génère les idées nouvelles</strong>. La rêverie, l'ennui productif et la fantaisie ne sont pas des ennemis de la performance — ils en sont des conditions neuronales.</p>
+  <div class="box box-gold"><div class="box-lbl">⭐ Principe contre-intuitif — crucial</div><p>Les organisations les plus innovantes ne sont pas celles qui maximisent le temps productif. Ce sont celles qui <strong>alternent intelligemment focus et décharge créative</strong>, qui font confiance à l'oisiveté productive, qui cultivent la curiosité comme une valeur opérationnelle. Le réseau en mode par défaut a besoin de temps vide pour produire du nouveau.</p></div>
+
+  <div class="h2">7.4 L'art visuel, la peinture, l'architecture</div>
+  <p class="bp">L'exposition aux arts visuels — peinture, sculpture, architecture — active le cortex visuel associatif, la mémoire épisodique et les réseaux d'intégration sensorielle. Mais son effet le plus intéressant est plus subtil : elle développe la <strong>capacité d'observation fine</strong>, le ralentissement du regard, l'attention au détail significatif.</p>
+  <p class="bp">Dans l'expérience Kinexa, amener des équipes dans un musée ou face à une œuvre avec une question précise — « que voyez-vous ? », « qu'est-ce qui vous dérange dans ce tableau ? » — produit invariablement des échanges d'une qualité et d'une profondeur que les salles de réunion n'atteignent jamais. Les défenses tombent. Les perceptions divergent. Les équipes se découvrent différemment.</p>
+
+  <div class="bq"><p>Ce qui élève un groupe, c'est rarement ce qu'on lui enseigne. C'est ce qu'on lui fait ressentir ensemble — et dont on parle ensuite avec des mots que le travail quotidien n'autorise pas.</p><div class="bq-auth">— Dr Christophe Delong</div></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE VIII ══════════════════ -->
+<section class="sec" id="c8">
+  <div class="chapnum kk">Chapitre VIII · Kinexa</div>
+  <h2 class="chaptitle">Le Modèle Intégré Kinexa : un Changement de Paradigme</h2>
+  <p class="chaplead kk">L'entreprise moderne traite l'humain comme un logiciel : on met à jour ses compétences, on optimise ses processus, on corrige ses bugs. Kinexa propose de le traiter comme ce qu'il est réellement — un organisme vivant complexe, avec ses rythmes, ses limites et ses potentiels.</p>
+
+  <div class="h2">8.1 Les cinq piliers de l'architecture humaine</div>
+  <p class="bp">Tout au long de ces chapitres, cinq dimensions interdépendantes ont émergé. Aucune ne peut être négligée sans que les autres ne s'en ressentent. C'est là le cœur du modèle Kinexa.</p>
+
+  <div class="dw" data-z>
+    <svg viewBox="0 0 560 390" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif" font-size="13">
+      <rect width="560" height="390" fill="#faf8f3" rx="14"/>
+      <text x="280" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f3d" letter-spacing=".04em">LES 5 PILIERS KINEXA — Architecture de la performance humaine</text>
+      <!-- Outer ring guides -->
+      <polygon points="280,58 418,133 418,265 280,340 142,265 142,133" fill="none" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <!-- Center -->
+      <circle cx="280" cy="199" r="45" fill="#0f1f3d"/>
+      <text x="280" y="192" text-anchor="middle" font-size="11.5" font-weight="700" fill="white">Performance</text>
+      <text x="280" y="208" text-anchor="middle" font-size="11" fill="rgba(255,255,255,.6)">Humaine</text>
+      <!-- Pillar 1 - top -->
+      <circle cx="280" cy="62" r="34" fill="#2563eb"/>
+      <text x="280" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="white">Biologie</text>
+      <text x="280" y="72" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.8)">Hormones · NM</text>
+      <line x1="280" y1="96" x2="280" y2="154" stroke="#2563eb" stroke-width="1.5" opacity=".4"/>
+      <!-- Pillar 2 - top right -->
+      <circle cx="410" cy="138" r="34" fill="#0d9488"/>
+      <text x="410" y="132" text-anchor="middle" font-size="11" font-weight="700" fill="white">Motricité</text>
+      <text x="410" y="148" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.8)">Mouvement · Tonus</text>
+      <line x1="378" y1="157" x2="322" y2="182" stroke="#0d9488" stroke-width="1.5" opacity=".4"/>
+      <!-- Pillar 3 - bottom right -->
+      <circle cx="410" cy="262" r="34" fill="#7c3aed"/>
+      <text x="410" y="256" text-anchor="middle" font-size="11" font-weight="700" fill="white">Émotion</text>
+      <text x="410" y="272" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.8)">Vague · Régulation</text>
+      <line x1="378" y1="244" x2="322" y2="218" stroke="#7c3aed" stroke-width="1.5" opacity=".4"/>
+      <!-- Pillar 4 - bottom left -->
+      <circle cx="150" cy="262" r="34" fill="#b45309"/>
+      <text x="150" y="256" text-anchor="middle" font-size="11" font-weight="700" fill="white">Cognition</text>
+      <text x="150" y="272" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.8)">Mémoire · Focus</text>
+      <line x1="182" y1="244" x2="238" y2="218" stroke="#b45309" stroke-width="1.5" opacity=".4"/>
+      <!-- Pillar 5 - top left -->
+      <circle cx="150" cy="138" r="34" fill="#dc2626"/>
+      <text x="150" y="132" text-anchor="middle" font-size="11" font-weight="700" fill="white">Culture</text>
+      <text x="150" y="148" text-anchor="middle" font-size="9.5" fill="rgba(255,255,255,.8)">Art · Plasticité</text>
+      <line x1="182" y1="157" x2="238" y2="182" stroke="#dc2626" stroke-width="1.5" opacity=".4"/>
+      <!-- Bottom text -->
+      <text x="280" y="366" text-anchor="middle" font-size="11" font-weight="700" fill="#0f1f3d">Un organisme vivant complexe — pas un logiciel à mettre à jour</text>
+      <text x="280" y="382" text-anchor="middle" font-size="10" font-style="italic" fill="#64748b">Kinexa intervient sur les 5 piliers simultanément</text>
+      <text x="542" y="382" text-anchor="end" font-size="9.5" fill="#94a3b8" font-style="italic">🔍 zoomer</text>
+    </svg>
+    <p class="dcap">L'architecture intégrée Kinexa — cinq piliers interdépendants, aucun ne peut être isolé</p>
+  </div>
+
+  <div class="h2">8.2 Ce que Kinexa n'est pas — et ce qu'il est</div>
+  <div class="tw"><table>
+    <thead><tr><th>Ce que Kinexa n'est pas</th><th>Ce que Kinexa est</th></tr></thead>
+    <tbody>
+      <tr><td>Une formation de plus</td><td>Une expérience qui modifie les circuits neuronaux</td></tr>
+      <tr><td>Du développement personnel générique</td><td>Une démarche ancrée dans la biologie et l'expérience de terrain</td></tr>
+      <tr><td>De la médecine ou du soin</td><td>Une architecture d'élévation humaine — issue du sport, de l'art, du leadership</td></tr>
+      <tr><td>Une méthode à appliquer</td><td>Un regard, un état d'esprit, des outils adaptés à chaque humain</td></tr>
+      <tr><td>Une réponse au burn-out</td><td>Une prévention de l'appauvrissement cognitif et humain</td></tr>
+      <tr><td>Du bien-être en entreprise</td><td>De la performance humaine durable, incarnée, sensible</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="h2">8.3 Le changement de paradigme</div>
+  <p class="bp">La question que les organisations se posent habituellement est : <em>« Comment motiver nos collaborateurs ? »</em></p>
+  <p class="bp">La question Kinexa est différente : <em>« Comment préserver et amplifier l'architecture neurophysiologique, l'intelligence incarnée et la capacité à créer du sens de nos équipes ? »</em></p>
+  <ul class="bl g">
+    <li>Non pas « comment motiver » — mais <strong>comment préserver le système dopaminergique</strong></li>
+    <li>Non pas « comment communiquer mieux » — mais <strong>comment activer l'état vagal ventral</strong> dans les équipes</li>
+    <li>Non pas « comment gérer le changement » — mais <strong>comment réduire l'activation amygdalienne</strong> lors des transitions</li>
+    <li>Non pas « comment innover » — mais <strong>comment protéger le réseau en mode par défaut</strong> et cultiver la fantaisie</li>
+    <li>Non pas « comment former » — mais <strong>comment créer des expériences</strong> qui laissent des traces biologiques durables</li>
+  </ul>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE IX ══════════════════ -->
+<section class="sec kin" id="c9">
+  <div class="chapnum kk">Chapitre IX · Kinexa</div>
+  <h2 class="chaptitle">Les Protocoles de Terrain : de l'Expérience à la Pratique</h2>
+  <p class="chaplead kk">Ces protocoles ne sont pas nés dans des bureaux ou des laboratoires. Ils sont nés sur le terrain — en salle de répétition avec des chefs d'orchestre, dans les vestiaires avec des sportifs de haut niveau, dans les conseils de direction avec des équipes sous pression. Ce sont des outils qui ont montré qu'ils fonctionnaient.</p>
+
+  <div class="h2">9.1 Niveau individuel : ritualiser l'excellence biologique</div>
+  <p class="bp">Ce que les grands performeurs — musiciens, sportifs, chirurgiens, chefs d'orchestre — ont en commun, ce ne sont pas des méthodes miracles. Ce sont des <strong>rituels précis</strong> qui stabilisent leur biologie avant de se confronter à l'exigence. Kinexa les transpose en milieu professionnel.</p>
+
+  <div class="cards">
+    <div class="card"><div class="card-icon">🌅</div><div class="card-title">Activation matinale</div><p>Lumière · mouvement · respiration · intention. 15-20 min. Pas de téléphone. Le corps d'abord.</p></div>
+    <div class="card t"><div class="card-icon">⏱</div><div class="card-title">Cycles 90 / 20</div><p>90 min de focus profond. 20 min de décharge active. Reproduire les ultradian cycles naturels du cerveau.</p></div>
+    <div class="card g"><div class="card-icon">📵</div><div class="card-title">Hygiène attentionnelle</div><p>Zéro notification pendant le focus. Mails en 3 fenêtres définies. IA après la réflexion propre — jamais avant.</p></div>
+    <div class="card v"><div class="card-icon">📚</div><div class="card-title">Lecture longue quotidienne</div><p>20 min minimum de lecture non numérique. Fiction ou non-fiction exigeante. Entraîner l'hippocampe.</p></div>
+    <div class="card r"><div class="card-icon">🎵</div><div class="card-title">Pratique culturelle</div><p>Un engagement artistique régulier — musique, dessin, écriture, théâtre. L'amateur actif, pas le consommateur passif.</p></div>
+    <div class="card"><div class="card-icon">🌙</div><div class="card-title">Décompression du soir</div><p>Coupure numérique 45 min avant le coucher. 4-7-8. Obscurité complète. La récupération cognitive, ça se prépare.</p></div>
+  </div>
+
+  <div class="h2">9.2 Niveau équipe : créer les conditions neurophysiologiques de la performance collective</div>
+  <p class="bp">Une équipe performante n'est pas une collection d'individus performants. C'est un organisme collectif dont les cerveaux se synchronisent — via les neurones miroirs, l'ocytocine, les rituels partagés. Kinexa travaille sur cette synchronisation.</p>
+
+  <div class="tl">
+    <div class="tl-i"><div class="tl-lbl">Amorce de réunion — 3 minutes</div><div class="tl-txt">Avant toute réunion importante : 2 minutes de respiration collective pour passer en mode vagal ventral. 1 minute de partage d'une chose positive. Pas anecdotique : neurobiologiquement, cela désactive l'amygdale et active le préfrontal avant la discussion.</div></div>
+    <div class="tl-i"><div class="tl-lbl">Format optimal : 50 minutes avec engagement final</div><div class="tl-txt">Limiter à 50 min (maximum d'efficacité préfrontale). Commencer par un moment d'appréciation (sérotonine). Terminer par un engagement concret et mesurable (striatum dorsal). Un ordre du jour envoyé 24h avant pour réduire l'incertitude.</div></div>
+    <div class="tl-i"><div class="tl-lbl">Sécurité psychologique : norme explicite</div><div class="tl-txt">Établir et répéter la norme : l'erreur est une information, pas une menace. Pratiquer le feedback sandwich neurologique : contexte positif → ajustement → projection positive. Jamais de dévalorisation publique.</div></div>
+    <div class="tl-i"><div class="tl-lbl">Expérience culturelle trimestrielle</div><div class="tl-txt">Une expérience partagée hors du cadre habituel : concert, exposition, pièce de théâtre, visite architecturale. Pas pour se « détendre » — pour activer ensemble des réseaux neuronaux que le travail quotidien laisse en jachère, et en parler ensuite.</div></div>
+    <div class="tl-i"><div class="tl-lbl">Bibliothèque vivante de l'équipe</div><div class="tl-txt">Chaque membre partage une lecture marquante par mois — livre, article long, œuvre. 5 minutes en réunion. Crée de la curiosité croisée, active le réseau en mode par défaut, renforce l'identité collective.</div></div>
+    <div class="tl-i"><div class="tl-lbl">Entretiens en marchant</div><div class="tl-txt">Systématiser les entretiens individuels ou en binôme en marchant, quand le format le permet. La marche côte à côte réduit la hiérarchie perçue, active la dopamine motrice, et libère une parole plus authentique.</div></div>
+  </div>
+
+  <div class="h2">9.3 Niveau organisation : architecture cognitive du travail</div>
+  <ul class="bl t">
+    <li><strong>Design des espaces</strong> : zones de concentration profonde (sans open space), zones de collaboration, zones de décompression. Lumière naturelle. Plantes (réduction du cortisol documentée).</li>
+    <li><strong>Rythmes organisationnels</strong> : protéger les matinées pour le travail profond, concentrer les réunions l'après-midi, instaurer des plages sans réunion deux fois par semaine.</li>
+    <li><strong>Intégration intelligente de l'IA</strong> : former à l'utilisation stratégique de l'IA comme amplificateur — jamais comme pensée de substitution. Mesurer la charge cognitive globale, pas seulement la productivité.</li>
+    <li><strong>Programme culturel institutionnel</strong> : une conférence art-culture-neurosciences par trimestre, un atelier pratique semestriel (musique d'ensemble, céramique, écriture créative, théâtre d'entreprise).</li>
+    <li><strong>Journal de curiosité collectif</strong> : noter les découvertes surprenantes, les questions sans réponse, les connexions inattendues. Activation du réseau dopaminergique de l'exploration.</li>
+  </ul>
+
+  <div class="bq"><p>Dans un vestiaire avant un match important, ou dans les coulisses avant un concert, le silence n'est pas l'absence de préparation. C'est la préparation. Les organisations qui comprennent cela gagnent sur la durée.</p><div class="bq-auth">— Dr Christophe Delong</div></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══════════════════ CHAPITRE X ══════════════════ -->
+<section class="sec" id="c10">
+  <div class="chapnum kk">Chapitre X · Kinexa</div>
+  <h2 class="chaptitle">Mesurer le Capital Humain : Indicateurs et Réalité</h2>
+  <p class="chaplead kk">Ce qui ne se mesure pas ne se manage pas — mais ce qui se mesure mal se gère encore plus mal. Kinexa propose des indicateurs qui reflètent la réalité biologique de la performance, pas seulement ses outputs visibles.</p>
+
+  <p class="bp">La tentation est grande de quantifier l'humain avec les mêmes outils que les processus industriels : KPI, taux de satisfaction, scores d'engagement. Ces mesures ont leur utilité — mais elles capturent des ombres, pas la réalité biologique. Elles mesurent les outputs en bout de chaîne, quand le problème s'est déjà produit.</p>
+  <p class="bp">Kinexa propose d'instrumenter plus tôt — sur les déterminants biologiques de la performance, avant que la dégradation ne devienne visible dans les résultats.</p>
+
+  <div class="h2">10.1 Indicateurs individuels biologiques</div>
+  <div class="tw"><table>
+    <thead><tr><th>Indicateur</th><th>Ce qu'il mesure vraiment</th><th>Comment</th></tr></thead>
+    <tbody>
+      <tr><td><strong>VFC — Variabilité de Fréquence Cardiaque</strong></td><td>Tonicité vagale, résilience au stress, état du système nerveux autonome</td><td>Wearables (Polar, Garmin, Apple Watch) · 5 min de mesure au réveil</td></tr>
+      <tr><td><strong>Qualité et architecture du sommeil</strong></td><td>Récupération cognitive, équilibre hormonal, consolidation mémorielle</td><td>Actimétrie · journal de sommeil · Oura, Whoop</td></tr>
+      <tr><td><strong>Temps de concentration profonde quotidien</strong></td><td>Capacité d'acétylcholine, résistance aux distractions, potentiel créatif</td><td>Journal de travail · applications Toggl, Forest</td></tr>
+      <tr><td><strong>Charge attentionnelle perçue</strong></td><td>Saturation cognitive subjective — signal précoce de surcharge préfrontale</td><td>Auto-évaluation simple : 1 à 10, deux fois par jour</td></tr>
+      <tr><td><strong>Fatigue exécutive</strong></td><td>Déplétion préfrontale — qualité des décisions en fin de session</td><td>Auto-questionnaire bref en fin de journée</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="h2">10.2 Indicateurs d'équipe</div>
+  <div class="tw"><table>
+    <thead><tr><th>Indicateur</th><th>Ce qu'il mesure</th><th>Signal d'alerte</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sécurité psychologique</strong> (échelle d'Edmondson)</td><td>État vagal ventral collectif, conditions neurophysiologiques de la performance</td><td>Score &lt; 3,5/5 : état sympathique dominant</td></tr>
+      <tr><td><strong>Taux d'initiatives spontanées</strong></td><td>Activation dopaminergique et confiance collective</td><td>Baisse progressive = anédonie collective</td></tr>
+      <tr><td><strong>Qualité des réunions perçue</strong></td><td>Écoute, créativité collective, synchronisation neuronale</td><td>Score faible = amygdales activées, préfrontal sous-utilisé</td></tr>
+      <tr><td><strong>Absentéisme + présentéisme</strong></td><td>Signaux précoces de burn-out ou de shutdown vagal dorsal</td><td>Présentéisme souvent plus coûteux que l'absentéisme</td></tr>
+      <tr><td><strong>Diversité des références citées</strong></td><td>Plasticité culturelle et créativité associative de l'équipe</td><td>Références uniquement professionnelles = réseau par défaut appauvri</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="h2">10.3 Ce que l'on ne peut pas (encore) mesurer facilement — et qui compte quand même</div>
+  <p class="bp">Certaines des dimensions les plus importantes de la performance humaine résistent à la quantification simple. Kinexa les nomme, les observe, et construit des environnements qui les favorisent — sans prétendre les réduire à des chiffres :</p>
+  <ul class="bl g">
+    <li>La <strong>qualité de la présence</strong> — être vraiment là, pas simplement physiquement présent</li>
+    <li>La <strong>profondeur d'écoute</strong> — entendre ce qui n'est pas dit, les sous-textes, les résistances</li>
+    <li>La <strong>capacité à être surpris</strong> — signe de plasticité neuronale et d'ouverture cognitive</li>
+    <li>La <strong>confiance dans l'incertitude</strong> — naviguer sans carte avec sérénité plutôt qu'anxiété</li>
+    <li>Le <strong>sens</strong> — la conviction que ce que l'on fait a une importance qui dépasse le poste et le salaire</li>
+  </ul>
+
+  <div class="box box-gold"><div class="box-lbl">🏁 La question finale</div><p>Dans six mois, vos collaborateurs seront-ils <strong>plus intelligents, plus curieux, plus vivants</strong> qu'aujourd'hui ? Ou auront-ils été lentement appauvris par des environnements qui ignorent leur biologie, délèguent leur mémoire à des machines, et ne leur offrent aucun horizon culturel ?</p><p>C'est à cette question que Kinexa répond.</p></div>
+</section>
+<div class="divider"></div>
+
+<!-- ══ CONCLUSION ══ -->
+<section class="sec" id="conclusion" style="background:var(--navy);max-width:none;padding:5rem">
+  <div class="chapnum" style="color:rgba(255,255,255,.3)"><span style="background:rgba(255,255,255,.12);width:20px;height:1px;display:block"></span>Références scientifiques</div>
+  <h2 class="chaptitle">Sources et Bibliographie</h2>
+  <div class="h2">Neurosciences fondamentales</div>
+  <ul class="biblio">
+    <li>Damasio, A. (1994). <em>Descartes' Error: Emotion, Reason, and the Human Brain.</em> Putnam. — La démonstration fondatrice des marqueurs somatiques.</li>
+    <li>Damasio, A. (2010). <em>Self Comes to Mind.</em> Pantheon Books.</li>
+    <li>LeDoux, J. (2015). <em>Anxious.</em> Viking.</li>
+    <li>Kandel, E.R. (2006). <em>In Search of Memory.</em> Norton. Prix Nobel.</li>
+  </ul>
+  <div class="h2">Neuro-économie et décision</div>
+  <ul class="biblio">
+    <li>Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux.</li>
+    <li>Pessiglione, M. et al. (2007). How the Brain Translates Money into Force. <em>Science.</em></li>
+    <li>Rangel, A., Camerer, C., Montague, P.R. (2008). Neurobiology of value-based decision making. <em>Nature Reviews Neuroscience.</em></li>
+  </ul>
+  <div class="h2">Stress, cortisol, hippocampe</div>
+  <ul class="biblio">
+    <li>Sapolsky, R.M. (2004). <em>Why Zebras Don't Get Ulcers.</em> Holt Paperbacks.</li>
+    <li>McEwen, B.S. (2004). Protection and damage from acute and chronic stress. <em>Annals NYAS.</em></li>
+  </ul>
+  <div class="h2">Mouvement et cognition</div>
+  <ul class="biblio">
+    <li>Ratey, J.J. (2008). <em>Spark: The Revolutionary New Science of Exercise and the Brain.</em> Little, Brown.</li>
+    <li>Hillman, C.H., Erickson, K.I., Kramer, A.F. (2008). Be smart, exercise your heart. <em>Nature Reviews Neuroscience.</em></li>
+    <li>Mark, G. (UC Irvine). Research on interruption costs — 23 min recovery time. <em>CHI Conference Proceedings.</em></li>
+  </ul>
+  <div class="h2">Système nerveux autonome</div>
+  <ul class="biblio">
+    <li>Porges, S.W. (2011). <em>The Polyvagal Theory.</em> Norton Series on Interpersonal Neurobiology.</li>
+    <li>Thayer, J.F. et al. (2012). Meta-analysis of HRV and neuroimaging studies. <em>Neuroscience &amp; Biobehavioral Reviews.</em></li>
+  </ul>
+  <div class="h2">Art, culture et plasticité</div>
+  <ul class="biblio">
+    <li>Zatorre, R.J., Salimpoor, V.N. (2013). From perception to pleasure: Music and its neural substrates. <em>PNAS.</em></li>
+    <li>Mar, R.A., Oatley, K., Peterson, J.B. (2009). Reading fiction and empathy. <em>Communications.</em></li>
+    <li>Csikszentmihalyi, M. (1990). <em>Flow: The Psychology of Optimal Experience.</em> Harper &amp; Row.</li>
+  </ul>
+  <div class="h2">IA et cognition</div>
+  <ul class="biblio">
+    <li>Sparrow, B., Liu, J., Wegner, D.M. (2011). Google Effects on Memory. <em>Science.</em></li>
+    <li>Ward, A.F. et al. (2017). Brain Drain: The Mere Presence of One's Own Smartphone. <em>Journal of the Association for Consumer Research.</em></li>
+  </ul>
+</section>
+
+<!-- ══ COPYRIGHT BAR ══ -->
+<footer id="cpbar">
+  <div style="display:flex;align-items:center;gap:1.2rem">
+    <img src="data:image/png;base64,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" alt="Kinexa Formation" style="height:28px;display:block;background:rgba(255,255,255,.85);border-radius:.3rem;padding:.15rem .4rem">
+    <div class="cp-txt">© 2024 Kinexa · Dr Christophe Delong · Tous droits réservés.<br>Ce document est protégé. Reproduction, diffusion ou utilisation commerciale interdites sans autorisation écrite.</div>
+  </div>
+  <div class="cp-txt" style="text-align:right">L'Esprit en Entreprise<br>Neurophysiologie &amp; Performance Humaine</div>
+</footer>
+
+</main>
+
+<!-- MODAL ZOOM SVG -->
+<script>
+// Reveal on scroll
+const sections = document.querySelectorAll('.sec');
+const ro = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('vis') }), {threshold:.06,rootMargin:'0px 0px -40px 0px'});
+sections.forEach(s => ro.observe(s));
+
+// Active nav
+const navLinks = document.querySelectorAll('.sb-a[href^="#"]');
+const navTargets = [...navLinks].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+const no = new IntersectionObserver(e => e.forEach(x => {
+  if(x.isIntersecting){
+    navLinks.forEach(l => l.classList.remove('active'));
+    const a = document.querySelector(`.sb-a[href="#${x.target.id}"]`);
+    if(a) a.classList.add('active');
+  }
+}),{threshold:.22});
+navTargets.forEach(t => no.observe(t));
+
+// Burger
+const burger = document.getElementById('burger');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const toggle = o => { sidebar.classList.toggle('open',o); overlay.classList.toggle('vis',o); };
+burger.addEventListener('click', () => toggle());
+overlay.addEventListener('click', () => toggle(false));
+navLinks.forEach(l => l.addEventListener('click', () => toggle(false)));
+
+// Smooth scroll
+navLinks.forEach(l => l.addEventListener('click', e => {
+  const h = l.getAttribute('href');
+  if(h.startsWith('#')) { e.preventDefault(); const t = document.querySelector(h); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }
+}));
+
+// Diagram zoom
+const mz = document.getElementById('mz');
+const mzc = document.getElementById('mzcontent');
+document.querySelectorAll('.dw[data-z]').forEach(w => {
+  w.addEventListener('click', () => {
+    const svg = w.querySelector('svg');
+    if(svg) { const cl = svg.cloneNode(true); cl.style.cssText='max-width:88vw;max-height:82vh;display:block'; mzc.innerHTML=''; mzc.appendChild(cl); mz.classList.add('open'); }
+  });
+});
+document.getElementById('mzclose').addEventListener('click', () => mz.classList.remove('open'));
+mz.addEventListener('click', e => { if(e.target===mz) mz.classList.remove('open'); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { mz.classList.remove('open'); document.getElementById('imgfull').classList.remove('open'); } });
+
+// ══ RIGHT SIDE TABS ══
+const rpanel = document.getElementById('rpanel');
+const rtabs  = document.querySelectorAll('.rtab');
+const rpanes = document.querySelectorAll('.rp-pane');
+const rtitles = ['Image', 'Vidéo 1', 'Vidéo 2'];
+let activeTab = -1;
+
+rtabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const idx = parseInt(tab.dataset.pane);
+    if(activeTab === idx) {
+      rpanel.classList.remove('open');
+      tab.classList.remove('active');
+      activeTab = -1;
+    } else {
+      rtabs.forEach(t => t.classList.remove('active'));
+      rpanes.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('rpane-'+idx).classList.add('active');
+      document.getElementById('rp-title-txt').textContent = rtitles[idx];
+      rpanel.classList.add('open');
+      activeTab = idx;
+    }
+  });
+});
+document.getElementById('rp-close').addEventListener('click', () => {
+  rpanel.classList.remove('open');
+  rtabs.forEach(t => t.classList.remove('active'));
+  activeTab = -1;
+});
+
+// Speed buttons
+function setYTSpeed(iframeId, speed) {
+  const iframe = document.getElementById(iframeId);
+  if(iframe) iframe.contentWindow.postMessage(JSON.stringify({event:'command',func:'setPlaybackRate',args:[parseFloat(speed)]}),'*');
+}
+document.getElementById('spds1').addEventListener('click', e => {
+  const b=e.target.closest('.spd'); if(!b) return;
+  document.querySelectorAll('#spds1 .spd').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); setYTSpeed('yt1',b.dataset.s);
+});
+document.getElementById('spds2').addEventListener('click', e => {
+  const b=e.target.closest('.spd'); if(!b) return;
+  document.querySelectorAll('#spds2 .spd').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); setYTSpeed('yt2',b.dataset.s);
+});
+
+// Image fullscreen
+const imgfull=document.getElementById('imgfull');
+const imgfullc=document.getElementById('imgfull-content');
+function openImgFull(){
+  const wrap=document.getElementById('rp-img-click');
+  const img=wrap.querySelector('img'), svg=wrap.querySelector('svg');
+  imgfullc.innerHTML='';
+  const el=(img||svg).cloneNode(true);
+  el.style.cssText='max-width:90vw;max-height:88vh;display:block;border-radius:.5rem';
+  imgfullc.appendChild(el); imgfull.classList.add('open');
+}
+document.getElementById('rp-img-click').addEventListener('click', openImgFull);
+document.getElementById('rp-img-full').addEventListener('click', e=>{e.stopPropagation();openImgFull();});
+document.getElementById('imgfull-close').addEventListener('click', ()=>imgfull.classList.remove('open'));
+imgfull.addEventListener('click', e=>{if(e.target===imgfull)imgfull.classList.remove('open');});
+</script>
+<!-- ══ IMAGE FULLSCREEN MODAL ══ -->
+<div id="imgfull">
+  <button id="imgfull-close">✕</button>
+  <div id="imgfull-content"></div>
+</div>
+
+<!-- ══ EXCEL-STYLE VERTICAL TABS (right edge) ══ -->
+<div id="rtabs">
+  <button class="rtab" data-pane="0">
+    <span class="rtab-icon">🖼</span>
+    <span class="rtab-lbl">Image</span>
+  </button>
+  <button class="rtab" data-pane="1">
+    <span class="rtab-icon">▶</span>
+    <span class="rtab-lbl">Vidéo 1</span>
+  </button>
+  <button class="rtab" data-pane="2">
+    <span class="rtab-icon">▶</span>
+    <span class="rtab-lbl">Vidéo 2</span>
+  </button>
+</div>
+
+<!-- ══ SLIDING PANEL ══ -->
+<div id="rpanel">
+  <div class="rp-header">
+    <span class="rp-title" id="rp-title-txt">Image</span>
+    <button class="rp-close" id="rp-close">✕</button>
+  </div>
+  <div class="rp-body">
+
+    <!-- PANE 0 : IMAGE -->
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  COMMENT INSÉRER VOTRE IMAGE                        ║
+         ║  Remplacez le bloc <img> ci-dessous par :           ║
+         ║  <img src="CHEMIN_OU_URL_DE_VOTRE_IMAGE"            ║
+         ║       alt="Description">                            ║
+         ║  Ou glissez une image encodée en base64.            ║
+         ╚══════════════════════════════════════════════════════╝ -->
+    <div class="rp-pane active" id="rpane-0">
+      <div class="rp-img-wrap" id="rp-img-click">
+        <!--
+          ══════════════════════════════════════
+          REMPLACER ICI VOTRE IMAGE
+          Exemple :
+          <img src="https://example.com/image.jpg" alt="Kinexa">
+          ou
+          <img src="data:image/png;base64,..." alt="Kinexa">
+          ══════════════════════════════════════
+        -->
+        <svg viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" id="placeholder-img" style="background:#0d1117;width:100%;height:100%">
+          <text x="200" y="90" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="rgba(255,255,255,.25)" letter-spacing=".08em">VOTRE IMAGE ICI</text>
+          <text x="200" y="115" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="rgba(255,255,255,.18)">Voir instructions ci-dessous</text>
+          <!-- K placeholder -->
+          <line x1="178" y1="130" x2="178" y2="170" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="178" y1="150" x2="192" y2="130" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+          <line x1="178" y1="150" x2="192" y2="170" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+          <rect x="194" y="148" width="5" height="5" fill="#0d9488" transform="rotate(45 196.5 150.5)"/>
+          <text x="204" y="165" font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="rgba(255,255,255,.3)" letter-spacing="1">LOGO</text>
+        </svg>
+        <button class="rp-fullbtn" id="rp-img-full">⛶ Plein écran</button>
+      </div>
+      <div class="rp-caption">
+        <!-- Remplacez ce texte par la légende de votre image -->
+        Légende de l'image — à personnaliser
+      </div>
+      <div class="insert-guide">
+        <strong>📌 Comment insérer votre image</strong>
+        <p style="margin-top:.4rem">1. Ouvrez ce fichier HTML dans un éditeur de texte.</p>
+        <p>2. Cherchez le commentaire <strong>REMPLACER ICI VOTRE IMAGE</strong>.</p>
+        <p>3. Supprimez le bloc <code>&lt;svg ...&gt;</code> placeholder et insérez à la place :</p>
+        <code>&lt;img src="URL_OU_CHEMIN" alt="Description"&gt;</code>
+        <p style="margin-top:.5rem">Pour une image locale, placez le fichier dans le même dossier que le HTML et utilisez son nom de fichier :</p>
+        <code>&lt;img src="ma-photo.jpg" alt="Kinexa"&gt;</code>
+      </div>
+    </div>
+
+    <!-- PANE 1 : VIDÉO 1 -->
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  COMMENT INSÉRER VOTRE VIDÉO 1                      ║
+         ║  Remplacez YOUTUBE_ID_1 par l'ID de votre vidéo.    ║
+         ║  L'ID est la partie après "v=" dans l'URL YouTube.  ║
+         ║  Ex: youtube.com/watch?v=ABC123 → ID = ABC123       ║
+         ╚══════════════════════════════════════════════════════╝ -->
+    <div class="rp-pane" id="rpane-1">
+      <div class="rp-video-wrap">
+        <!--
+          Remplacez YOUTUBE_ID_1 par l'identifiant de votre vidéo YouTube
+          Exemple : src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1..."
+        -->
+        <iframe id="yt1"
+          src="https://www.youtube.com/embed/YOUTUBE_ID_1?enablejsapi=1&rel=0&modestbranding=1"
+          allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen"
+          allowfullscreen title="Vidéo 1"></iframe>
+      </div>
+      <div class="rp-vctrl">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
+          <span class="spd-lbl">Vitesse</span>
+          <div class="spds" id="spds1">
+            <button class="spd" data-s="0.5">0.5×</button>
+            <button class="spd" data-s="0.75">0.75×</button>
+            <button class="spd on" data-s="1">1×</button>
+            <button class="spd" data-s="1.25">1.25×</button>
+            <button class="spd" data-s="1.5">1.5×</button>
+            <button class="spd" data-s="2">2×</button>
+          </div>
+        </div>
+        <button class="rp-vfull" onclick="document.getElementById('yt1').requestFullscreen()">⛶ Plein écran</button>
+      </div>
+      <div class="rp-caption">
+        <!-- Remplacez ce texte par le titre de votre vidéo 1 -->
+        Titre de la vidéo 1 — à personnaliser
+      </div>
+      <div class="insert-guide">
+        <strong>📌 Comment insérer votre vidéo 1</strong>
+        <p style="margin-top:.4rem">1. Allez sur YouTube, ouvrez votre vidéo.</p>
+        <p>2. Copiez l'ID dans l'URL après <strong>v=</strong></p>
+        <p>Ex : youtube.com/watch?v=<strong>dQw4w9WgXcQ</strong></p>
+        <p>3. Dans ce fichier HTML, cherchez <strong>YOUTUBE_ID_1</strong> et remplacez par votre ID :</p>
+        <code>src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&rel=0"</code>
+        <p style="margin-top:.5rem">Pour Vimeo, remplacer le bloc iframe par :</p>
+        <code>src="https://player.vimeo.com/video/VOTRE_ID"</code>
+      </div>
+    </div>
+
+    <!-- PANE 2 : VIDÉO 2 -->
+    <div class="rp-pane" id="rpane-2">
+      <div class="rp-video-wrap">
+        <!--
+          Remplacez YOUTUBE_ID_2 par l'identifiant de votre 2e vidéo YouTube
+        -->
+        <iframe id="yt2"
+          src="https://www.youtube.com/embed/YOUTUBE_ID_2?enablejsapi=1&rel=0&modestbranding=1"
+          allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen"
+          allowfullscreen title="Vidéo 2"></iframe>
+      </div>
+      <div class="rp-vctrl">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
+          <span class="spd-lbl">Vitesse</span>
+          <div class="spds" id="spds2">
+            <button class="spd" data-s="0.5">0.5×</button>
+            <button class="spd" data-s="0.75">0.75×</button>
+            <button class="spd on" data-s="1">1×</button>
+            <button class="spd" data-s="1.25">1.25×</button>
+            <button class="spd" data-s="1.5">1.5×</button>
+            <button class="spd" data-s="2">2×</button>
+          </div>
+        </div>
+        <button class="rp-vfull" onclick="document.getElementById('yt2').requestFullscreen()">⛶ Plein écran</button>
+      </div>
+      <div class="rp-caption">
+        <!-- Remplacez ce texte par le titre de votre vidéo 2 -->
+        Titre de la vidéo 2 — à personnaliser
+      </div>
+      <div class="insert-guide">
+        <strong>📌 Comment insérer votre vidéo 2</strong>
+        <p style="margin-top:.4rem">Même procédure que Vidéo 1 — cherchez <strong>YOUTUBE_ID_2</strong> dans le HTML et remplacez par votre ID YouTube.</p>
+        <code>src="https://www.youtube.com/embed/VOTRE_ID?enablejsapi=1&rel=0"</code>
+      </div>
+    </div>
+
+  </div><!-- /rp-body -->
+</div><!-- /rpanel -->
+
+</body>
+
+  <div class="dock-header" id="dock-drag-handle">
+    <div class="dock-header-left">
+      <div class="dock-logo-mini">
+        <svg viewBox="0 0 70 18" xmlns="http://www.w3.org/2000/svg" style="width:56px;height:18px">
+          <rect x="0" y="2" width="2.5" height="14" fill="#f59e0b" rx=".5"/>
+          <line x1="2.5" y1="9" x2="10" y2="2" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="2.5" y1="9" x2="10" y2="16" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="11.5" y="7" width="4" height="4" fill="#0d9488" transform="rotate(45 13.5 9)" rx=".3"/>
+          <text x="18" y="13" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="white" letter-spacing="1">KINEXA</text>
+        </svg>
+        <span style="font-size:.65rem;color:rgba(255,255,255,.35);margin-left:.2rem">· Médias</span>
+      </div>
+      <div class="dock-title-mini">Kinexa · Médias</div>
+    </div>
+    <div class="dock-btns">
+      <button class="dock-btn" id="dock-min-btn" title="Réduire / Agrandir">
+        <svg viewBox="0 0 16 16"><rect x="2" y="7" width="12" height="2" rx="1"/></svg>
+      </button>
+      <button class="dock-btn" id="dock-close-btn" title="Fermer / Rouvrir">
+        <svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="dock-tabs">
+    <div class="dtab active" data-tab="0">🖼 Image</div>
+    <div class="dtab" data-tab="1">▶ Vidéo 1</div>
+    <div class="dtab" data-tab="2">▶ Vidéo 2</div>
+  </div>
+
+  <div class="dock-body">
+
+    <!-- TAB 0 : IMAGE -->
+    <div class="dock-panel active" id="dpanel-0">
+      <div class="img-panel" id="img-panel-click">
+        <!-- Illustration SVG : réseau neuronal -->
+        <svg id="neuro-img" viewBox="0 0 560 315" xmlns="http://www.w3.org/2000/svg" style="background:#0d1117">
+          <defs>
+            <radialGradient id="gn1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2563eb" stop-opacity=".8"/><stop offset="100%" stop-color="#2563eb" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gn2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#0d9488" stop-opacity=".75"/><stop offset="100%" stop-color="#0d9488" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gn3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#b45309" stop-opacity=".7"/><stop offset="100%" stop-color="#b45309" stop-opacity="0"/></radialGradient>
+          </defs>
+          <!-- Background glow -->
+          <ellipse cx="160" cy="130" rx="120" ry="100" fill="url(#gn1)" opacity=".35"/>
+          <ellipse cx="400" cy="180" rx="110" ry="95" fill="url(#gn2)" opacity=".3"/>
+          <ellipse cx="280" cy="260" rx="90" ry="70" fill="url(#gn3)" opacity=".25"/>
+          <!-- Connections -->
+          <g stroke="rgba(37,99,235,.22)" stroke-width="1" fill="none">
+            <line x1="160" y1="80" x2="280" y2="158"/><line x1="160" y1="80" x2="95" y2="185"/>
+            <line x1="160" y1="80" x2="230" y2="52"/><line x1="230" y1="52" x2="340" y2="75"/>
+            <line x1="340" y1="75" x2="420" y2="100"/><line x1="420" y1="100" x2="480" y2="68"/>
+            <line x1="420" y1="100" x2="460" y2="175"/><line x1="460" y1="175" x2="390" y2="230"/>
+            <line x1="280" y1="158" x2="390" y2="230"/><line x1="280" y1="158" x2="195" y2="240"/>
+            <line x1="195" y1="240" x2="95" y2="255"/><line x1="195" y1="240" x2="280" y2="275"/>
+            <line x1="95" y1="185" x2="60" y2="280"/><line x1="95" y1="185" x2="160" y2="240"/>
+            <line x1="390" y1="230" x2="480" y2="260"/><line x1="390" y1="230" x2="340" y2="285"/>
+            <line x1="340" y1="75" x2="280" y2="158"/><line x1="160" y1="240" x2="280" y2="275"/>
+          </g>
+          <g stroke="rgba(13,148,136,.18)" stroke-width="1" fill="none">
+            <line x1="95" y1="185" x2="230" y2="200"/><line x1="230" y1="200" x2="340" y2="75"/>
+            <line x1="230" y1="200" x2="280" y2="275"/><line x1="460" y1="175" x2="340" y2="285"/>
+            <line x1="480" y1="68" x2="500" y2="175"/><line x1="500" y1="175" x2="460" y2="175"/>
+            <line x1="60" y1="280" x2="95" y2="255"/><line x1="280" y1="275" x2="340" y2="285"/>
+          </g>
+          <!-- Nodes — large cluster -->
+          <circle cx="160" cy="80" r="9" fill="#2563eb" opacity=".9"/>
+          <circle cx="160" cy="80" r="15" fill="rgba(37,99,235,.15)"/>
+          <circle cx="280" cy="158" r="11" fill="#1d4ed8" opacity=".95"/>
+          <circle cx="280" cy="158" r="20" fill="rgba(37,99,235,.12)"/>
+          <circle cx="420" cy="100" r="8" fill="#2563eb" opacity=".85"/>
+          <circle cx="340" cy="75" r="7" fill="#60a5fa" opacity=".8"/>
+          <circle cx="230" cy="52" r="6" fill="#93c5fd" opacity=".7"/>
+          <circle cx="480" cy="68" r="5" fill="#bfdbfe" opacity=".65"/>
+          <circle cx="500" cy="175" r="5" fill="#60a5fa" opacity=".6"/>
+          <circle cx="460" cy="175" r="8" fill="#0d9488" opacity=".9"/>
+          <circle cx="460" cy="175" r="14" fill="rgba(13,148,136,.12)"/>
+          <circle cx="390" cy="230" r="10" fill="#0d9488" opacity=".9"/>
+          <circle cx="390" cy="230" r="18" fill="rgba(13,148,136,.1)"/>
+          <circle cx="280" cy="275" r="7" fill="#14b8a6" opacity=".8"/>
+          <circle cx="340" cy="285" r="6" fill="#0d9488" opacity=".7"/>
+          <circle cx="480" cy="260" r="5" fill="#5eead4" opacity=".65"/>
+          <circle cx="195" cy="240" r="9" fill="#b45309" opacity=".85"/>
+          <circle cx="195" cy="240" r="16" fill="rgba(180,83,9,.12)"/>
+          <circle cx="95" cy="185" r="8" fill="#b45309" opacity=".8"/>
+          <circle cx="95" cy="255" r="6" fill="#d97706" opacity=".75"/>
+          <circle cx="160" cy="240" r="7" fill="#f59e0b" opacity=".7"/>
+          <circle cx="60" cy="280" r="5" fill="#fbbf24" opacity=".6"/>
+          <circle cx="230" cy="200" r="6" fill="#7c3aed" opacity=".75"/>
+          <!-- Central label -->
+          <text x="280" y="148" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="rgba(255,255,255,.9)" font-weight="700">CORTEX PRÉFRONTAL</text>
+          <text x="280" y="163" text-anchor="middle" font-family="Arial,sans-serif" font-size="7.5" fill="rgba(255,255,255,.4)">Siège des fonctions exécutives</text>
+          <!-- Corner labels -->
+          <text x="145" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(37,99,235,.9)">Motivation</text>
+          <text x="460" y="168" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(13,148,136,.9)">Régulation</text>
+          <text x="190" y="254" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(180,83,9,.9)">Mémoire</text>
+          <text x="390" y="243" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(13,148,136,.8)">Émotion</text>
+          <!-- Title -->
+          <text x="280" y="16" text-anchor="middle" font-family="Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,.55)" letter-spacing=".08em">RÉSEAU NEURONAL — PERFORMANCE HUMAINE</text>
+          <!-- Animated pulse circles (CSS animation via inline style) -->
+          <circle cx="280" cy="158" r="11" fill="none" stroke="rgba(37,99,235,.4)" stroke-width="1.5">
+            <animate attributeName="r" values="11;28;11" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".5;0;.5" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="390" cy="230" r="10" fill="none" stroke="rgba(13,148,136,.4)" stroke-width="1.5">
+            <animate attributeName="r" values="10;24;10" dur="3.8s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".4;0;.4" dur="3.8s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        <button class="img-fullbtn" id="img-full-btn">⛶ Plein écran</button>
+      </div>
+      <div class="img-caption">Illustration : réseau neuronal — Performance humaine intégrée · Kinexa</div>
+    </div>
+
+    <!-- TAB 1 : VIDÉO 1 -->
+    <div class="dock-panel" id="dpanel-1">
+      <div class="video-wrap">
+        <iframe id="yt1" src="https://www.youtube.com/embed/cSwCUsTMHoA?enablejsapi=1&rel=0&modestbranding=1" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen title="Vidéo 1"></iframe>
+      </div>
+      <div class="video-controls">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
+          <span class="speed-label">Vitesse</span>
+          <div class="speed-btns" id="spd1">
+            <button class="spd" data-s="0.5">0.5×</button>
+            <button class="spd" data-s="0.75">0.75×</button>
+            <button class="spd active" data-s="1">1×</button>
+            <button class="spd" data-s="1.25">1.25×</button>
+            <button class="spd" data-s="1.5">1.5×</button>
+            <button class="spd" data-s="2">2×</button>
+          </div>
+        </div>
+        <button class="vfull-btn" onclick="document.getElementById('yt1').requestFullscreen()">⛶ Plein écran</button>
+      </div>
+      <div class="vcaption">Vidéo 1 · Remplacer l'URL YouTube dans le code si besoin</div>
+    </div>
+
+    <!-- TAB 2 : VIDÉO 2 -->
+    <div class="dock-panel" id="dpanel-2">
+      <div class="video-wrap">
+        <iframe id="yt2" src="https://www.youtube.com/embed/lXMskm_9veM?enablejsapi=1&rel=0&modestbranding=1" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen title="Vidéo 2"></iframe>
+      </div>
+      <div class="video-controls">
+        <div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
+          <span class="speed-label">Vitesse</span>
+          <div class="speed-btns" id="spd2">
+            <button class="spd" data-s="0.5">0.5×</button>
+            <button class="spd" data-s="0.75">0.75×</button>
+            <button class="spd active" data-s="1">1×</button>
+            <button class="spd" data-s="1.25">1.25×</button>
+            <button class="spd" data-s="1.5">1.5×</button>
+            <button class="spd" data-s="2">2×</button>
+          </div>
+        </div>
+        <button class="vfull-btn" onclick="document.getElementById('yt2').requestFullscreen()">⛶ Plein écran</button>
+      </div>
+      <div class="vcaption">Vidéo 2 · Remplacer l'URL YouTube dans le code si besoin</div>
+    </div>
+
+  </div><!-- /dock-body -->
+</div><!-- /media-dock -->
+
+<!-- Bouton pour rouvrir le dock si fermé -->
+<button id="dock-reopen" style="display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;background:#1f2937;border:none;border-radius:.6rem;padding:.65rem 1rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);display:flex;align-items:center;gap:.5rem;font-family:Arial,sans-serif;font-size:.75rem;color:#f59e0b;font-weight:700;letter-spacing:.06em">
+  <svg viewBox="0 0 50 14" style="width:40px;height:14px"><rect x="0" y="1" width="2" height="12" fill="#f59e0b" rx=".5"/><line x1="2" y1="7" x2="8" y2="1" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="7" x2="8" y2="13" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><rect x="9" y="5" width="3.5" height="3.5" fill="#0d9488" transform="rotate(45 10.75 6.75)" rx=".2"/><text x="16" y="10" font-family="Arial,sans-serif" font-size="7.5" font-weight="700" fill="white" letter-spacing="1">MÉDIAS</text></svg>
+</button>
+
+</body>

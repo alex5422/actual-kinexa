@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Compagnon Motivation — Dr Delong</title>
+
+<!-- ══ PWA META TAGS ══ -->
+<meta name="application-name" content="Motivation Dr Delong">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Motivation">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1F3864">
+<meta name="description" content="Application compagnon — L'Équation de la Motivation, Dr Delong. Exercices, protocoles et plan 90 jours.">
+
+<!-- ══ MANIFEST (inline, pas besoin de fichier externe) ══ -->
+<script>
+  const manifestData = {
+    name: "Compagnon Motivation — Dr Delong",
+    short_name: "Motivation",
+    description: "L'Équation de la Motivation — exercices, protocoles et plan 90 jours",
+    start_url: ".",
+    display: "standalone",
+    orientation: "portrait",
+    background_color: "#f7f8fc",
+    theme_color: "#1F3864",
+    icons: [
+      { src: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%231F3864'/><text x='256' y='320' font-size='260' text-anchor='middle' font-family='serif' fill='white'>M</text></svg>`), sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" },
+      { src: "data:image/svg+xml," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='30' fill='%231F3864'/><text x='96' y='130' font-size='110' text-anchor='middle' font-family='serif' fill='white'>M</text></svg>`), sizes: "192x192", type: "image/svg+xml" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  document.addEventListener('DOMContentLoaded', () => {
+    const link = document.createElement('link');
+    link.rel = 'manifest'; link.href = manifestURL;
+    document.head.appendChild(link);
+  });
+</script>
+
+<!-- ══ APPLE TOUCH ICON (SVG inline → base64) ══ -->
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxODAgMTgwJz48cmVjdCB3aWR0aD0nMTgwJyBoZWlnaHQ9JzE4MCcgcng9JzQwJyBmaWxsPScjMUYzODY0Jy8+PHRleHQgeD0nOTAnIHk9JzEyNScgZm9udC1zaXplPScxMDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZvbnQtZmFtaWx5PSdzZXJpZicgZmlsbD0nd2hpdGUnPk08L3RleHQ+PC9zdmc+">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --navy: #1F3864;
+    --navy-light: #2a4d8e;
+    --navy-faint: #eef2f9;
+    --teal: #1A6B3C;
+    --teal-bg: #e8f5ee;
+    --amber: #B87D1A;
+    --amber-bg: #fef5e4;
+    --coral: #C84B2C;
+    --coral-bg: #fef0ec;
+    --purple: #5A3DA6;
+    --purple-bg: #f0ecfb;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+    --bg: #f7f8fc;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── LAYOUT ── */
+  .app { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 240px;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-brand {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-brand .title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    line-height: 1.3;
+    color: white;
+  }
+  .sidebar-brand .sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .nav { padding: 16px 12px; flex: 1; }
+  .nav-section { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); padding: 0 8px; margin: 16px 0 6px; }
+  .nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 8px;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    font-size: 13.5px; transition: all 0.15s;
+    cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+  }
+  .nav a:hover { background: rgba(255,255,255,0.1); color: white; }
+  .nav a.active { background: rgba(255,255,255,0.15); color: white; font-weight: 500; }
+  .nav a .icon { font-size: 14px; width: 18px; text-align: center; }
+
+  .main { margin-left: 240px; flex: 1; padding: 32px; min-height: 100vh; }
+
+  /* ── HEADER ── */
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; color: var(--navy); }
+  .page-header p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card-grid-3 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  /* ── STAT CARDS ── */
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+  .stat-card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-card .value { font-size: 28px; font-weight: 600; color: var(--navy); margin-top: 4px; }
+  .stat-card .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--teal); border-radius: 3px; transition: width 0.4s; }
+
+  /* ── MODULE CARDS ── */
+  .module-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .module-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .module-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 12px; }
+  .module-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .module-header .info h3 { font-size: 14px; font-weight: 600; color: var(--navy); }
+  .module-header .info p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .module-body { padding: 14px 20px; }
+
+  /* ── EXERCISE ITEMS ── */
+  .exercise-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .exercise-item:last-child { border-bottom: none; }
+  .exercise-item.done .ex-text { color: var(--muted); text-decoration: line-through; }
+  .exercise-item .check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .exercise-item.done .check { background: var(--teal); border-color: var(--teal); }
+  .exercise-item.done .check::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+  .ex-text { font-size: 13.5px; line-height: 1.4; }
+  .ex-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .badge-teal { background: var(--teal-bg); color: var(--teal); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-coral { background: var(--coral-bg); color: var(--coral); }
+  .badge-navy { background: var(--navy-faint); color: var(--navy); }
+  .badge-purple { background: var(--purple-bg); color: var(--purple); }
+
+  /* ── 90 DAYS ── */
+  .day-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+  .day-cell {
+    aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--border);
+    background: var(--bg); cursor: pointer; transition: all 0.1s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--muted); position: relative;
+  }
+  .day-cell:hover { border-color: var(--navy); }
+  .day-cell.done { background: var(--teal); border-color: var(--teal); color: white; }
+  .day-cell.partial { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .day-cell.today { border: 2px solid var(--navy); font-weight: 600; color: var(--navy); }
+  .day-cell.future { opacity: 0.4; cursor: default; }
+
+  /* ── PHASE LABEL ── */
+  .phase-block { margin-bottom: 24px; }
+  .phase-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+  /* ── PROTOCOL CARDS ── */
+  .protocol-card {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-left: 3px solid;
+  }
+  .protocol-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .protocol-card p { font-size: 12.5px; line-height: 1.5; }
+  .protocol-card.teal { background: var(--teal-bg); border-color: var(--teal); }
+  .protocol-card.teal h4 { color: var(--teal); }
+  .protocol-card.amber { background: var(--amber-bg); border-color: var(--amber); }
+  .protocol-card.amber h4 { color: var(--amber); }
+  .protocol-card.navy { background: var(--navy-faint); border-color: var(--navy); }
+  .protocol-card.navy h4 { color: var(--navy); }
+  .protocol-card.coral { background: var(--coral-bg); border-color: var(--coral); }
+  .protocol-card.coral h4 { color: var(--coral); }
+
+  /* ── TIMER ── */
+  .timer-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--navy); color: white; border: none;
+    padding: 7px 14px; border-radius: 20px; font-size: 12px;
+    cursor: pointer; margin-top: 8px; font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s;
+  }
+  .timer-btn:hover { background: var(--navy-light); }
+  .timer-display { font-size: 32px; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 4px; background: var(--bg); border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+  .tab-btn {
+    flex: 1; padding: 8px 12px; border-radius: 8px; border: none;
+    background: none; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--muted); cursor: pointer; transition: all 0.15s;
+  }
+  .tab-btn.active { background: white; color: var(--navy); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+  /* ── COMMANDEMENT ── */
+  .cmd-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .cmd-item:last-child { border-bottom: none; }
+  .cmd-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--border); flex-shrink: 0; line-height: 1; width: 36px; }
+  .cmd-text h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .cmd-text p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── DAILY CHECKLIST ── */
+  .daily-block { margin-bottom: 24px; }
+  .daily-block h3 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .check-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 8px;
+    background: var(--bg); margin-bottom: 6px; cursor: pointer;
+    transition: background 0.1s;
+  }
+  .check-row:hover { background: var(--border); }
+  .check-row.done { background: var(--teal-bg); }
+  .check-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+  .check-row .row-text { font-size: 13px; flex: 1; }
+  .check-row.done .row-text { color: var(--teal); }
+  .check-row .row-timer { font-size: 11px; color: var(--muted); }
+
+  /* ── NOTIFICATION BANNER ── */
+  .banner {
+    border-radius: var(--radius-sm); padding: 12px 16px;
+    display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .banner.info { background: var(--navy-faint); color: var(--navy); }
+  .banner.success { background: var(--teal-bg); color: var(--teal); }
+  .banner.warning { background: var(--amber-bg); color: var(--amber); }
+
+  /* ── SCORE RING ── */
+  .score-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .score-val { position: absolute; text-align: center; }
+  .score-ring .score-val .big { font-size: 22px; font-weight: 600; color: var(--navy); }
+  .score-ring .score-val .sm { font-size: 10px; color: var(--muted); }
+
+  /* ── HIDDEN ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── RESPONSIVE / PWA MOBILE ── */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 99; }
+    .sidebar-overlay.visible { display: block; }
+    .main { margin-left: 0; padding: 0 14px 90px; }
+    .card-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .card-grid-2 { grid-template-columns: 1fr; }
+    .page-header { padding-top: 16px; }
+    .page-header h1 { font-size: 20px; }
+    .bottom-nav {
+      display: flex; position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; border-top: 1px solid var(--border); z-index: 98;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .bottom-nav a {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      padding: 10px 2px 8px; color: var(--muted); text-decoration: none;
+      font-size: 10px; gap: 3px; cursor: pointer; border: none; background: none;
+      font-family: 'DM Sans', sans-serif; transition: color 0.15s;
+    }
+    .bottom-nav a.active { color: var(--navy); font-weight: 500; }
+    .bottom-nav a .bn-icon { font-size: 19px; line-height: 1; }
+    .mobile-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px 10px; background: var(--navy); color: white;
+      position: sticky; top: 0; z-index: 97;
+      padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    }
+    .mobile-header .mh-title { font-family: 'DM Serif Display', serif; font-size: 16px; }
+    .mobile-header .mh-menu { font-size: 22px; background: none; border: none; color: white; cursor: pointer; padding: 4px 6px; }
+  }
+  @media (min-width: 769px) {
+    .bottom-nav { display: none; }
+    .mobile-header { display: none; }
+    .sidebar-overlay { display: none !important; }
+  }
+
+  /* Install banner */
+  #install-banner {
+    display: none; background: var(--navy-faint); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px;
+    font-size: 13px; align-items: center; gap: 12px;
+  }
+  #install-banner.visible { display: flex; }
+  #install-banner .ib-text { flex: 1; color: var(--navy); font-size: 13px; }
+  #install-banner button { background: var(--navy); color: white; border: none; padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+  #install-banner .ib-close { background: none; color: var(--muted); padding: 4px 8px; font-size: 16px; }
+
+  /* ── MISC ── */
+  h2 { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 16px; }
+  .section-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 12px; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .flex { display: flex; }
+  .gap-3 { gap: 12px; }
+  .gap-4 { gap: 16px; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .mb-4 { margin-bottom: 16px; }
+  .mb-6 { margin-bottom: 24px; }
+  .mt-4 { margin-top: 16px; }
+  .text-sm { font-size: 13px; }
+  .text-muted { color: var(--muted); }
+  select, input[type=text] {
+    font-family: 'DM Sans', sans-serif;
+    padding: 8px 12px; border-radius: 8px;
+    border: 1px solid var(--border); font-size: 13px;
+    background: white; color: var(--text);
+  }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    padding: 9px 18px; border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white; cursor: pointer;
+    font-size: 13px; font-weight: 500;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--bg); }
+  .btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
+  .btn-primary:hover { background: var(--navy-light); }
+</style>
+</head>
+<body>
+
+<!-- Mobile header (visible < 768px) -->
+<div class="mobile-header" id="mobile-header">
+  <span class="mh-title" id="mobile-title">Tableau de bord</span>
+  <button class="mh-menu" onclick="toggleSidebar()">☰</button>
+</div>
+
+<!-- Overlay sidebar mobile -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<!-- Install banner -->
+<div id="install-banner">
+  <span class="ib-text">📲 Installer sur votre téléphone pour utiliser hors-ligne.</span>
+  <button onclick="installPWA()">Installer</button>
+  <button class="ib-close" onclick="document.getElementById('install-banner').classList.remove('visible')">✕</button>
+</div>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="title">L'Équation de<br>la Motivation</div>
+    <div class="sub">Dr Delong · App Compagnon</div>
+  </div>
+  <div class="nav">
+    <div class="nav-section">Principal</div>
+    <a class="active" onclick="showPage('dashboard')"><span class="icon">◉</span> Tableau de bord</a>
+    <a onclick="showPage('daily')"><span class="icon">☀</span> Routine du jour</a>
+    <a onclick="showPage('plan90')"><span class="icon">📅</span> Plan 90 jours</a>
+
+    <div class="nav-section">Modules</div>
+    <a onclick="showPage('mod1')"><span class="icon">🏗</span> Corps & Biomécanique</a>
+    <a onclick="showPage('mod2')"><span class="icon">⚡</span> Nerf Vague</a>
+    <a onclick="showPage('mod3')"><span class="icon">🏃</span> Sport & Recalibrage</a>
+    <a onclick="showPage('mod4')"><span class="icon">⏱</span> Anti-Procrastination</a>
+    <a onclick="showPage('mod5')"><span class="icon">🎯</span> Protocoles Express</a>
+
+    <div class="nav-section">Référence</div>
+    <a onclick="showPage('commandements')"><span class="icon">📜</span> 10 Commandements</a>
+    <a onclick="showPage('profil')"><span class="icon">👤</span> Mon profil</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════════════ DASHBOARD ══════════════ -->
+<div id="page-dashboard" class="page active">
+  <div class="page-header">
+    <h1>Tableau de bord</h1>
+    <p id="dash-date">Chargement…</p>
+  </div>
+
+  <div id="dash-banner" class="banner info" style="display:none"></div>
+
+  <div class="card-grid card-grid-4 mb-6">
+    <div class="stat-card">
+      <div class="label">Jours streak</div>
+      <div class="value" id="stat-streak">0</div>
+      <div class="sub">jours consécutifs</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Jour du plan</div>
+      <div class="value" id="stat-day">J0</div>
+      <div class="sub">sur 90 jours</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Exercices faits</div>
+      <div class="value" id="stat-done">0</div>
+      <div class="sub">aujourd'hui</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Score somatique</div>
+      <div class="value" id="stat-score">—</div>
+      <div class="sub">sur 100</div>
+    </div>
+  </div>
+
+  <div class="card-grid card-grid-2 mb-6">
+    <div class="card">
+      <h2>Progression globale</h2>
+      <div id="module-progress"></div>
+    </div>
+    <div class="card">
+      <h2>À faire aujourd'hui</h2>
+      <div id="today-summary"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Les 90 derniers jours</h2>
+    <div id="mini-calendar" class="day-grid" style="grid-template-columns: repeat(18,1fr); gap:4px;"></div>
+  </div>
+</div>
+
+<!-- ══════════════ ROUTINE DU JOUR ══════════════ -->
+<div id="page-daily" class="page">
+  <div class="page-header">
+    <h1>Routine du jour</h1>
+    <p>Cochez chaque pratique au fur et à mesure</p>
+  </div>
+
+  <div class="card mb-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 style="margin:0">🌅 Matin</h2>
+      <span id="morning-score" class="badge badge-navy">0/4 faits</span>
+    </div>
+    <div id="morning-checks"></div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 style="margin:0">☀️ Journée</h2>
+      <span id="day-score" class="badge badge-amber">0/5 faits</span>
+    </div>
+    <div id="day-checks"></div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 style="margin:0">🌙 Soir</h2>
+      <span id="evening-score" class="badge badge-navy">0/3 faits</span>
+    </div>
+    <div id="evening-checks"></div>
+  </div>
+
+  <div class="card">
+    <h2>⏱ Minuteur de pratique</h2>
+    <p class="text-sm text-muted mb-4">Pour la cohérence cardiaque, le Box Breathing et autres protocoles chronométrés.</p>
+    <div class="flex gap-4 items-center">
+      <div>
+        <div class="timer-display" id="timer-display">05:00</div>
+        <div class="text-sm text-muted" id="timer-label">Cohérence cardiaque</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <select id="timer-preset" onchange="setTimer()" style="font-size:12px;padding:6px 10px">
+          <option value="300">Cohérence cardiaque (5 min)</option>
+          <option value="180">Box Breathing (3 min)</option>
+          <option value="120">Massage tragus (2 min)</option>
+          <option value="30">Stimulation thermique (30 sec)</option>
+          <option value="25*60">Pomodoro (25 min)</option>
+          <option value="90">Body Reset (90 sec)</option>
+        </select>
+        <div class="flex gap-3">
+          <button class="timer-btn" onclick="startTimer()">▶ Démarrer</button>
+          <button class="timer-btn" onclick="resetTimer()" style="background:#6b7280">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PLAN 90 JOURS ══════════════ -->
+<div id="page-plan90" class="page">
+  <div class="page-header">
+    <h1>Plan 90 jours</h1>
+    <p>Transformation progressive du Coefficient Somatique</p>
+  </div>
+
+  <div class="card mb-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 style="margin:0">Votre progression</h2>
+      <div class="flex gap-3">
+        <button class="btn" onclick="setStartDate()">Définir J1</button>
+        <span id="plan-date-info" class="text-sm text-muted" style="align-self:center"></span>
+      </div>
+    </div>
+    <div class="progress-bar" style="height:8px;margin-bottom:8px">
+      <div class="progress-fill" id="plan-progress-fill" style="width:0%"></div>
+    </div>
+    <div class="flex justify-between text-sm text-muted">
+      <span>Jour 1</span>
+      <span id="plan-current-day">J0</span>
+      <span>Jour 90</span>
+    </div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-block">
+    <div class="phase-label">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--teal);display:inline-block"></span>
+      Phase 1 (J1–J30) — Installation & Restauration somatique
+    </div>
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 1–2 : Fondations</h3>
+        <div class="protocol-card teal">
+          <h4>Sommeil prioritaire</h4>
+          <p>Coucher 22h30 max · chambre sans écran · lecture 20 min avant. Objectif : 7h30/nuit.</p>
+        </div>
+        <div class="protocol-card navy">
+          <h4>Cohérence cardiaque</h4>
+          <p>3×/jour · 5 min · 6 respirations/min. Inspirez 5 sec, expirez 5 sec.</p>
+        </div>
+        <div class="protocol-card amber">
+          <h4>Marche minimale</h4>
+          <p>10 min/jour · même heure · pas de performance. Régularité > intensité.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 3–4 : Mobilité</h3>
+        <div class="protocol-card teal">
+          <h4>Extension dorsale</h4>
+          <p>3×/jour · bras en croix · ouverture sternum vers le plafond · 2 min.</p>
+        </div>
+        <div class="protocol-card navy">
+          <h4>Règle du mouvement</h4>
+          <p>Se lever toutes les 50 min · marcher 2 min · mobiliser cervicales.</p>
+        </div>
+        <div class="protocol-card amber">
+          <h4>Marche augmentée</h4>
+          <p>15 min (S3) → 20 min (S4) · Zone 2 · même heure · tracker énergie 0-10.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-block">
+    <div class="phase-label">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--amber);display:inline-block"></span>
+      Phase 2 (J31–J60) — Optimisation & Montée en puissance
+    </div>
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 5–6 : Intensification</h3>
+        <div class="protocol-card amber">
+          <h4>Sport 25-30 min</h4>
+          <p>4 sessions Zone 2 + 1 session Zone 3 (20 min max). Varier les activités.</p>
+        </div>
+        <div class="protocol-card navy">
+          <h4>Box Breathing renforcé</h4>
+          <p>Avant chaque tâche coûteuse : 4-4-4-4, 3 min. Système devient automatique.</p>
+        </div>
+        <div class="protocol-card teal">
+          <h4>Nerf vague avancé</h4>
+          <p>Douche froide 30 sec matin · massage tragus 2 min · verrouillage postural.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 7–8 : Zone silence dopaminergique</h3>
+        <div class="protocol-card coral">
+          <h4>⚠️ Zone critique J45–J60</h4>
+          <p>80% des personnes abandonnent ici. Réduire l'intensité au minimum mais maintenir la structure. C'est normal.</p>
+        </div>
+        <div class="protocol-card navy">
+          <h4>Minimum vital</h4>
+          <p>Réduire intensité → conserver durée + fréquence. Douche froide pour micro-adrénaline.</p>
+        </div>
+        <div class="protocol-card teal">
+          <h4>Tracker de progression</h4>
+          <p>Évaluer : fréquence cardiaque repos · qualité sommeil · énergie matinale · procrastination.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-block">
+    <div class="phase-label">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--purple);display:inline-block"></span>
+      Phase 3 (J61–J90) — Automatisation & Identité
+    </div>
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 9–10 : Architecture des choix</h3>
+        <div class="protocol-card navy">
+          <h4>Variété sportive</h4>
+          <p>Alterner activités : course + vélo ou natation. Essai activité nouvelle (yoga/escalade).</p>
+        </div>
+        <div class="protocol-card teal">
+          <h4>Environnement optimisé</h4>
+          <p>Vêtements sport préparés la veille · chaussures à la porte · téléphone dans un tiroir pendant les blocs focus.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:12px">Semaines 11–12 : Bascule identitaire</h3>
+        <div class="protocol-card amber">
+          <h4>Diagnostic final J76</h4>
+          <p>Refaire le test de score somatique. Comparer J1 vs J30 vs J60 vs J76.</p>
+        </div>
+        <div class="protocol-card teal">
+          <h4>Shift identitaire J85</h4>
+          <p>Écrire "Qui suis-je devenu en 90 jours ?" · Lister 5 changements d'identité · Célébration personnelle.</p>
+        </div>
+        <div class="protocol-card navy">
+          <h4>Plan maintenance vie</h4>
+          <p>Définir votre minimum vital non-négociable. Ce que vous maintenez à vie.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendrier 90j -->
+  <div class="card">
+    <h2>Calendrier des 90 jours</h2>
+    <div style="margin-bottom:12px" class="flex gap-4 text-sm text-muted">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:3px;background:var(--teal);display:inline-block"></span> Complété</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:3px;background:var(--amber-bg);border:1px solid var(--amber);display:inline-block"></span> Partiel</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;border-radius:3px;background:var(--bg);border:1px solid var(--border);display:inline-block"></span> À faire</span>
+    </div>
+    <div id="calendar-90" class="day-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════ MODULE 1 ══════════════ -->
+<div id="page-mod1" class="page">
+  <div class="page-header">
+    <h1>Corps & Biomécanique</h1>
+    <p>Chapitre 01 — Le corps qui freine</p>
+  </div>
+  <div id="exercises-mod1"></div>
+</div>
+
+<!-- ══════════════ MODULE 2 ══════════════ -->
+<div id="page-mod2" class="page">
+  <div class="page-header">
+    <h1>Nerf Vague</h1>
+    <p>Chapitre 02 — L'interrupteur biologique de la motivation</p>
+  </div>
+  <div id="exercises-mod2"></div>
+</div>
+
+<!-- ══════════════ MODULE 3 ══════════════ -->
+<div id="page-mod3" class="page">
+  <div class="page-header">
+    <h1>Sport & Recalibrage</h1>
+    <p>Chapitre 03 — Pourquoi je le prescris avant tout le reste</p>
+  </div>
+  <div id="exercises-mod3"></div>
+</div>
+
+<!-- ══════════════ MODULE 4 ══════════════ -->
+<div id="page-mod4" class="page">
+  <div class="page-header">
+    <h1>Anti-Procrastination</h1>
+    <p>Chapitre 04 — Les 7 techniques & protocole universel</p>
+  </div>
+  <div id="exercises-mod4"></div>
+</div>
+
+<!-- ══════════════ MODULE 5 ══════════════ -->
+<div id="page-mod5" class="page">
+  <div class="page-header">
+    <h1>Protocoles Express</h1>
+    <p>Chapitre 13 — Ce que je prescris selon votre profil</p>
+  </div>
+  <div id="exercises-mod5"></div>
+</div>
+
+<!-- ══════════════ COMMANDEMENTS ══════════════ -->
+<div id="page-commandements" class="page">
+  <div class="page-header">
+    <h1>Les 10 Commandements</h1>
+    <p>Chapitre 15 — Ce que j'aurais voulu qu'on m'enseigne plus tôt</p>
+  </div>
+  <div class="card">
+    <div id="commandements-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════ PROFIL ══════════════ -->
+<div id="page-profil" class="page">
+  <div class="page-header">
+    <h1>Mon profil</h1>
+    <p>Score somatique & diagnostic</p>
+  </div>
+  <div class="card mb-6">
+    <h2>Diagnostic rapide (10 min)</h2>
+    <p class="text-sm text-muted mb-4">Répondez aux 6 questions suivantes pour identifier votre type de procrastination et votre variable bloquante.</p>
+    <div id="diagnostic-form"></div>
+    <button class="btn btn-primary mt-4" onclick="computeDiagnostic()">Calculer mon diagnostic</button>
+    <div id="diagnostic-result" class="mt-4"></div>
+  </div>
+  <div class="card">
+    <h2>Historique des scores</h2>
+    <div id="score-history"></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- Bottom nav bar (mobile only) -->
+<nav class="bottom-nav" id="bottom-nav">
+  <a onclick="showPage('dashboard')" id="bn-dashboard" class="active">
+    <span class="bn-icon">◉</span>Accueil
+  </a>
+  <a onclick="showPage('daily')" id="bn-daily">
+    <span class="bn-icon">☀️</span>Routine
+  </a>
+  <a onclick="showPage('plan90')" id="bn-plan90">
+    <span class="bn-icon">📅</span>90 jours
+  </a>
+  <a onclick="showPage('mod2')" id="bn-mod2">
+    <span class="bn-icon">⚡</span>Nerf Vague
+  </a>
+  <a onclick="showPage('profil')" id="bn-profil">
+    <span class="bn-icon">👤</span>Profil
+  </a>
+</nav>
+
+<script>
+// ════════════════════════════════════
+// DATA — EXERCISES
+// ════════════════════════════════════
+
+const MODULES = {
+  mod1: {
+    title: 'Corps & Biomécanique',
+    color: 'teal',
+    exercises: [
+      {
+        id: 'm1-e1', title: 'Protocole de déverrouillage biomécanique',
+        badge: 'Priorité', badgeColor: 'coral',
+        desc: 'Le protocole fondamental du Dr Delong pour libérer le corps avant de chercher la motivation.',
+        steps: [
+          { id: 'm1-e1-s1', text: 'Étape 1 — Extension dorsale', detail: '3×/jour : bras en croix, ouverture du sternum vers le plafond. 2 minutes. Signal de sécurité immédiat au cerveau.', timer: 120 },
+          { id: 'm1-e1-s2', text: 'Étape 2 — Règle du mouvement perpétuel', detail: 'Ne jamais rester assis plus de 50 min. Se lever, marcher 2 min, mobiliser cervicales, dos, hanches.', timer: 120 },
+          { id: 'm1-e1-s3', text: 'Étape 3 — Hygiène sommeil', detail: 'Supprimer écrans 1h avant le coucher. Boire 2L d\'eau/jour. 7h de sommeil minimum.', timer: null },
+        ]
+      },
+      {
+        id: 'm1-e2', title: 'Audit ergonomique du bureau',
+        badge: '30 min', badgeColor: 'amber',
+        desc: 'Vérification en 6 points de votre poste de travail. À faire une fois, puis vérifier chaque semaine.',
+        steps: [
+          { id: 'm1-e2-s1', text: 'Hauteur de chaise', detail: 'Pieds à plat au sol, genoux à 90°. Ajustez si nécessaire.', timer: null },
+          { id: 'm1-e2-s2', text: 'Position du bassin', detail: 'Fesses au fond du siège, courbure lombaire respectée (légère arche).', timer: null },
+          { id: 'm1-e2-s3', text: 'Hauteur d\'écran', detail: 'Haut de l\'écran à hauteur des yeux, à 50-70 cm de distance.', timer: null },
+          { id: 'm1-e2-s4', text: 'Position du clavier', detail: 'Coudes à 90°, poignets neutres (pas pliés).', timer: null },
+          { id: 'm1-e2-s5', text: 'Accoudoirs & épaules', detail: 'Épaules relâchées, pas soulevées. Accoudoirs réglés en conséquence.', timer: null },
+          { id: 'm1-e2-s6', text: 'Position des pieds', detail: 'Pas de jambes croisées. Pieds à plat ou sur repose-pieds.', timer: null },
+        ]
+      },
+      {
+        id: 'm1-e3', title: 'Posture de disponibilité (2 min)',
+        badge: 'Immédiat', badgeColor: 'teal',
+        desc: 'Maintenir une posture d\'ouverture pendant 2 minutes modifie la chimie sanguine (↑ testostérone, ↓ cortisol).',
+        steps: [
+          { id: 'm1-e3-s1', text: 'Sternum haut', detail: 'Élevez le sternum comme s\'il était tiré vers le plafond.', timer: null },
+          { id: 'm1-e3-s2', text: 'Épaules basses et ouvertes', detail: 'Relâchez les trapèzes. Ouvrez la cage thoracique.', timer: null },
+          { id: 'm1-e3-s3', text: 'Maintenir 2 minutes', detail: 'Restez dans cette posture. La chimie sanguine change en 2 minutes.', timer: 120 },
+        ]
+      }
+    ]
+  },
+
+  mod2: {
+    title: 'Nerf Vague',
+    color: 'navy',
+    exercises: [
+      {
+        id: 'm2-e1', title: 'Protocole 1 — Cohérence cardiaque',
+        badge: 'Levier immédiat', badgeColor: 'teal',
+        desc: 'En 60 secondes, la FC baisse de 15%. Le Coefficient Somatique chute instantanément. À faire 3×/jour.',
+        steps: [
+          { id: 'm2-e1-s1', text: 'Position assise confortable', detail: 'Dos droit, pieds à plat. Fermez les yeux si possible.', timer: null },
+          { id: 'm2-e1-s2', text: 'Inspirez 5 sec par le nez', detail: 'Gonflez le ventre (respiration abdominale, pas thoracique).', timer: null },
+          { id: 'm2-e1-s3', text: 'Expirez 5 sec par la bouche', detail: 'Comme si vous souffliez dans une paille. Lentement.', timer: null },
+          { id: 'm2-e1-s4', text: 'Répéter 6 respirations/min pendant 5 min', detail: '= 30 cycles complets. Idéal avant chaque bloc de travail profond.', timer: 300 },
+        ]
+      },
+      {
+        id: 'm2-e2', title: 'Protocole 2 — Stimulation thermique (Reset brutal)',
+        badge: 'Reset rapide', badgeColor: 'coral',
+        desc: 'Déclenche le réflexe d\'immersion des mammifères. En moins d\'1 min : brouillard → vigilance laser.',
+        steps: [
+          { id: 'm2-e2-s1', text: 'Eau froide sur le visage (30 sec)', detail: 'Zone des yeux et des joues. Eau vraiment froide.', timer: 30 },
+          { id: 'm2-e2-s2', text: 'Alternative : gant froid sur le cou', detail: 'Sur les côtés du cou, sur le trajet du nerf vague. 30 sec.', timer: 30 },
+        ]
+      },
+      {
+        id: 'm2-e3', title: 'Protocole 3 — Stimulation mécanique (Hack anatomique)',
+        badge: 'Discret', badgeColor: 'amber',
+        desc: 'Le nerf vague affleure dans l\'oreille. Stimulation directe au tronc cérébral sans passer par la pensée.',
+        steps: [
+          { id: 'm2-e3-s1', text: 'Massage du tragus', detail: 'Massez la petite saillie cartilagineuse à l\'entrée du conduit auditif. Petits cercles avec l\'index.', timer: 120 },
+          { id: 'm2-e3-s2', text: 'Alternative : gargarismes vigoureux', detail: 'Le matin, gargarismes intenses pendant 60 secondes. Active le nerf vague via les cordes vocales.', timer: 60 },
+        ]
+      },
+      {
+        id: 'm2-e4', title: 'Protocole 4 — Verrouillage postural (Libération mécanique)',
+        badge: '30 sec', badgeColor: 'navy',
+        desc: 'Une mauvaise posture comprime physiquement le nerf vague. Ce geste libère son espace de passage.',
+        steps: [
+          { id: 'm2-e4-s1', text: 'Redressez le sternum', detail: 'Comme s\'il était tiré vers le plafond. Pas en cambrant le dos.', timer: null },
+          { id: 'm2-e4-s2', text: 'Relâchez les épaules', detail: 'Conscientisation : elles étaient probablement contractées.', timer: null },
+          { id: 'm2-e4-s3', text: 'Expirez profondément', detail: 'Pour faire descendre le diaphragme et libérer l\'espace du nerf vague.', timer: null },
+        ]
+      },
+      {
+        id: 'm2-e5', title: 'Box Breathing (4-4-4-4)',
+        badge: 'Forces Spéciales', badgeColor: 'purple',
+        desc: 'Le protocole des commandos. FC 120 → 75. Tremblements → calme. En 2 minutes.',
+        steps: [
+          { id: 'm2-e5-s1', text: 'Inspirez 4 secondes', detail: 'Par le nez, lentement.', timer: null },
+          { id: 'm2-e5-s2', text: 'Retenez 4 secondes', detail: 'Poumons pleins. Ne pas contracter.', timer: null },
+          { id: 'm2-e5-s3', text: 'Expirez 4 secondes', detail: 'Par la bouche, lentement et complètement.', timer: null },
+          { id: 'm2-e5-s4', text: 'Pause 4 secondes', detail: 'Poumons vides. Recommencer. Répéter 8-12 cycles (3 min).', timer: 180 },
+        ]
+      },
+      {
+        id: 'm2-e6', title: 'Plan 4 semaines — Renforcement vagal',
+        badge: '4 semaines', badgeColor: 'navy',
+        desc: 'Le tonus vagal se construit comme un muscle. Programme progressif semaine par semaine.',
+        steps: [
+          { id: 'm2-e6-s1', text: 'Semaine 1 : Cohérence cardiaque', detail: 'Routine 3×/jour, 5 min chacune. Priorité absolue.', timer: null },
+          { id: 'm2-e6-s2', text: 'Semaine 2 : Ajout douche froide', detail: 'Terminer chaque douche par 30 sec de froid.', timer: null },
+          { id: 'm2-e6-s3', text: 'Semaine 3 : Mouvement fluide', detail: 'Yoga, étirements ou marche consciente pour assouplir la "gaine" du nerf.', timer: null },
+          { id: 'm2-e6-s4', text: 'Semaine 4 : Protocole complet', detail: 'Application avant chaque tâche "coûteuse". Le système devient automatique.', timer: null },
+        ]
+      }
+    ]
+  },
+
+  mod3: {
+    title: 'Sport & Recalibrage',
+    color: 'teal',
+    exercises: [
+      {
+        id: 'm3-e1', title: 'Programme de recalibrage 8 semaines',
+        badge: '8 semaines', badgeColor: 'teal',
+        desc: 'Objectif : réparer les récepteurs de dopamine. Pas de performance, de la régularité.',
+        steps: [
+          { id: 'm3-e1-s1', text: 'Semaines 1-2 : Installation habitude', detail: 'Marche rapide ou course lente. 10 min. 5×/semaine. Même heure. Règle absolue : zéro exception.', timer: null },
+          { id: 'm3-e1-s2', text: 'Semaines 3-4 : Augmentation progressive', detail: '15 min (S3) → 20 min (S4). Zone 2. Tracker énergie (0-10), humeur (0-10), motivation (0-10).', timer: null },
+          { id: 'm3-e1-s3', text: 'Semaines 5-6 : Optimisation intensité', detail: '25-30 min. 4 sessions Zone 2 + 1 Zone 3 (20 min max). Varier activités.', timer: null },
+          { id: 'm3-e1-s4', text: 'Semaines 7-8 : Consolidation', detail: '30-40 min selon envie. 4-5×/semaine. Écouter le corps. Mesurer transformation.', timer: null },
+        ]
+      },
+      {
+        id: 'm3-e2', title: 'Programme minimal (20 min/jour)',
+        badge: 'Minimaliste', badgeColor: 'amber',
+        desc: 'Pour sédentaires, procrastinateurs, anhedonie. Matériel : 0 (ou chaussures). 80% des bénéfices.',
+        steps: [
+          { id: 'm3-e2-s1', text: 'Fréquence non-négociable', detail: '5×/semaine. 20 min exactement. Même heure chaque jour (idéal : matin).', timer: null },
+          { id: 'm3-e2-s2', text: 'Zone 2 = Zone conversation', detail: 'Pouvoir parler en phrases courtes pendant l\'effort. Finir fatigué mais pas détruit.', timer: null },
+          { id: 'm3-e2-s3', text: 'Tracker ultra-simple', detail: 'Post-sport : noter énergie 0-10. Objectif : voir la courbe monter sur 8 semaines.', timer: null },
+          { id: 'm3-e2-s4', text: 'Ne jamais doubler d\'un coup', detail: 'S1: 10 min / S2: 12 min / S3: 15 min / S4: 20 min. Progression 10-20%/sem. max.', timer: null },
+        ]
+      },
+      {
+        id: 'm3-e3', title: 'Règles d\'or du recalibrage',
+        badge: 'À retenir', badgeColor: 'navy',
+        desc: 'Les commandements du Dr Delong pour que le sport devienne votre levier de motivation.',
+        steps: [
+          { id: 'm3-e3-s1', text: 'Ne pas souffrir inutilement', detail: 'Si vous souffrez, vous allez trop fort. Le cerveau apprend "effort = danger". Visez régularité + effort sustentable.', timer: null },
+          { id: 'm3-e3-s2', text: 'Sport = douche interne', detail: 'Pensez aux 20 min quotidiennes comme à une douche du cerveau. Pas une punition.', timer: null },
+          { id: 'm3-e3-s3', text: 'Récupération = moment du recalibrage', detail: '2-4 jours off/semaine obligatoires. Récupération ≠ rien faire → marche légère, mobilité, yoga.', timer: null },
+          { id: 'm3-e3-s4', text: 'Reframing mental', detail: '❌ "Je dois faire du sport" → ✅ "J\'ai la chance de faire du sport". Sport = investissement, pas dette.', timer: null },
+        ]
+      }
+    ]
+  },
+
+  mod4: {
+    title: 'Anti-Procrastination',
+    color: 'amber',
+    exercises: [
+      {
+        id: 'm4-e1', title: '7 Techniques anti-procrastination',
+        badge: 'Boîte à outils', badgeColor: 'amber',
+        desc: 'Les 7 leviers cognitifs et somatiques validés par le Dr Delong.',
+        steps: [
+          { id: 'm4-e1-s1', text: 'T1 — Règle des 2 minutes', detail: 'Si une tâche prend moins de 2 min, faites-la MAINTENANT. Élimine l\'accumulation.', timer: null },
+          { id: 'm4-e1-s2', text: 'T2 — Pomodoro (25-5)', detail: 'Timer 25 min de focus pur. Pause 5 min obligatoire. Stop à 25 min même si envie de continuer.', timer: 1500 },
+          { id: 'm4-e1-s3', text: 'T3 — Fractionnement exponentiel', detail: '"Rapport 20 pages" → "Introduction" → "1ère phrase". Diviser jusqu\'à ce que la résistance soit nulle.', timer: null },
+          { id: 'm4-e1-s4', text: 'T4 — Ancrage temporel', detail: 'Créer des bénéfices IMMÉDIATS. "Après cette tâche : café + 10 min de marche." Pas "dans 1 mois".', timer: null },
+          { id: 'm4-e1-s5', text: 'T5 — Checklist ultra-précise', detail: 'Éliminer toute ambiguïté. Test : un enfant de 10 ans pourrait-il faire l\'action sans clarification ?', timer: null },
+          { id: 'm4-e1-s6', text: 'T6 — Body Reset (3 min)', detail: 'Avant d\'attaquer. Box breathing 90 sec + étirements 60 sec + posture 30 sec. Réduit coût perçu de 30%.', timer: 180 },
+          { id: 'm4-e1-s7', text: 'T7 — Coupling (association plaisir)', detail: '"Je fais ma compta EN écoutant ma musique préférée." Associer tâche pénible + plaisir immédiat.', timer: null },
+        ]
+      },
+      {
+        id: 'm4-e2', title: 'Protocole Anti-Procrastination Universel (5 étapes)',
+        badge: '10 min', badgeColor: 'coral',
+        desc: 'Transformer n\'importe quelle tâche procrastinée en action immédiate. 10 min de préparation pour débloquer des heures.',
+        steps: [
+          { id: 'm4-e2-s1', text: 'Étape 1 — Diagnostic (2 min)', detail: 'Type 1 (math) → Étape 2 | Type 2 (fatigue) → DORMEZ 7h | Type 3 (anxiété) → commencer Étape 5.', timer: 120 },
+          { id: 'm4-e2-s2', text: 'Étape 2 — Réduction incertitude (3 min)', detail: 'Définir LA première action ultra-précise. Test : "Ouvrir le fichier Excel, remplir colonne A lignes 1-10." Écrire sur papier.', timer: 180 },
+          { id: 'm4-e2-s3', text: 'Étape 3 — Fractionnement (2 min)', detail: 'Diviser jusqu\'à résistance = zéro. Objectif : action "ridiculement facile". Si encore résistance → diviser encore.', timer: 120 },
+          { id: 'm4-e2-s4', text: 'Étape 4 — Rapprochement bénéfice (2 min)', detail: '3 récompenses immédiates : pendant / juste après / fin de session (cocher checklist). Toujours IMMÉDIATES.', timer: 120 },
+          { id: 'm4-e2-s5', text: 'Étape 5 — Body Reset (1 min)', detail: 'Box breathing 4 cycles (60 sec) + étirement bras au ciel (30 sec) + posture (10 sec). INDISPENSABLE si anxiété.', timer: 60 },
+          { id: 'm4-e2-s6', text: 'Étape 6 — Lancement immédiat (30 sec)', detail: 'CRUCIAL : NE PAS RÉFLÉCHIR À NOUVEAU. Timer 25 min. Faire UNIQUEMENT la micro-action. STOP à 25 min + pause 5 min.', timer: 1500 },
+        ]
+      }
+    ]
+  },
+
+  mod5: {
+    title: 'Protocoles Express',
+    color: 'purple',
+    exercises: [
+      {
+        id: 'm5-e1', title: 'Protocole A — Le Mathématique Pur (TYPE 1)',
+        badge: 'TYPE 1', badgeColor: 'teal',
+        desc: 'Profil : score somatique 0-20, corps disponible. Bloqué sur certaines tâches spécifiques. "Je sais que je pourrais, mais je ne démarre pas."',
+        steps: [
+          { id: 'm5-e1-s1', text: 'Choisir UNE tâche procrastinée', detail: 'Importante (impact réel), procrastinée > 1 semaine, pas urgence-panique. Une seule à la fois.', timer: 120 },
+          { id: 'm5-e1-s2', text: 'Réduction de l\'incertitude (10 min)', detail: 'Écrire la PREMIÈRE action ultra-précise. Test : un enfant de 10 ans pourrait-il la faire sans clarification ?', timer: 600 },
+          { id: 'm5-e1-s3', text: 'Fractionnement', detail: 'Diviser jusqu\'à obtenir une micro-tâche < 25 min. Écrire la liste sur papier.', timer: null },
+          { id: 'm5-e1-s4', text: 'Lancement immédiat', detail: 'Timer 25 min. Une seule chose. Stop obligatoire + récompense.', timer: 1500 },
+        ]
+      },
+      {
+        id: 'm5-e2', title: 'Protocole B — Fatigue Chronique (TYPE 2)',
+        badge: 'TYPE 2', badgeColor: 'amber',
+        desc: 'Variable bloquante : dette de sommeil. Non-négociable pendant 14 jours.',
+        steps: [
+          { id: 'm5-e2-s1', text: 'Coucher à 22h30 max', detail: 'Chambre fraîche, sans téléphone. Lecture physique 20 min avant de dormir.', timer: null },
+          { id: 'm5-e2-s2', text: 'Lever 7h30', detail: 'Soit 7h30-8h de sommeil. Maintenir 14 jours consécutifs sans exception.', timer: null },
+          { id: 'm5-e2-s3', text: 'Aucune décision importante J1-J7', detail: 'Pendant la restauration, ne pas essayer de "se motiver". Juste dormir.', timer: null },
+          { id: 'm5-e2-s4', text: 'Réévaluation J14', detail: '80% des patients : motivation revenue naturellement. Si non → creuser avec protocole C ou D.', timer: null },
+        ]
+      },
+      {
+        id: 'm5-e3', title: 'Protocole C — Anxiété / Évitement (TYPE 3)',
+        badge: 'TYPE 3', badgeColor: 'coral',
+        desc: 'Variable bloquante : nerf vague saturé par l\'incertitude. Durée : 4 semaines.',
+        steps: [
+          { id: 'm5-e3-s1', text: 'Réveil vagal quotidien', detail: 'Massage du tragus 2 min au réveil. Avant même de regarder le téléphone.', timer: 120 },
+          { id: 'm5-e3-s2', text: 'Cohérence cardiaque matin + soir', detail: '5 min matin + 5 min soir. Constitue le socle anti-anxiété.', timer: 300 },
+          { id: 'm5-e3-s3', text: 'Expansion diaphragmatique', detail: 'Pression manuelle douce sous les côtes pour redonner de l\'espace au nerf.', timer: null },
+          { id: 'm5-e3-s4', text: '5 min cohérence AVANT d\'ouvrir les mails', detail: 'Ne jamais commencer la journée en mode réactif. Réguler d\'abord, agir ensuite.', timer: 300 },
+        ]
+      },
+      {
+        id: 'm5-e4', title: 'Protocole Forces Spéciales — SOP Personnel',
+        badge: 'SEAL Protocol', badgeColor: 'purple',
+        desc: 'Créer votre propre SOP (Standard Operating Procedure) pour éliminer les décisions répétitives.',
+        steps: [
+          { id: 'm5-e4-s1', text: 'Identifier vos 3 tâches quotidiennes récurrentes', detail: 'Les tâches que vous procrastinez le plus souvent. Listez-les.', timer: null },
+          { id: 'm5-e4-s2', text: 'Créer une séquence SI → ALORS', detail: 'Exemple : "SI 9h → ALORS ouvrir fichier Budget_V1 ET remplir cellule B12." Binaire, pas de décision.', timer: null },
+          { id: 'm5-e4-s3', text: 'Préparer l\'environnement la veille', detail: 'Vêtements sport préparés · onglets ouverts · café prêt. Coût cognitif à 0.', timer: null },
+          { id: 'm5-e4-s4', text: 'Micro-slicing : ne viser que le prochain repas', detail: 'Ne jamais projeter sur plus de 25 min. Comme en Hell Week : juste le prochain segment.', timer: null },
+        ]
+      }
+    ]
+  }
+};
+
+const COMMANDEMENTS = [
+  { num: 'I', title: 'Tu ne chercheras point la motivation, tu construiras la structure.', desc: 'La volonté est une ressource épuisable et coûteuse. La structure est une infrastructure gratuite. Si l\'action dépend de ton humeur, tu as déjà échoué.' },
+  { num: 'II', title: 'Tu traiteras ton corps comme une munition, non comme un accessoire.', desc: 'Un Coefficient Somatique élevé (douleur, manque de sommeil, inflammation) rend l\'équation de l\'effort insoluble. Répare le véhicule avant de vouloir accélérer.' },
+  { num: 'III', title: 'Tu tueras l\'incertitude par le protocole.', desc: 'Le cerveau déteste le flou. Plus une tâche est précise et découpée en micro-étapes, plus le coût d\'activation chute. L\'ordre est le lubrifiant de l\'action.' },
+  { num: 'IV', title: 'Tu automatiseras l\'accessoire pour libérer le génie.', desc: 'Réduis tes décisions quotidiennes au strict minimum. Garde ton glucose cérébral pour les choix à haute intensité, pas pour choisir ta cravate ou ton petit-déjeuner.' },
+  { num: 'V', title: 'Tu piloteras ton nerf vague comme un interrupteur.', desc: 'Apprends à basculer manuellement du mode "survie" (stress) au mode "performance" (calme ventral) par la respiration et la posture. C\'est toi qui tiens la manette.' },
+  { num: 'VI', title: 'Tu accepteras la cyclicité de ta biologie.', desc: 'La performance n\'est pas une ligne droite. Respecte tes phases de récupération, tes cycles hormonaux et tes signaux de fatigue. On ne gagne pas contre sa biologie, on gagne avec elle.' },
+  { num: 'VII', title: 'Tu mesureras avant de prescrire.', desc: 'Une fatigue sans diagnostic est une errance sans fin. Avant chaque protocole, identifie la variable bloquante. Le bon levier au bon endroit vaut cent fois plus d\'efforts mal ciblés.' },
+  { num: 'VIII', title: 'Tu récompenseras l\'effort immédiatement.', desc: 'Le cerveau n\'actualise pas les bénéfices lointains. Crée des récompenses immédiates après chaque action. La célébration n\'est pas de la faiblesse — c\'est de la neurochimie.' },
+  { num: 'IX', title: 'Tu ne confondras jamais la rechute avec l\'échec.', desc: 'La rechute est une information sur l\'équation, pas un verdict sur ton caractère. Ajuste les variables. Pas de culpabilité — juste de l\'ingénierie.' },
+  { num: 'X', title: 'Tu deviendras l\'ingénieur de ta propre machine.', desc: 'Tu ne peux pas tricher avec ta biologie, mais tu peux apprendre à la piloter avec précision. La motivation n\'est pas un don — c\'est une équation que tu peux résoudre.' },
+];
+
+const DAILY_ROUTINES = {
+  morning: [
+    { id: 'd-m1', text: 'Cohérence cardiaque (5 min)', detail: 'Avant écran / email', timer: 300, module: 'mod2' },
+    { id: 'd-m2', text: 'Posture d\'ouverture (2 min)', detail: 'Sternum haut, épaules relâchées', timer: 120, module: 'mod1' },
+    { id: 'd-m3', text: 'Hydratation', detail: 'Grand verre d\'eau avant café', timer: null, module: 'mod1' },
+    { id: 'd-m4', text: 'Activité physique (20 min)', detail: 'Marche, vélo ou jogging Zone 2', timer: 1200, module: 'mod3' },
+  ],
+  day: [
+    { id: 'd-d1', text: 'Pause mouvement (toutes les 50 min)', detail: '2 min debout, marcher, étirer', timer: 120, module: 'mod1' },
+    { id: 'd-d2', text: 'Body Reset avant tâche difficile', detail: 'Box breathing + posture (3 min)', timer: 180, module: 'mod4' },
+    { id: 'd-d3', text: 'Blocs Pomodoro (25 min focus)', detail: 'Timer, une seule tâche', timer: 1500, module: 'mod4' },
+    { id: 'd-d4', text: 'Cohérence cardiaque midi (5 min)', detail: '2ème session de la journée', timer: 300, module: 'mod2' },
+    { id: 'd-d5', text: 'Vérification posture bureau', detail: 'Check ergonomie 6 points', timer: null, module: 'mod1' },
+  ],
+  evening: [
+    { id: 'd-e1', text: 'Cohérence cardiaque soir (5 min)', detail: '3ème session de la journée', timer: 300, module: 'mod2' },
+    { id: 'd-e2', text: 'Pas d\'écran 1h avant coucher', detail: 'Lecture, discussion, dessin', timer: null, module: 'mod1' },
+    { id: 'd-e3', text: 'Coucher 22h30 max', detail: 'Chambre fraîche, obscurité', timer: null, module: 'mod5' },
+  ]
+};
+
+// ════════════════════════════════════
+// STATE
+// ════════════════════════════════════
+let state = {
+  startDate: null,
+  dailyDone: {},      // { 'YYYY-MM-DD': { 'd-m1': true, ... } }
+  exerciseDone: {},   // { 'm1-e1-s1': true }
+  scores: [],         // [{ date, score, type }]
+  profile: { type: null, variable: null }
+};
+
+function getToday() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function saveState() {
+  try { localStorage.setItem('delong_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('delong_state');
+    if (s) state = { ...state, ...JSON.parse(s) };
+  } catch(e) {}
+}
+
+// ════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════
+const PAGE_TITLES = {
+  dashboard: 'Tableau de bord',
+  daily: 'Routine du jour',
+  plan90: 'Plan 90 jours',
+  mod1: 'Corps & Biomécanique',
+  mod2: 'Nerf Vague',
+  mod3: 'Sport & Recalibrage',
+  mod4: 'Anti-Procrastination',
+  mod5: 'Protocoles Express',
+  commandements: '10 Commandements',
+  profil: 'Mon profil'
+};
+
+const BOTTOM_NAV_PAGES = ['dashboard', 'daily', 'plan90', 'mod2', 'profil'];
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  const link = document.querySelector(`.nav a[onclick="showPage('${id}')"]`);
+  if (link) link.classList.add('active');
+
+  // Mobile title
+  const titleEl = document.getElementById('mobile-title');
+  if (titleEl) titleEl.textContent = PAGE_TITLES[id] || '';
+
+  // Bottom nav active state
+  BOTTOM_NAV_PAGES.forEach(pid => {
+    const el = document.getElementById('bn-' + pid);
+    if (el) el.classList.toggle('active', pid === id);
+  });
+
+  // Close sidebar on mobile
+  closeSidebar();
+
+  if (id === 'dashboard') renderDashboard();
+  if (id === 'daily') renderDaily();
+  if (id === 'plan90') renderPlan90();
+  if (id.startsWith('mod')) renderModule(id);
+  if (id === 'commandements') renderCommandements();
+  if (id === 'profil') renderProfil();
+}
+
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('visible');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('visible');
+}
+
+// ════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════
+function renderDashboard() {
+  const today = getToday();
+  document.getElementById('dash-date').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  // Stats
+  const todayDone = state.dailyDone[today] || {};
+  const doneCount = Object.values(todayDone).filter(Boolean).length;
+  document.getElementById('stat-done').textContent = doneCount;
+
+  // Streak
+  let streak = 0;
+  let d = new Date();
+  while (true) {
+    const k = d.toISOString().slice(0, 10);
+    const dd = state.dailyDone[k] || {};
+    const cnt = Object.values(dd).filter(Boolean).length;
+    if (cnt >= 4) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  document.getElementById('stat-streak').textContent = streak;
+
+  // Plan day
+  if (state.startDate) {
+    const start = new Date(state.startDate);
+    const diff = Math.floor((new Date() - start) / 86400000) + 1;
+    document.getElementById('stat-day').textContent = 'J' + Math.min(diff, 90);
+  }
+
+  // Score
+  if (state.scores.length > 0) {
+    const last = state.scores[state.scores.length - 1];
+    document.getElementById('stat-score').textContent = last.score;
+  }
+
+  // Module progress
+  const mpEl = document.getElementById('module-progress');
+  mpEl.innerHTML = '';
+  const mods = ['mod1', 'mod2', 'mod3', 'mod4', 'mod5'];
+  const modNames = { mod1: 'Corps & Biomécanique', mod2: 'Nerf Vague', mod3: 'Sport', mod4: 'Anti-Procrastination', mod5: 'Protocoles Express' };
+  mods.forEach(mid => {
+    const mod = MODULES[mid];
+    const total = mod.exercises.reduce((a, e) => a + e.steps.length, 0);
+    const done = mod.exercises.reduce((a, e) => a + e.steps.filter(s => state.exerciseDone[s.id]).length, 0);
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    mpEl.innerHTML += `
+      <div style="margin-bottom:12px">
+        <div class="flex justify-between text-sm mb-4" style="margin-bottom:4px">
+          <span>${modNames[mid]}</span>
+          <span class="text-muted">${pct}%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>`;
+  });
+
+  // Today summary
+  const tsEl = document.getElementById('today-summary');
+  const allToday = [...DAILY_ROUTINES.morning, ...DAILY_ROUTINES.day, ...DAILY_ROUTINES.evening];
+  const pending = allToday.filter(r => !todayDone[r.id]);
+  if (pending.length === 0) {
+    tsEl.innerHTML = '<div class="banner success">✓ Toutes les pratiques du jour sont complètes !</div>';
+  } else {
+    tsEl.innerHTML = pending.slice(0, 4).map(r => `
+      <div class="exercise-item" onclick="toggleDaily('${r.id}')">
+        <div class="check"></div>
+        <div><div class="ex-text">${r.text}</div><div class="ex-meta">${r.detail}</div></div>
+      </div>`).join('');
+    if (pending.length > 4) tsEl.innerHTML += `<p class="text-sm text-muted mt-4">+${pending.length - 4} autres pratiques à faire</p>`;
+  }
+
+  // Mini calendar (last 18 days)
+  const calEl = document.getElementById('mini-calendar');
+  calEl.innerHTML = '';
+  for (let i = 17; i >= 0; i--) {
+    const d2 = new Date(); d2.setDate(d2.getDate() - i);
+    const k = d2.toISOString().slice(0, 10);
+    const dd = state.dailyDone[k] || {};
+    const cnt = Object.values(dd).filter(Boolean).length;
+    const total = 12;
+    let cls = '';
+    if (cnt >= 8) cls = 'done';
+    else if (cnt >= 3) cls = 'partial';
+    if (k === today) cls += ' today';
+    calEl.innerHTML += `<div class="day-cell ${cls}" title="${k}">${d2.getDate()}</div>`;
+  }
+}
+
+// ════════════════════════════════════
+// DAILY ROUTINE
+// ════════════════════════════════════
+function renderDaily() {
+  const today = getToday();
+  renderChecklist('morning', 'morning-checks', 'morning-score');
+  renderChecklist('day', 'day-checks', 'day-score');
+  renderChecklist('evening', 'evening-checks', 'evening-score');
+}
+
+function renderChecklist(period, containerId, scoreId) {
+  const today = getToday();
+  const items = DAILY_ROUTINES[period];
+  const el = document.getElementById(containerId);
+  const todayDone = state.dailyDone[today] || {};
+  el.innerHTML = items.map(r => `
+    <div class="check-row ${todayDone[r.id] ? 'done' : ''}" onclick="toggleDaily('${r.id}', '${period}', '${containerId}', '${scoreId}')">
+      <input type="checkbox" ${todayDone[r.id] ? 'checked' : ''} onclick="event.stopPropagation()">
+      <div class="row-text">${r.text}<br><span class="text-muted" style="font-size:11px">${r.detail}</span></div>
+      ${r.timer ? `<span class="row-timer">${Math.floor(r.timer/60)}min</span>` : ''}
+    </div>`).join('');
+
+  const done = items.filter(r => todayDone[r.id]).length;
+  document.getElementById(scoreId).textContent = `${done}/${items.length} faits`;
+  document.getElementById(scoreId).className = `badge ${done === items.length ? 'badge-teal' : 'badge-amber'}`;
+}
+
+function toggleDaily(id, period, containerId, scoreId) {
+  const today = getToday();
+  if (!state.dailyDone[today]) state.dailyDone[today] = {};
+  state.dailyDone[today][id] = !state.dailyDone[today][id];
+  saveState();
+  if (period) renderChecklist(period, containerId, scoreId);
+}
+
+// ════════════════════════════════════
+// PLAN 90 DAYS
+// ════════════════════════════════════
+function setStartDate() {
+  state.startDate = getToday();
+  saveState();
+  renderPlan90();
+}
+
+function renderPlan90() {
+  if (state.startDate) {
+    const start = new Date(state.startDate);
+    const diff = Math.floor((new Date() - start) / 86400000) + 1;
+    const day = Math.min(Math.max(diff, 0), 90);
+    const pct = Math.round((day / 90) * 100);
+    document.getElementById('plan-progress-fill').style.width = pct + '%';
+    document.getElementById('plan-current-day').textContent = `J${day}`;
+    document.getElementById('plan-date-info').textContent = `Démarré le ${new Date(state.startDate).toLocaleDateString('fr-FR')}`;
+  }
+
+  // 90-day calendar
+  const calEl = document.getElementById('calendar-90');
+  calEl.innerHTML = '';
+  for (let i = 1; i <= 90; i++) {
+    let cls = '';
+    if (state.startDate) {
+      const start = new Date(state.startDate);
+      const dayDate = new Date(start); dayDate.setDate(start.getDate() + i - 1);
+      const k = dayDate.toISOString().slice(0, 10);
+      const today = getToday();
+      if (k > today) cls = 'future';
+      else {
+        const dd = state.dailyDone[k] || {};
+        const cnt = Object.values(dd).filter(Boolean).length;
+        if (cnt >= 8) cls = 'done';
+        else if (cnt >= 3) cls = 'partial';
+        if (k === today) cls += ' today';
+      }
+    } else {
+      if (i > 0) cls = 'future';
+    }
+    calEl.innerHTML += `<div class="day-cell ${cls}" title="Jour ${i}">J${i}</div>`;
+  }
+}
+
+// ════════════════════════════════════
+// MODULES
+// ════════════════════════════════════
+function renderModule(mid) {
+  const mod = MODULES[mid];
+  if (!mod) return;
+  const el = document.getElementById('exercises-' + mid);
+  el.innerHTML = '';
+
+  mod.exercises.forEach(ex => {
+    const total = ex.steps.length;
+    const done = ex.steps.filter(s => state.exerciseDone[s.id]).length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    const div = document.createElement('div');
+    div.className = 'module-card mb-4';
+    div.innerHTML = `
+      <div class="module-header">
+        <div class="module-icon" style="background:var(--${mod.color === 'navy' ? 'navy-faint' : mod.color + '-bg'})">
+          ${mod.color === 'teal' ? '🌿' : mod.color === 'navy' ? '⚡' : mod.color === 'amber' ? '🔥' : mod.color === 'purple' ? '🎯' : '💪'}
+        </div>
+        <div class="info" style="flex:1">
+          <h3>${ex.title}</h3>
+          <p>${ex.desc}</p>
+        </div>
+        <span class="badge badge-${ex.badgeColor}">${ex.badge}</span>
+      </div>
+      <div style="padding:12px 20px 6px">
+        <div class="flex justify-between text-sm text-muted" style="margin-bottom:6px">
+          <span>${done}/${total} étapes complètes</span><span>${pct}%</span>
+        </div>
+        <div class="progress-bar" style="margin-bottom:12px"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="module-body">
+        ${ex.steps.map(step => `
+          <div class="exercise-item ${state.exerciseDone[step.id] ? 'done' : ''}" onclick="toggleExercise('${step.id}', '${mid}')">
+            <div class="check"></div>
+            <div>
+              <div class="ex-text">${step.text}</div>
+              <div class="ex-meta">${step.detail}</div>
+              ${step.timer ? `<button class="timer-btn" onclick="event.stopPropagation();launchTimer(${step.timer},'${step.text}')">⏱ ${step.timer < 60 ? step.timer + 's' : Math.floor(step.timer/60) + ' min'}</button>` : ''}
+            </div>
+          </div>`).join('')}
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+function toggleExercise(stepId, mid) {
+  state.exerciseDone[stepId] = !state.exerciseDone[stepId];
+  saveState();
+  renderModule(mid);
+}
+
+// ════════════════════════════════════
+// COMMANDEMENTS
+// ════════════════════════════════════
+function renderCommandements() {
+  const el = document.getElementById('commandements-list');
+  el.innerHTML = COMMANDEMENTS.map(c => `
+    <div class="cmd-item">
+      <div class="cmd-num">${c.num}</div>
+      <div class="cmd-text">
+        <h4>${c.title}</h4>
+        <p>${c.desc}</p>
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════
+// PROFIL / DIAGNOSTIC
+// ════════════════════════════════════
+const DIAGNOSTIC_QUESTIONS = [
+  { id: 'q1', text: 'La démotivation touche…', opts: ['Toutes les tâches sans distinction', 'Seulement certaines tâches spécifiques'] },
+  { id: 'q2', text: 'Votre sommeil la semaine dernière…', opts: ['Moins de 6h/nuit', '6h-7h/nuit', 'Plus de 7h/nuit'] },
+  { id: 'q3', text: 'Votre niveau de stress physique (ventre noué, oppression…)', opts: ['Élevé (7-10/10)', 'Modéré (4-6/10)', 'Faible (0-3/10)'] },
+  { id: 'q4', text: 'La démotivation dure depuis…', opts: ['Moins d\'1 mois', '1-3 mois', 'Plus de 3 mois'] },
+  { id: 'q5', text: 'Douleurs physiques chroniques (dos, nuque, etc.)', opts: ['Oui, régulières (> 3/10)', 'Occasionnelles', 'Non'] },
+  { id: 'q6', text: 'Activité physique actuelle', opts: ['Sédentaire (< 30 min/semaine)', 'Légère (1-2 fois/semaine)', 'Régulière (3+ fois/semaine)'] },
+];
+
+function renderProfil() {
+  const el = document.getElementById('diagnostic-form');
+  el.innerHTML = DIAGNOSTIC_QUESTIONS.map(q => `
+    <div style="margin-bottom:16px">
+      <p style="font-size:13.5px;font-weight:500;margin-bottom:8px">${q.text}</p>
+      ${q.opts.map((opt, i) => `
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:var(--bg);margin-bottom:4px;cursor:pointer;font-size:13px">
+          <input type="radio" name="${q.id}" value="${i}" style="accent-color:var(--navy)">
+          ${opt}
+        </label>`).join('')}
+    </div>`).join('');
+
+  // Score history
+  const shEl = document.getElementById('score-history');
+  if (state.scores.length === 0) {
+    shEl.innerHTML = '<p class="text-sm text-muted">Aucun score enregistré. Complétez le diagnostic ci-dessus.</p>';
+  } else {
+    shEl.innerHTML = state.scores.slice(-5).reverse().map(s => `
+      <div class="flex justify-between items-center" style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <span class="text-sm">${new Date(s.date).toLocaleDateString('fr-FR')}</span>
+        <span class="badge badge-${s.score < 30 ? 'teal' : s.score < 60 ? 'amber' : 'coral'}">Score : ${s.score}/100</span>
+        <span class="text-sm text-muted">TYPE ${s.type}</span>
+      </div>`).join('');
+  }
+}
+
+function computeDiagnostic() {
+  const answers = {};
+  DIAGNOSTIC_QUESTIONS.forEach(q => {
+    const r = document.querySelector(`input[name="${q.id}"]:checked`);
+    if (r) answers[q.id] = parseInt(r.value);
+  });
+
+  if (Object.keys(answers).length < 6) {
+    alert('Veuillez répondre à toutes les questions.');
+    return;
+  }
+
+  let score = 0;
+  let type = '1';
+  let variable = 'incertitude';
+  let protocol = 'A';
+  let advice = '';
+
+  // Scoring logic
+  if (answers.q2 === 0) { score += 40; type = '2'; variable = 'sommeil'; protocol = 'B'; }
+  else if (answers.q2 === 1) { score += 20; }
+
+  if (answers.q3 === 0) { score += 25; if (type !== '2') { type = '3'; variable = 'nerf vague'; protocol = 'C'; } }
+  else if (answers.q3 === 1) { score += 10; }
+
+  if (answers.q5 === 0) { score += 20; if (type === '1') { type = '2'; variable = 'douleur chronique'; protocol = 'D'; } }
+  if (answers.q6 === 0) { score += 15; if (type === '1') { type = '2'; variable = 'dopamine (sédentarité)'; protocol = 'E'; } }
+
+  score = Math.min(score, 100);
+
+  if (type === '1') { variable = 'incertitude cognitive'; protocol = 'A'; }
+
+  advice = {
+    'A': '🧠 Protocole A (Mathématique) — Réduire incertitude, fractionner, créer récompenses immédiates. Résultats sous 7 jours.',
+    'B': '😴 Protocole B (Sommeil) — NON-NÉGOCIABLE : 7h30 × 14 jours consécutifs. Avant toute autre action.',
+    'C': '🫁 Protocole C (Nerf Vague) — Cohérence cardiaque 3×/jour + massage tragus matin + box breathing. 4 semaines.',
+    'D': '🏥 Protocole D (Douleur) — Adresser d\'abord la douleur physique. Consultation médicale recommandée + protocole biomécanique Ch.01.',
+    'E': '🏃 Protocole E (Sédentaire) — Programme recalibrage sport 8 semaines. 10 min/jour pour commencer. Non-négociable.',
+  }[protocol] || '';
+
+  state.scores.push({ date: getToday(), score, type, variable, protocol });
+  state.profile = { type, variable };
+  saveState();
+
+  const resEl = document.getElementById('diagnostic-result');
+  resEl.innerHTML = `
+    <div class="card" style="border-color:var(--navy)">
+      <h3 style="font-size:16px;font-weight:600;color:var(--navy);margin-bottom:12px">📋 Votre diagnostic</h3>
+      <div class="card-grid card-grid-3" style="margin-bottom:16px">
+        <div class="stat-card"><div class="label">Score somatique</div><div class="value" style="font-size:20px">${score}/100</div></div>
+        <div class="stat-card"><div class="label">Type</div><div class="value" style="font-size:20px">TYPE ${type}</div></div>
+        <div class="stat-card"><div class="label">Variable bloquante</div><div class="value" style="font-size:14px">${variable}</div></div>
+      </div>
+      <div class="protocol-card ${score < 30 ? 'teal' : score < 60 ? 'amber' : 'coral'}">
+        <h4>Protocole recommandé : ${protocol}</h4>
+        <p>${advice}</p>
+      </div>
+    </div>`;
+  renderProfil();
+}
+
+// ════════════════════════════════════
+// TIMER
+// ════════════════════════════════════
+let timerInterval = null;
+let timerRemaining = 300;
+let timerRunning = false;
+
+function setTimer() {
+  const val = document.getElementById('timer-preset').value;
+  const seconds = val.includes('*') ? eval(val) : parseInt(val);
+  timerRemaining = seconds;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerRemaining / 60);
+  const s = timerRemaining % 60;
+  document.getElementById('timer-display').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    updateTimerDisplay();
+    if (timerRemaining <= 0) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('timer-display').textContent = '00:00';
+      // Simple beep notification
+      try {
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        osc.connect(ctx.destination);
+        osc.frequency.value = 880;
+        osc.start();
+        setTimeout(() => osc.stop(), 500);
+      } catch(e) {}
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  setTimer();
+}
+
+function launchTimer(seconds, label) {
+  showPage('daily');
+  timerRemaining = seconds;
+  const select = document.getElementById('timer-preset');
+  document.getElementById('timer-label').textContent = label;
+  updateTimerDisplay();
+}
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+loadState();
+renderDashboard();
+
+// ════════════════════════════════════
+// PWA — SERVICE WORKER & INSTALL
+// ════════════════════════════════════
+let deferredInstallPrompt = null;
+
+// Catch the install prompt
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById('install-banner').classList.add('visible');
+});
+
+async function installPWA() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === 'accepted') {
+    document.getElementById('install-banner').classList.remove('visible');
+  }
+  deferredInstallPrompt = null;
+}
+
+// Register inline Service Worker for offline support
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'delong-motivation-v1';
+    const ASSETS = ['./', 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap'];
+
+    self.addEventListener('install', e => {
+      e.waitUntil(
+        caches.open(CACHE).then(cache => {
+          return cache.addAll(ASSETS).catch(() => {});
+        }).then(() => self.skipWaiting())
+      );
+    });
+
+    self.addEventListener('activate', e => {
+      e.waitUntil(
+        caches.keys().then(keys =>
+          Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+        ).then(() => self.clients.claim())
+      );
+    });
+
+    self.addEventListener('fetch', e => {
+      if (e.request.method !== 'GET') return;
+      e.respondWith(
+        caches.match(e.request).then(cached => {
+          if (cached) return cached;
+          return fetch(e.request).then(response => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(CACHE).then(cache => cache.put(e.request, clone));
+            }
+            return response;
+          }).catch(() => cached || new Response('Hors ligne', {status: 503}));
+        })
+      );
+    });
+  `;
+
+  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+  const swURL = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swURL, { scope: './' })
+    .catch(() => {}); // silently fail if blocked
+}
+
+// iOS Safari hint (no beforeinstallprompt on iOS)
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.navigator.standalone;
+if (isIOS && !isStandalone) {
+  const banner = document.getElementById('install-banner');
+  banner.querySelector('.ib-text').textContent = '📲 iOS : appuyez sur ⬆️ puis "Sur l\'écran d\'accueil" pour installer l\'app.';
+  banner.querySelector('button:first-of-type').style.display = 'none';
+  banner.classList.add('visible');
+}
+</script>
+</body>
+</html>
